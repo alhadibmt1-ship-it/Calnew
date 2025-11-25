@@ -3,37 +3,38 @@ import StandardCalculator from "@/components/StandardCalculator";
 import BMICalculator from "@/components/BMICalculator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 import { 
   Calculator, 
   TrendingUp, 
   Heart, 
   Calendar, 
   DollarSign, 
-  Percent, 
-  Ruler, 
-  FlaskConical 
 } from "lucide-react";
 
 export default function Home() {
   const categories = [
     {
       title: "Financial Calculators",
+      href: "/financial",
       icon: <DollarSign className="h-5 w-5" />,
       items: ["Mortgage Calculator", "Loan Calculator", "Auto Loan Calculator", "Interest Calculator", "Retirement Calculator", "Amortization Calculator"]
     },
     {
       title: "Fitness & Health",
+      href: "/health",
       icon: <Heart className="h-5 w-5" />,
       items: ["BMI Calculator", "Calorie Calculator", "Body Fat Calculator", "BMR Calculator", "Ideal Weight Calculator", "Pregnancy Calculator"]
     },
     {
       title: "Math Calculators",
+      href: "/math",
       icon: <Calculator className="h-5 w-5" />,
       items: ["Scientific Calculator", "Fraction Calculator", "Percentage Calculator", "Random Number Generator", "Triangle Calculator", "Volume Calculator"]
     },
     {
       title: "Other Calculators",
+      href: "/other",
       icon: <Calendar className="h-5 w-5" />,
       items: ["Age Calculator", "Date Calculator", "Time Calculator", "GPA Calculator", "Password Generator", "Concrete Calculator"]
     }
@@ -45,13 +46,15 @@ export default function Home() {
         {/* Main Left Column */}
         <div className="md:col-span-8 space-y-10">
           
-          {/* Hero Section */}
+          {/* Hero Section - SEO Optimized */}
           <section className="space-y-4">
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
               Free Online Calculators
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Quick, free, and accurate online calculators. From simple math to complex financial planning, we have the tools you need.
+              CalcHub provides a comprehensive collection of free online calculators for your daily needs. 
+              Whether you need to calculate your mortgage payments, check your BMI, or solve complex math problems, 
+              our tools are fast, accurate, and easy to use.
             </p>
           </section>
 
@@ -75,33 +78,58 @@ export default function Home() {
             </div>
           </section>
 
-          {/* All Categories */}
+          {/* All Categories with Links */}
           <div className="grid gap-6 sm:grid-cols-2">
             {categories.map((cat) => (
-              <Card key={cat.title} className="h-full hover:border-primary/50 transition-colors">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center gap-2 text-lg">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary">
-                      {cat.icon}
-                    </div>
-                    {cat.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {cat.items.map((item) => (
-                      <li key={item}>
-                        <a href="#" className="text-sm text-muted-foreground hover:text-primary hover:underline flex items-center gap-1 group">
-                          <span className="w-1 h-1 rounded-full bg-muted-foreground group-hover:bg-primary" />
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <Link key={cat.title} href={cat.href}>
+                <a className="block h-full">
+                  <Card className="h-full hover:border-primary/50 transition-all hover:shadow-md cursor-pointer">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <div className="p-2 rounded-md bg-primary/10 text-primary">
+                          {cat.icon}
+                        </div>
+                        {cat.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {cat.items.map((item) => (
+                          <li key={item} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1">
+                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </a>
+              </Link>
             ))}
           </div>
+
+          {/* SEO Content Block */}
+          <section className="prose dark:prose-invert max-w-none bg-muted/30 p-6 rounded-xl">
+            <h2>About CalcHub</h2>
+            <p>
+              CalcHub is your one-stop destination for online calculations. We understand that not everyone loves math, 
+              which is why we've built intuitive tools to handle the numbers for you.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-8 mt-4 not-prose">
+              <div>
+                <h3 className="font-semibold mb-2">Accuracy You Can Trust</h3>
+                <p className="text-sm text-muted-foreground">
+                  Our calculators are rigorously tested to ensure precise results for financial planning, scientific research, and health monitoring.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Free Forever</h3>
+                <p className="text-sm text-muted-foreground">
+                  No subscriptions, no hidden fees. Access all our premium calculator tools completely free of charge, 24/7.
+                </p>
+              </div>
+            </div>
+          </section>
 
         </div>
 
@@ -119,20 +147,18 @@ export default function Home() {
             <CardContent className="p-0">
               <div className="divide-y">
                 {[
-                  "Mortgage Calculator",
-                  "BMI Calculator",
-                  "Age Calculator",
-                  "Percentage Calculator",
-                  "Time Calculator"
-                ].map((item, i) => (
-                  <a 
-                    key={item} 
-                    href="#" 
-                    className="block px-6 py-3 text-sm hover:bg-muted/50 transition-colors flex items-center justify-between group"
-                  >
-                    {item}
-                    <span className="text-xs text-muted-foreground group-hover:text-foreground">Go &rarr;</span>
-                  </a>
+                  { name: "Mortgage Calculator", link: "/financial" },
+                  { name: "BMI Calculator", link: "/health" },
+                  { name: "Age Calculator", link: "/other" },
+                  { name: "Percentage Calculator", link: "/math" },
+                  { name: "Scientific Calculator", link: "/math" }
+                ].map((item) => (
+                  <Link key={item.name} href={item.link}>
+                    <a className="block px-6 py-3 text-sm hover:bg-muted/50 transition-colors flex items-center justify-between group">
+                      {item.name}
+                      <span className="text-xs text-muted-foreground group-hover:text-foreground">Go &rarr;</span>
+                    </a>
+                  </Link>
                 ))}
               </div>
             </CardContent>
