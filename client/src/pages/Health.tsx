@@ -2,10 +2,11 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 import BMICalculator from "@/components/BMICalculator";
+import CaloriesCalculator from "@/components/CaloriesCalculator";
 
 export default function Health() {
   const calculators = [
-    "Calorie Calculator", "Body Fat Calculator", "BMR Calculator", 
+    "Body Fat Calculator", "BMR Calculator", 
     "Ideal Weight Calculator", "Pregnancy Calculator", "Ovulation Calculator",
     "Due Date Calculator", "Breath Count Calculator", "Target Heart Rate",
     "Water Intake Calculator", "Macro Calculator", "TDEE Calculator"
@@ -27,11 +28,19 @@ export default function Health() {
           </p>
         </section>
 
-        {/* Featured Tool */}
-        <section className="max-w-2xl">
-          <h2 className="text-2xl font-semibold mb-4">BMI Calculator</h2>
-          <BMICalculator />
-        </section>
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Featured Tool 1 */}
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">BMI Calculator</h2>
+            <BMICalculator />
+          </section>
+
+          {/* Featured Tool 2 */}
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Calorie Calculator</h2>
+            <CaloriesCalculator />
+          </section>
+        </div>
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8">
           {calculators.map((calc) => (
