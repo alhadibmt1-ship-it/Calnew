@@ -81,29 +81,27 @@ export default function Home() {
           {/* All Categories with Links */}
           <div className="grid gap-6 sm:grid-cols-2">
             {categories.map((cat) => (
-              <Link key={cat.title} href={cat.href}>
-                <a className="block h-full">
-                  <Card className="h-full hover:border-primary/50 transition-all hover:shadow-md cursor-pointer">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-2 text-lg">
-                        <div className="p-2 rounded-md bg-primary/10 text-primary">
-                          {cat.icon}
-                        </div>
-                        {cat.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {cat.items.map((item) => (
-                          <li key={item} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </a>
+              <Link key={cat.title} href={cat.href} className="block h-full">
+                <Card className="h-full hover:border-primary/50 transition-all hover:shadow-md cursor-pointer">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <div className="p-2 rounded-md bg-primary/10 text-primary">
+                        {cat.icon}
+                      </div>
+                      {cat.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {cat.items.map((item) => (
+                        <li key={item} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
               </Link>
             ))}
           </div>
@@ -153,11 +151,9 @@ export default function Home() {
                   { name: "Percentage Calculator", link: "/math" },
                   { name: "Scientific Calculator", link: "/math" }
                 ].map((item) => (
-                  <Link key={item.name} href={item.link}>
-                    <a className="block px-6 py-3 text-sm hover:bg-muted/50 transition-colors flex items-center justify-between group">
-                      {item.name}
-                      <span className="text-xs text-muted-foreground group-hover:text-foreground">Go &rarr;</span>
-                    </a>
+                  <Link key={item.name} href={item.link} className="block px-6 py-3 text-sm hover:bg-muted/50 transition-colors flex items-center justify-between group">
+                    {item.name}
+                    <span className="text-xs text-muted-foreground group-hover:text-foreground">Go &rarr;</span>
                   </Link>
                 ))}
               </div>

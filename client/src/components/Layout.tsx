@@ -24,26 +24,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-6">
             {/* Logo */}
-            <Link href="/">
-              <a className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-90 transition-opacity">
-                <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
-                  <Calculator className="h-5 w-5" />
-                </div>
-                <span>CalcHub</span>
-              </a>
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-90 transition-opacity">
+              <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
+                <Calculator className="h-5 w-5" />
+              </div>
+              <span>CalcHub</span>
             </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
               {navLinks.map((link) => (
-                <Link key={link.name} href={link.href}>
-                  <a
-                    className={`transition-colors hover:text-foreground ${
-                      location === link.href ? "text-foreground font-semibold" : ""
-                    }`}
-                  >
-                    {link.name}
-                  </a>
+                <Link 
+                  key={link.name} 
+                  href={link.href}
+                  className={`transition-colors hover:text-foreground ${
+                    location === link.href ? "text-foreground font-semibold" : ""
+                  }`}
+                >
+                  {link.name}
                 </Link>
               ))}
             </nav>
@@ -70,15 +68,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col gap-4 mt-8">
                   {navLinks.map((link) => (
-                    <Link key={link.name} href={link.href}>
-                      <a 
-                        className={`text-lg font-medium py-2 ${
-                          location === link.href ? "text-primary" : "text-foreground"
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {link.name}
-                      </a>
+                    <Link 
+                      key={link.name} 
+                      href={link.href}
+                      className={`text-lg font-medium py-2 ${
+                        location === link.href ? "text-primary" : "text-foreground"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.name}
                     </Link>
                   ))}
                 </nav>
