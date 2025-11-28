@@ -7,6 +7,9 @@ import { Link } from "wouter";
 import BMICalculator from "@/components/BMICalculator";
 import StandardCalculator from "@/components/StandardCalculator";
 import CaloriesCalculator from "@/components/CaloriesCalculator";
+import AgeCalculator from "@/components/AgeCalculator";
+import LoanCalculator from "@/components/LoanCalculator";
+import PercentageCalculator from "@/components/PercentageCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -21,12 +24,28 @@ export default function CalculatorPage() {
   // Map slugs to actual components if they exist
   const renderCalculator = () => {
     switch (slug) {
+      // Health
       case "bmi-calculator":
         return <BMICalculator />;
-      case "standard-calculator":
-        return <StandardCalculator />;
       case "calorie-calculator":
         return <CaloriesCalculator />;
+      
+      // Math
+      case "standard-calculator":
+        return <StandardCalculator />;
+      case "percentage-calculator":
+        return <PercentageCalculator />;
+
+      // Financial
+      case "loan-emi-calculator":
+      case "loan-calculator":
+      case "mortgage-calculator": // Reusing loan calculator for now as they are similar
+        return <LoanCalculator />;
+
+      // Daily Life
+      case "age-calculator":
+        return <AgeCalculator />;
+
       default:
         return (
           <Card className="w-full max-w-2xl mx-auto text-center py-12">
