@@ -38,7 +38,7 @@ import ConcreteCalculator from "@/components/ConcreteCalculator";
 import SubnetCalculator from "@/components/SubnetCalculator";
 import GPACalculator from "@/components/GPACalculator";
 import GradeCalculator from "@/components/GradeCalculator";
-import TimeCalculator from "@/components/TimeCalculator";
+import TimeZoneConverter from "@/components/TimeZoneConverter";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -145,6 +145,8 @@ export default function CalculatorPage() {
         return <GradeCalculator />;
       case "time-calculator":
         return <TimeCalculator />;
+      case "time-zone-converter":
+        return <TimeZoneConverter />;
 
       // SEO
       case "word-counter":
@@ -258,7 +260,8 @@ export default function CalculatorPage() {
       s.includes('concrete') ||
       s.includes('grade') ||
       s.includes('gpa') ||
-      s.includes('subnet')
+      s.includes('subnet') ||
+      s.includes('time-zone')
     ) return { name: "Daily Life", href: "/other" };
 
     // Math (Default)
