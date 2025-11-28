@@ -358,6 +358,30 @@ export default function CalculatorPage() {
               <li><strong>Mobile-Friendly:</strong> Works perfectly on phones, tablets, and desktops.</li>
             </ul>
           </section>
+
+          {/* Related Tools Section */}
+          <section className="pt-8 border-t">
+            <h3 className="text-2xl font-bold mb-6 text-foreground">Related {category.name} Tools</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {relatedTools.slice(0, 6).map((tool) => (
+                <Link key={tool.slug} href={tool.href}>
+                  <a className="block group">
+                    <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-medium group-hover:text-primary transition-colors">{tool.name}</h4>
+                          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                        </div>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {tool.description || `Use our free online ${tool.name.toLowerCase()} to get instant results.`}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
 
         {/* Sidebar Column */}
