@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Financial() {
   const calculators = [
@@ -10,6 +11,8 @@ export default function Financial() {
     "Tax Calculator", "Discount Calculator", "Investment Calculator",
     "Auto Loan Calculator", "Retirement Calculator", "Amortization Calculator"
   ];
+
+  const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
   return (
     <Layout>
@@ -29,14 +32,18 @@ export default function Financial() {
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {calculators.map((calc) => (
-            <Card key={calc} className="hover:border-primary/50 transition-all hover:shadow-md cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-base">{calc}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">Calculate {calc.toLowerCase()} instantly.</p>
-              </CardContent>
-            </Card>
+            <Link key={calc} href={`/calculator/${slugify(calc)}`}>
+              <a className="block h-full">
+                <Card className="h-full hover:border-primary/50 transition-all hover:shadow-md cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="text-base">{calc}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">Calculate {calc.toLowerCase()} instantly.</p>
+                  </CardContent>
+                </Card>
+              </a>
+            </Link>
           ))}
         </div>
         

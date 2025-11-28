@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calculator } from "lucide-react";
 import StandardCalculator from "@/components/StandardCalculator";
+import { Link } from "wouter";
 
 export default function MathPage() {
   const calculators = [
@@ -12,6 +13,8 @@ export default function MathPage() {
     "Roman Numeral Converter", "Hex to Decimal Converter", "Prime Number Checker",
     "Algebra Solver", "Equation Calculator", "Factor Calculator"
   ];
+
+  const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
   return (
     <Layout>
@@ -37,14 +40,18 @@ export default function MathPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8">
           {calculators.map((calc) => (
-            <Card key={calc} className="hover:border-blue-500/50 transition-all hover:shadow-md cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-base">{calc}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">Compute {calc.toLowerCase()} online.</p>
-              </CardContent>
-            </Card>
+            <Link key={calc} href={`/calculator/${slugify(calc)}`}>
+              <a className="block h-full">
+                <Card className="h-full hover:border-blue-500/50 transition-all hover:shadow-md cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="text-base">{calc}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">Compute {calc.toLowerCase()} online.</p>
+                  </CardContent>
+                </Card>
+              </a>
+            </Link>
           ))}
         </div>
       </div>

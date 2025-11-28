@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart } from "lucide-react";
 import BMICalculator from "@/components/BMICalculator";
 import CaloriesCalculator from "@/components/CaloriesCalculator";
+import { Link } from "wouter";
 
 export default function Health() {
   const calculators = [
@@ -11,6 +12,8 @@ export default function Health() {
     "Breath Count Calculator", "Target Heart Rate", "Water Intake Calculator", 
     "Macro Calculator", "TDEE Calculator", "Sleep Calculator"
   ];
+
+  const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
   return (
     <Layout>
@@ -44,14 +47,18 @@ export default function Health() {
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8">
           {calculators.map((calc) => (
-            <Card key={calc} className="hover:border-rose-500/50 transition-all hover:shadow-md cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-base">{calc}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">Free online {calc.toLowerCase()}.</p>
-              </CardContent>
-            </Card>
+            <Link key={calc} href={`/calculator/${slugify(calc)}`}>
+              <a className="block h-full">
+                <Card className="h-full hover:border-rose-500/50 transition-all hover:shadow-md cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="text-base">{calc}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">Free online {calc.toLowerCase()}.</p>
+                  </CardContent>
+                </Card>
+              </a>
+            </Link>
           ))}
         </div>
       </div>

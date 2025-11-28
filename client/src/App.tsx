@@ -11,6 +11,7 @@ import MathPage from "@/pages/Math";
 import Other from "@/pages/Other";
 import Converters from "@/pages/Converters";
 import SeoTools from "@/pages/SeoTools";
+import CalculatorPage from "@/pages/CalculatorPage";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/converters" component={Converters} />
       <Route path="/seo-tools" component={SeoTools} />
       <Route path="/other" component={Other} />
+      <Route path="/calculator/:slug" component={CalculatorPage} />
       <Route component={NotFound} />
     </Switch>
   );
