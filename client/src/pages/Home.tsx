@@ -28,45 +28,63 @@ export default function Home() {
       title: "Finance & Business",
       href: "/financial",
       icon: <DollarSign className="h-5 w-5" />,
-      items: ["Loan EMI Calculator", "Mortgage Calculator", "Compound Interest", "GST/VAT Calculator", "Salary Calculator", "Discount Calculator"]
+      items: [
+        { name: "Loan EMI Calculator" }, { name: "Mortgage Calculator" }, { name: "Compound Interest" }, 
+        { name: "GST/VAT Calculator" }, { name: "Salary Calculator" }, { name: "Discount Calculator" }
+      ]
     },
     {
       title: "Fitness & Health",
       href: "/health",
       icon: <Heart className="h-5 w-5" />,
-      items: ["BMI Calculator", "Calorie Calculator", "Body Fat Calculator", "Water Intake", "BMR Calculator", "Sleep Calculator"]
+      items: [
+        { name: "BMI Calculator" }, { name: "Calorie Calculator" }, { name: "Body Fat Calculator" }, 
+        { name: "Water Intake" }, { name: "BMR Calculator" }, { name: "Sleep Calculator" }
+      ]
     },
     {
       title: "Unit Converters",
       href: "/converters",
       icon: <RefreshCcw className="h-5 w-5" />,
-      items: ["Length Converter", "Weight Converter", "Temperature Converter", "Area Converter", "Volume Converter", "Speed Converter"]
+      items: [
+        { name: "Length Converter" }, { name: "Weight Converter" }, { name: "Temperature Converter" }, 
+        { name: "Area Converter" }, { name: "Volume Converter" }, { name: "Speed Converter" }
+      ]
     },
     {
       title: "Math & Number",
       href: "/math",
       icon: <Calculator className="h-5 w-5" />,
-      items: ["Scientific Calculator", "Percentage Calculator", "Algebra Solver", "Geometry Calculator", "Random Number", "Prime Checker"]
+      items: [
+        { name: "Scientific Calculator" }, { name: "Percentage Calculator" }, { name: "Algebra Solver" }, 
+        { name: "Geometry Calculator" }, { name: "Random Number" }, { name: "Prime Checker" }
+      ]
     },
     {
       title: "Daily Life Tools",
       href: "/other",
       icon: <Calendar className="h-5 w-5" />,
-      items: ["Age Calculator", "Date Calculator", "Time Calculator", "Tip Calculator", "Age Gap Calculator", "Days Between Dates"]
+      items: [
+        { name: "Age Calculator" }, { name: "Date Calculator" }, { name: "Time Calculator" }, 
+        { name: "Tip Calculator" }, { name: "Age Gap Calculator" }, { name: "Days Between Dates" }
+      ]
     },
     {
       title: "SEO & Text Tools",
       href: "/seo-tools",
       icon: <Type className="h-5 w-5" />,
-      items: ["Word Counter", "Character Counter", "Password Generator", "Case Converter", "QR Code Generator", "Text Repeater"]
+      items: [
+        { name: "Word Counter" }, { name: "Character Counter" }, { name: "Password Generator" }, 
+        { name: "Case Converter" }, { name: "QR Code Generator" }, { name: "Text Repeater" }
+      ]
     }
   ];
 
   // Flatten items for search
   const allTools = categories.flatMap(cat => cat.items.map(item => ({
-    name: item,
+    name: typeof item === 'string' ? item : item.name,
     category: cat.title,
-    href: `/calculator/${item.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
+    href: `/calculator/${(typeof item === 'string' ? item : item.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
   })));
 
   const filteredTools = search 
@@ -171,12 +189,15 @@ export default function Home() {
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
-                        {cat.items.slice(0, 5).map((item) => (
-                          <li key={item} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2">
-                            <span className="w-1 h-1 rounded-full bg-slate-300 group-hover:bg-primary" />
-                            {item}
-                          </li>
-                        ))}
+                        {cat.items.slice(0, 5).map((item) => {
+                          const itemName = typeof item === 'string' ? item : item.name;
+                          return (
+                            <li key={itemName} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2">
+                              <span className="w-1 h-1 rounded-full bg-slate-300 group-hover:bg-primary" />
+                              {itemName}
+                            </li>
+                          );
+                        })}
                         {cat.items.length > 5 && (
                           <li className="text-xs font-medium text-primary pt-1">
                             + {cat.items.length - 5} more tools
