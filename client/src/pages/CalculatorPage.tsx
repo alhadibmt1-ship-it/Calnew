@@ -34,6 +34,7 @@ import SavingGoalCalculator from "@/components/SavingGoalCalculator";
 import InvestmentCalculator from "@/components/InvestmentCalculator";
 import RetirementCalculator from "@/components/RetirementCalculator";
 import TaxCalculator from "@/components/TaxCalculator";
+import ConcreteCalculator from "@/components/ConcreteCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -130,6 +131,8 @@ export default function CalculatorPage() {
       case "date-calculator":
       case "days-between-dates":
         return <DateCalculator />;
+      case "concrete-calculator":
+        return <ConcreteCalculator />;
 
       // SEO
       case "word-counter":
@@ -239,7 +242,8 @@ export default function CalculatorPage() {
       s.includes('date') || 
       s.includes('time') || 
       s.includes('tip') ||
-      s.includes('day')
+      s.includes('day') ||
+      s.includes('concrete')
     ) return { name: "Daily Life", href: "/other" };
 
     // Math (Default)
