@@ -24,6 +24,10 @@ import CaseConverter from "@/components/CaseConverter";
 import GeometryCalculator from "@/components/GeometryCalculator";
 import AlgebraCalculator from "@/components/AlgebraCalculator";
 import SalaryCalculator from "@/components/SalaryCalculator";
+import ProfitMarginCalculator from "@/components/ProfitMarginCalculator";
+import BMRCalculator from "@/components/BMRCalculator";
+import BinaryConverter from "@/components/BinaryConverter";
+import PrimeChecker from "@/components/PrimeChecker";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -43,6 +47,8 @@ export default function CalculatorPage() {
         return <BMICalculator />;
       case "calorie-calculator":
         return <CaloriesCalculator />;
+      case "bmr-calculator":
+        return <BMRCalculator />;
       
       // Math
       case "standard-calculator":
@@ -58,6 +64,13 @@ export default function CalculatorPage() {
       case "algebra-solver":
       case "algebra-calculator":
         return <AlgebraCalculator />;
+      case "binary-to-decimal":
+      case "decimal-to-binary":
+      case "number-base-converter":
+        return <BinaryConverter />;
+      case "prime-checker":
+      case "prime-number-checker":
+        return <PrimeChecker />;
 
       // Financial
       case "loan-emi-calculator":
@@ -78,6 +91,9 @@ export default function CalculatorPage() {
       case "salary-calculator":
       case "paycheck-calculator":
         return <SalaryCalculator />;
+      case "profit-margin-calculator":
+      case "margin-calculator":
+        return <ProfitMarginCalculator />;
 
       // Daily Life
       case "age-calculator":
