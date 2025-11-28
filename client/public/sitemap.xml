@@ -2,32 +2,95 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://calchub.replit.app/</loc>
-    <lastmod>2025-11-25</lastmod>
+    <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://calchub.replit.app/financial</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://calchub.replit.app/health</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://calchub.replit.app/math</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://calchub.replit.app/other</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  
+  <!-- Categories -->
+  <url><loc>https://calchub.replit.app/financial</loc><priority>0.9</priority></url>
+  <url><loc>https://calchub.replit.app/health</loc><priority>0.9</priority></url>
+  <url><loc>https://calchub.replit.app/math</loc><priority>0.9</priority></url>
+  <url><loc>https://calchub.replit.app/other</loc><priority>0.9</priority></url>
+  <url><loc>https://calchub.replit.app/seo-tools</loc><priority>0.9</priority></url>
+  <url><loc>https://calchub.replit.app/converters</loc><priority>0.9</priority></url>
+
+  <!-- Health Tools -->
+  <url><loc>https://calchub.replit.app/calculator/bmi-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/calorie-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/bmr-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/ideal-weight-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/body-fat-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/pregnancy-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/ovulation-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/water-intake-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/macro-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/sleep-calculator</loc></url>
+
+  <!-- Math Tools -->
+  <url><loc>https://calchub.replit.app/calculator/standard-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/scientific-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/percentage-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/random-number-generator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/geometry-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/algebra-solver</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/binary-to-decimal</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/prime-checker</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/fraction-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/triangle-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/volume-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/quadratic-formula</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/roman-numeral-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/hex-to-decimal-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/factor-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/logarithm-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/ratio-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/root-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/standard-deviation</loc></url>
+
+  <!-- Financial Tools -->
+  <url><loc>https://calchub.replit.app/calculator/loan-emi-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/interest-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/discount-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/gst-vat-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/salary-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/profit-margin-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/currency-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/saving-goal-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/investment-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/retirement-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/tax-calculator</loc></url>
+
+  <!-- Daily Life Tools -->
+  <url><loc>https://calchub.replit.app/calculator/age-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/age-gap-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/birthday-countdown</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/tip-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/date-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/concrete-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/gpa-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/grade-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/time-calculator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/time-zone-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/subnet-calculator</loc></url>
+
+  <!-- SEO Tools -->
+  <url><loc>https://calchub.replit.app/calculator/word-counter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/password-generator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/case-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/text-repeater</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/qr-code-generator</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/color-picker-tool</loc></url>
+
+  <!-- Unit Converters -->
+  <url><loc>https://calchub.replit.app/calculator/length-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/weight-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/temperature-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/area-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/volume-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/speed-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/time-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/pressure-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/energy-converter</loc></url>
+  <url><loc>https://calchub.replit.app/calculator/power-converter</loc></url>
 </urlset>
