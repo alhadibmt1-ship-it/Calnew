@@ -10,33 +10,47 @@ import {
   Heart, 
   Calendar, 
   DollarSign, 
+  RefreshCcw,
+  Type
 } from "lucide-react";
 
 export default function Home() {
   const categories = [
     {
-      title: "Financial Calculators",
+      title: "Finance & Business",
       href: "/financial",
       icon: <DollarSign className="h-5 w-5" />,
-      items: ["Mortgage Calculator", "Loan Calculator", "Auto Loan Calculator", "Interest Calculator", "Retirement Calculator", "Amortization Calculator"]
+      items: ["Loan EMI Calculator", "Mortgage Calculator", "Compound Interest", "GST/VAT Calculator", "Salary Calculator", "Profit Margin"]
     },
     {
       title: "Fitness & Health",
       href: "/health",
       icon: <Heart className="h-5 w-5" />,
-      items: ["BMI Calculator", "Calorie Calculator", "Body Fat Calculator", "BMR Calculator", "Ideal Weight Calculator", "Pregnancy Calculator"]
+      items: ["BMI Calculator", "Calorie Calculator", "Body Fat Calculator", "Ovulation Calculator", "BMR Calculator", "Sleep Calculator"]
     },
     {
-      title: "Math Calculators",
+      title: "Unit Converters",
+      href: "/converters",
+      icon: <RefreshCcw className="h-5 w-5" />,
+      items: ["Length Converter", "Weight Converter", "Temperature Converter", "Area Converter", "Volume Converter", "Speed Converter"]
+    },
+    {
+      title: "Math & Number",
       href: "/math",
       icon: <Calculator className="h-5 w-5" />,
-      items: ["Scientific Calculator", "Fraction Calculator", "Percentage Calculator", "Random Number Generator", "Triangle Calculator", "Volume Calculator"]
+      items: ["Scientific Calculator", "Percentage Calculator", "Fraction Calculator", "Roman Numeral Converter", "Binary to Decimal", "Prime Checker"]
     },
     {
-      title: "Other Calculators",
+      title: "Daily Life Tools",
       href: "/other",
       icon: <Calendar className="h-5 w-5" />,
-      items: ["Age Calculator", "Date Calculator", "Time Calculator", "GPA Calculator", "Password Generator", "Concrete Calculator"]
+      items: ["Age Calculator", "Date Calculator", "Time Calculator", "Tip Calculator", "Age Gap Calculator", "Days Between Dates"]
+    },
+    {
+      title: "SEO & Text Tools",
+      href: "/seo-tools",
+      icon: <Type className="h-5 w-5" />,
+      items: ["Word Counter", "Character Counter", "Password Generator", "Case Converter", "QR Code Generator", "Text Repeater"]
     }
   ];
 
@@ -49,12 +63,11 @@ export default function Home() {
           {/* Hero Section - SEO Optimized */}
           <section className="space-y-4">
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-              Free Online Calculators
+              Free Online Calculators & Tools
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
               CalcHub provides a comprehensive collection of free online calculators for your daily needs. 
-              Whether you need to calculate your mortgage payments, check your BMI, or solve complex math problems, 
-              our tools are fast, accurate, and easy to use.
+              From finance and health to math and unit conversions, our tools are fast, accurate, and easy to use.
             </p>
           </section>
 
@@ -149,7 +162,7 @@ export default function Home() {
                   { name: "BMI Calculator", link: "/health" },
                   { name: "Age Calculator", link: "/other" },
                   { name: "Percentage Calculator", link: "/math" },
-                  { name: "Scientific Calculator", link: "/math" }
+                  { name: "Word Counter", link: "/seo-tools" }
                 ].map((item) => (
                   <Link key={item.name} href={item.link} className="block px-6 py-3 text-sm hover:bg-muted/50 transition-colors flex items-center justify-between group">
                     {item.name}

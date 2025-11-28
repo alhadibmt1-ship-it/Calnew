@@ -4,10 +4,11 @@ import { DollarSign } from "lucide-react";
 
 export default function Financial() {
   const calculators = [
-    "Mortgage Calculator", "Loan Calculator", "Auto Loan Calculator", 
-    "Interest Calculator", "Payment Calculator", "Retirement Calculator", 
-    "Amortization Calculator", "Investment Calculator", "Currency Converter",
-    "Salary Calculator", "Tax Calculator", "Inflation Calculator"
+    "Loan EMI Calculator", "Mortgage Calculator", "Compound Interest Calculator", 
+    "Simple Interest Calculator", "Profit Margin Calculator", "GST/VAT Calculator", 
+    "Salary Calculator", "Currency Converter", "Saving Goal Calculator", 
+    "Tax Calculator", "Discount Calculator", "Investment Calculator",
+    "Auto Loan Calculator", "Retirement Calculator", "Amortization Calculator"
   ];
 
   return (
@@ -18,7 +19,7 @@ export default function Financial() {
             <div className="p-2 rounded-lg bg-primary/10 text-primary">
               <DollarSign className="h-8 w-8" />
             </div>
-            Financial Calculators
+            Finance & Business Calculators
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
             Plan your financial future with our comprehensive suite of free financial calculators. 

@@ -9,6 +9,8 @@ import Financial from "@/pages/Financial";
 import Health from "@/pages/Health";
 import MathPage from "@/pages/Math";
 import Other from "@/pages/Other";
+import Converters from "@/pages/Converters";
+import SeoTools from "@/pages/SeoTools";
 
 function Router() {
   return (
@@ -17,6 +19,8 @@ function Router() {
       <Route path="/financial" component={Financial} />
       <Route path="/health" component={Health} />
       <Route path="/math" component={MathPage} />
+      <Route path="/converters" component={Converters} />
+      <Route path="/seo-tools" component={SeoTools} />
       <Route path="/other" component={Other} />
       <Route component={NotFound} />
     </Switch>

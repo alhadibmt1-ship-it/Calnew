@@ -4,10 +4,10 @@ import { Calendar } from "lucide-react";
 
 export default function Other() {
   const calculators = [
-    "Age Calculator", "Date Calculator", "Time Calculator", 
-    "GPA Calculator", "Password Generator", "Concrete Calculator",
-    "Subnet Calculator", "Bandwidth Calculator", "Grade Calculator",
-    "Love Calculator", "Bra Size Calculator", "Salary Calculator"
+    "Date Calculator", "Days Between Dates", "Age Calculator", 
+    "Age Gap Calculator", "Time Calculator", "Time Zone Converter",
+    "Tip Calculator", "Birthday Countdown", "GPA Calculator",
+    "Grade Calculator", "Concrete Calculator", "Subnet Calculator"
   ];
 
   return (
@@ -18,10 +18,10 @@ export default function Other() {
             <div className="p-2 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900/20">
               <Calendar className="h-8 w-8" />
             </div>
-            Other Calculators
+            Daily Life Tools
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
-            A collection of useful tools for everyday life. Calculate age, dates, time, grades, and more 
+            A collection of useful tools for everyday life. Calculate age, dates, time, tips, and more 
             with our versatile utility calculators.
           </p>
         </section>

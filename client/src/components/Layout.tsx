@@ -14,7 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Financial", href: "/financial" },
     { name: "Fitness & Health", href: "/health" },
     { name: "Math", href: "/math" },
-    { name: "Other", href: "/other" },
+    { name: "Converters", href: "/converters" },
+    { name: "SEO & Text", href: "/seo-tools" },
+    { name: "Daily Life", href: "/other" },
   ];
 
   return (
@@ -32,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
+            <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-medium text-muted-foreground">
               {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
@@ -54,7 +56,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Input
                 type="search"
                 placeholder="Search calculators..."
-                className="w-64 pl-9 h-9 bg-muted/50 border-transparent focus:bg-background focus:border-input transition-all"
+                className="w-32 lg:w-64 pl-9 h-9 bg-muted/50 border-transparent focus:bg-background focus:border-input transition-all"
               />
             </div>
 
@@ -100,7 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#" className="hover:text-foreground">Mortgage Calculator</a></li>
                 <li><a href="#" className="hover:text-foreground">Loan Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Interest Calculator</a></li>
+                <li><a href="#" className="hover:text-foreground">GST/VAT Calculator</a></li>
               </ul>
             </div>
             <div>
@@ -112,19 +114,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Math</h3>
+              <h3 className="font-semibold mb-4">Tools</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Scientific Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Fraction Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Percentage Calculator</a></li>
+                <li><a href="#" className="hover:text-foreground">Unit Converters</a></li>
+                <li><a href="#" className="hover:text-foreground">Password Generator</a></li>
+                <li><a href="#" className="hover:text-foreground">Word Counter</a></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Other</h3>
+              <h3 className="font-semibold mb-4">Daily Life</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#" className="hover:text-foreground">Age Calculator</a></li>
                 <li><a href="#" className="hover:text-foreground">Date Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">GPA Calculator</a></li>
+                <li><a href="#" className="hover:text-foreground">Tip Calculator</a></li>
               </ul>
             </div>
           </div>

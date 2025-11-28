@@ -6,10 +6,10 @@ import CaloriesCalculator from "@/components/CaloriesCalculator";
 
 export default function Health() {
   const calculators = [
-    "Body Fat Calculator", "BMR Calculator", 
-    "Ideal Weight Calculator", "Pregnancy Calculator", "Ovulation Calculator",
-    "Due Date Calculator", "Breath Count Calculator", "Target Heart Rate",
-    "Water Intake Calculator", "Macro Calculator", "TDEE Calculator"
+    "Body Fat Calculator", "BMR Calculator", "Ideal Weight Calculator", 
+    "Pregnancy Calculator", "Ovulation Calculator", "Due Date Calculator", 
+    "Breath Count Calculator", "Target Heart Rate", "Water Intake Calculator", 
+    "Macro Calculator", "TDEE Calculator", "Sleep Calculator"
   ];
 
   return (

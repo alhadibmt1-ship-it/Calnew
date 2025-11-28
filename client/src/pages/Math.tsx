@@ -8,7 +8,9 @@ export default function MathPage() {
     "Scientific Calculator", "Fraction Calculator", "Percentage Calculator", 
     "Random Number Generator", "Triangle Calculator", "Volume Calculator",
     "Standard Deviation", "Quadratic Formula", "Logarithm Calculator",
-    "Ratio Calculator", "Root Calculator", "Binary Calculator"
+    "Ratio Calculator", "Root Calculator", "Binary to Decimal Converter",
+    "Roman Numeral Converter", "Hex to Decimal Converter", "Prime Number Checker",
+    "Algebra Solver", "Equation Calculator", "Factor Calculator"
   ];
 
   return (
@@ -19,7 +21,7 @@ export default function MathPage() {
             <div className="p-2 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/20">
               <Calculator className="h-8 w-8" />
             </div>
-            Math Calculators
+            Math & Number Tools
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
             Solve complex math problems instantly. From basic arithmetic to advanced scientific equations, 
