@@ -161,18 +161,34 @@ export default function CalculatorPage() {
     }
   };
 
+  const getCategoryInfo = (slug: string) => {
+    const s = slug.toLowerCase();
+    if (s.includes('bmi') || s.includes('calorie') || s.includes('bmr') || s.includes('ideal-weight')) return { name: "Health", href: "/health" };
+    if (s.includes('loan') || s.includes('mortgage') || s.includes('interest') || s.includes('gst') || s.includes('vat') || s.includes('salary') || s.includes('discount') || s.includes('profit')) return { name: "Financial", href: "/financial" };
+    if (s.includes('converter') && !s.includes('case')) return { name: "Converters", href: "/converters" };
+    if (s.includes('word') || s.includes('password') || s.includes('case')) return { name: "SEO Tools", href: "/seo-tools" };
+    if (s.includes('age') || s.includes('date') || s.includes('tip')) return { name: "Daily Life", href: "/other" };
+    return { name: "Math", href: "/math" };
+  };
+
+  const category = getCategoryInfo(slug);
+
   return (
     <Layout>
       <div className="space-y-8">
         <div className="flex items-center gap-4">
-          <Link href="/">
+          <Link href={category.href}>
             <Button variant="ghost" size="icon">
               <ArrowLeft className="h-4 w-4" />
             </Button>
           </Link>
           <div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+              <Link href="/">Home</Link>
+              <span>/</span>
+              <Link href={category.href}>{category.name}</Link>
+            </div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
-            <p className="text-muted-foreground">Free online {title.toLowerCase()}</p>
           </div>
         </div>
 
