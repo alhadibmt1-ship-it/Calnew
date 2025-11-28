@@ -133,7 +133,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <p>&copy; 2025 CalcHub. All rights reserved.</p>
             <div className="flex items-center gap-4">
-              <a href="#" className="hover:text-foreground">Privacy Policy</a>
+              <Link href="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
               <a href="#" className="hover:text-foreground">Terms of Use</a>
               <a href="#" className="hover:text-foreground">About Us</a>
             </div>

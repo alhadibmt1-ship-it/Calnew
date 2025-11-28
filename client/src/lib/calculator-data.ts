@@ -7,6 +7,14 @@ import {
   Type 
 } from "lucide-react";
 
+export interface CalculatorItem {
+  name: string;
+  description: string;
+  formula?: string;
+  example?: string;
+  faq?: { question: string; answer: string }[];
+}
+
 export const calculatorCategories = [
   {
     title: "Financial",
@@ -14,7 +22,16 @@ export const calculatorCategories = [
     icon: DollarSign,
     description: "Plan your financial future with our comprehensive suite of free financial calculators.",
     items: [
-      { name: "Loan EMI Calculator", description: "Calculate your monthly EMI payments for any loan." },
+      { 
+        name: "Loan EMI Calculator", 
+        description: "Calculate your monthly EMI payments for any loan.",
+        formula: "E = P * r * (1 + r)^n / ((1 + r)^n - 1) where E is EMI, P is Principal Loan Amount, r is monthly interest rate, and n is loan tenure in months.",
+        example: "If you borrow $100,000 at 10% annual interest for 10 years, your monthly EMI would be approximately $1,322.",
+        faq: [
+          { question: "What is EMI?", answer: "EMI stands for Equated Monthly Installment. It is a fixed payment amount made by a borrower to a lender at a specified date each calendar month." },
+          { question: "Does EMI change over time?", answer: "Usually, EMI remains constant throughout the loan tenure, provided the interest rate is fixed. If you have a floating rate loan, the EMI may change based on market rates." }
+        ]
+      },
       { name: "Mortgage Calculator", description: "Estimate your monthly mortgage payments and interest." },
       { name: "Simple Interest Calculator", description: "Calculate simple interest on your principal amount." },
       { name: "Compound Interest Calculator", description: "See how your investments grow with compound interest." },
@@ -35,7 +52,16 @@ export const calculatorCategories = [
     icon: Heart,
     description: "Track your health metrics and achieve your fitness goals with our accurate health tools.",
     items: [
-      { name: "BMI Calculator", description: "Calculate your Body Mass Index (BMI) instantly." },
+      { 
+        name: "BMI Calculator", 
+        description: "Calculate your Body Mass Index (BMI) instantly.",
+        formula: "BMI = weight (kg) / [height (m)]²",
+        example: "For a person weighing 70kg with a height of 1.75m: BMI = 70 / (1.75 * 1.75) = 22.86.",
+        faq: [
+          { question: "What is a healthy BMI?", answer: "A BMI between 18.5 and 24.9 is generally considered normal weight." },
+          { question: "Is BMI accurate for everyone?", answer: "BMI is a simple screening tool but doesn't account for muscle mass, bone density, or overall body composition. Athletes may have high BMI but low body fat." }
+        ]
+      },
       { name: "Calorie Calculator", description: "Estimate daily calorie needs for weight loss or gain." },
       { name: "Body Fat Calculator", description: "Estimate your body fat percentage based on measurements." },
       { name: "Water Intake Calculator", description: "Find out how much water you should drink daily." },
@@ -130,8 +156,7 @@ export const calculatorCategories = [
 
 export const getAllTools = () => {
   return calculatorCategories.flatMap(cat => cat.items.map(item => ({
-    name: item.name,
-    description: item.description,
+    ...item,
     category: cat.title,
     categorySlug: cat.slug,
     slug: item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),

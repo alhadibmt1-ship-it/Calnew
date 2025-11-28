@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import CategoryHub from "@/pages/CategoryHub";
 import CalculatorPage from "@/pages/CalculatorPage";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/seo-tools" component={CategoryHub} />
       <Route path="/other" component={CategoryHub} />
       <Route path="/calculator/:slug" component={CalculatorPage} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>
   );

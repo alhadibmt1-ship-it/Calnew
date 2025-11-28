@@ -295,6 +295,13 @@ export default function CalculatorPage() {
     .filter(t => t.category === category.name && t.slug !== slug)
     .slice(0, 10); // Show top 10 related
 
+  const getToolData = (slug: string) => {
+    const allTools = getAllTools();
+    return allTools.find(t => t.slug === slug || t.slug === slug.replace(/-calculator$/, ''));
+  };
+
+  const toolData = getToolData(slug);
+
   return (
     <Layout>
       <div className="grid lg:grid-cols-[1fr_300px] gap-8 max-w-7xl mx-auto">
@@ -321,7 +328,7 @@ export default function CalculatorPage() {
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
               <p className="text-lg text-muted-foreground">
-                Free online {title.toLowerCase()} for instant results. Accurate, fast, and easy to use.
+                {toolData?.description || `Free online ${title.toLowerCase()} for instant results. Accurate, fast, and easy to use.`}
               </p>
             </div>
 
@@ -330,33 +337,77 @@ export default function CalculatorPage() {
             </div>
           </div>
 
-          {/* SEO Article / Description */}
-          <section className="prose dark:prose-invert max-w-none bg-muted/30 p-8 rounded-xl border">
-            <h2>About {title}</h2>
-            <p>
-              This <strong>{title}</strong> is a free online tool designed to help you calculate {title.toLowerCase().replace('calculator', '')} quickly and accurately. 
-              Whether you're a student, professional, or just need to make a quick calculation, our tool provides instant results without any complex setup.
-            </p>
+          {/* Rich SEO Content */}
+          <section className="prose dark:prose-invert max-w-none bg-muted/30 p-8 rounded-xl border space-y-8">
             
-            <h3>How to use this calculator</h3>
-            <ul>
-              <li>Enter the required values in the input fields above.</li>
-              <li>Check that the units are correct (if applicable).</li>
-              <li>Click the "Calculate" or "Convert" button to see your result.</li>
-              <li>Use the "Reset" or "Clear" button to start a new calculation.</li>
-            </ul>
+            {/* Intro / Description */}
+            <div>
+              <h2>About {title}</h2>
+              <p>
+                This <strong>{title}</strong> is a free online tool designed to help you calculate {title.toLowerCase().replace('calculator', '')} quickly and accurately. 
+                Whether you're a student, professional, or just need to make a quick calculation, our tool provides instant results without any complex setup.
+              </p>
+            </div>
 
-            <h3>Why use CalcHub?</h3>
-            <p>
-              CalcHub provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
-              Our tools are:
-            </p>
-            <ul>
-              <li><strong>Free:</strong> No registration or payment required.</li>
-              <li><strong>Fast:</strong> Instant results right in your browser.</li>
-              <li><strong>Private:</strong> Calculations happen on your device; we don't store your personal data.</li>
-              <li><strong>Mobile-Friendly:</strong> Works perfectly on phones, tablets, and desktops.</li>
-            </ul>
+            {/* Formula Section (Conditional) */}
+            {toolData?.formula && (
+              <div>
+                <h3>Formula</h3>
+                <p>The {title} uses the following formula:</p>
+                <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary">
+                  {toolData.formula}
+                </blockquote>
+              </div>
+            )}
+
+            {/* Example Section (Conditional) */}
+            {toolData?.example && (
+              <div>
+                <h3>Example Calculation</h3>
+                <p>{toolData.example}</p>
+              </div>
+            )}
+
+            {/* How To Use */}
+            <div>
+              <h3>How to use this calculator</h3>
+              <ul>
+                <li>Enter the required values in the input fields above.</li>
+                <li>Check that the units are correct (if applicable).</li>
+                <li>Click the "Calculate" or "Convert" button to see your result.</li>
+                <li>Use the "Reset" or "Clear" button to start a new calculation.</li>
+              </ul>
+            </div>
+
+            {/* FAQ Section (Conditional) */}
+            {toolData?.faq && toolData.faq.length > 0 && (
+              <div>
+                <h3>Frequently Asked Questions (FAQ)</h3>
+                <div className="space-y-4">
+                  {toolData.faq.map((item, i) => (
+                    <div key={i} className="border-b pb-4 last:border-0">
+                      <h4 className="font-semibold text-lg mb-2">{item.question}</h4>
+                      <p className="text-muted-foreground">{item.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* General Info */}
+            <div>
+              <h3>Why use CalcHub?</h3>
+              <p>
+                CalcHub provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
+                Our tools are:
+              </p>
+              <ul>
+                <li><strong>Free:</strong> No registration or payment required.</li>
+                <li><strong>Fast:</strong> Instant results right in your browser.</li>
+                <li><strong>Private:</strong> Calculations happen on your device; we don't store your personal data.</li>
+                <li><strong>Mobile-Friendly:</strong> Works perfectly on phones, tablets, and desktops.</li>
+              </ul>
+            </div>
           </section>
 
           {/* Related Tools Section */}
