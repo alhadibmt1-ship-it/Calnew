@@ -114,6 +114,16 @@ export default function LoanCalculator() {
                   <p className="text-sm text-muted-foreground mb-1">Monthly Payment</p>
                   <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">${result.monthlyPayment.toLocaleString()}</p>
                 </div>
+                
+                <div className="mt-6 p-4 bg-white dark:bg-slate-800 rounded-lg border shadow-sm text-left">
+                  <h4 className="font-semibold mb-2 text-sm">Loan Analysis</h4>
+                  <p className="text-sm text-muted-foreground">
+                    You will pay a total of <span className="font-medium text-foreground">${result.totalPayment.toLocaleString()}</span> over {years} years. 
+                    This includes <span className="font-medium text-foreground">${result.totalInterest.toLocaleString()}</span> in interest, which is 
+                    {((result.totalInterest / result.totalPayment) * 100).toFixed(1)}% of the total cost.
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-2 w-full gap-4 mt-6 text-sm">
                   <div className="flex justify-between items-center">
                     <span className="flex items-center gap-2">

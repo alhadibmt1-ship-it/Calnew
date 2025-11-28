@@ -104,6 +104,15 @@ export default function InvestmentCalculator() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+
+            <div className="bg-muted/50 p-4 rounded-lg border">
+              <h4 className="font-semibold mb-2">Investment Analysis</h4>
+              <p className="text-sm text-muted-foreground">
+                In {years} years, your investment will grow to <span className="font-bold text-foreground">${result.totalValue.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>. 
+                You will have contributed <span className="font-medium text-foreground">${result.totalContributed.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>, 
+                earning a total interest of <span className="font-medium text-green-600">${result.totalInterest.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>.
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}
