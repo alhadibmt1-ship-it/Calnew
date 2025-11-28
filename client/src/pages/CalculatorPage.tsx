@@ -39,6 +39,8 @@ import SubnetCalculator from "@/components/SubnetCalculator";
 import GPACalculator from "@/components/GPACalculator";
 import GradeCalculator from "@/components/GradeCalculator";
 import TimeZoneConverter from "@/components/TimeZoneConverter";
+import AgeGapCalculator from "@/components/AgeGapCalculator";
+import BirthdayCountdown from "@/components/BirthdayCountdown";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -132,6 +134,10 @@ export default function CalculatorPage() {
       // Daily Life
       case "age-calculator":
         return <AgeCalculator />;
+      case "age-gap-calculator":
+        return <AgeGapCalculator />;
+      case "birthday-countdown":
+        return <BirthdayCountdown />;
       case "tip-calculator":
         return <TipCalculator />;
       case "date-calculator":
