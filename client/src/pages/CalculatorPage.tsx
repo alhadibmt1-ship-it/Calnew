@@ -10,6 +10,12 @@ import CaloriesCalculator from "@/components/CaloriesCalculator";
 import AgeCalculator from "@/components/AgeCalculator";
 import LoanCalculator from "@/components/LoanCalculator";
 import PercentageCalculator from "@/components/PercentageCalculator";
+import UnitConverter from "@/components/UnitConverter";
+import InterestCalculator from "@/components/InterestCalculator";
+import TipCalculator from "@/components/TipCalculator";
+import WordCounter from "@/components/WordCounter";
+import PasswordGenerator from "@/components/PasswordGenerator";
+import DiscountCalculator from "@/components/DiscountCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -39,12 +45,40 @@ export default function CalculatorPage() {
       // Financial
       case "loan-emi-calculator":
       case "loan-calculator":
-      case "mortgage-calculator": // Reusing loan calculator for now as they are similar
+      case "mortgage-calculator": 
+      case "auto-loan-calculator":
         return <LoanCalculator />;
+      
+      case "simple-interest-calculator":
+      case "compound-interest-calculator":
+      case "interest-calculator":
+        return <InterestCalculator />;
+
+      case "discount-calculator":
+        return <DiscountCalculator />;
 
       // Daily Life
       case "age-calculator":
         return <AgeCalculator />;
+      case "tip-calculator":
+        return <TipCalculator />;
+
+      // SEO
+      case "word-counter":
+      case "character-counter":
+        return <WordCounter />;
+      case "password-generator":
+        return <PasswordGenerator />;
+
+      // Unit Converters (Dynamic mapping)
+      case "length-converter":
+      case "weight-converter":
+      case "temperature-converter":
+      case "area-converter":
+      case "volume-converter":
+      case "speed-converter":
+      case "time-converter":
+        return <UnitConverter type={slug.replace("-converter", "")} />;
 
       default:
         return (
