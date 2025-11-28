@@ -28,6 +28,7 @@ import ProfitMarginCalculator from "@/components/ProfitMarginCalculator";
 import BMRCalculator from "@/components/BMRCalculator";
 import BinaryConverter from "@/components/BinaryConverter";
 import PrimeChecker from "@/components/PrimeChecker";
+import IdealWeightCalculator from "@/components/IdealWeightCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -49,6 +50,8 @@ export default function CalculatorPage() {
         return <CaloriesCalculator />;
       case "bmr-calculator":
         return <BMRCalculator />;
+      case "ideal-weight-calculator":
+        return <IdealWeightCalculator />;
       
       // Math
       case "standard-calculator":
