@@ -363,11 +363,22 @@ export default function CalculatorPage() {
         {/* Sidebar Column */}
         <div className="space-y-6">
           <div className="bg-card rounded-xl border shadow-sm p-6 sticky top-24">
+            
+            {/* Search Quick Link */}
+            <div className="mb-6 pb-6 border-b">
+              <Link href="/">
+                <Button variant="outline" className="w-full justify-start text-muted-foreground">
+                   <Home className="mr-2 h-4 w-4" />
+                   Return to All Calculators
+                </Button>
+              </Link>
+            </div>
+
             <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
               <div className="h-1 w-1 rounded-full bg-primary"></div>
               More {category.name} Tools
             </h3>
-            <ul className="space-y-1">
+            <ul className="space-y-1 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
               {relatedTools.map((tool) => (
                 <li key={tool.slug}>
                   <Link href={tool.href} className="block py-2 px-3 rounded-md text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors flex items-center justify-between group">
@@ -381,21 +392,17 @@ export default function CalculatorPage() {
             <div className="mt-6 pt-6 border-t">
                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                 <div className="h-1 w-1 rounded-full bg-green-500"></div>
-                Popular Tools
+                All Categories
               </h3>
               <ul className="space-y-2">
-                <li>
-                  <Link href="/calculator/bmi-calculator" className="text-sm text-muted-foreground hover:text-primary block">BMI Calculator</Link>
-                </li>
-                <li>
-                  <Link href="/calculator/percentage-calculator" className="text-sm text-muted-foreground hover:text-primary block">Percentage Calculator</Link>
-                </li>
-                <li>
-                  <Link href="/calculator/loan-emi-calculator" className="text-sm text-muted-foreground hover:text-primary block">Loan Calculator</Link>
-                </li>
-                <li>
-                  <Link href="/calculator/age-calculator" className="text-sm text-muted-foreground hover:text-primary block">Age Calculator</Link>
-                </li>
+                {calculatorCategories.map(cat => (
+                    <li key={cat.slug}>
+                        <Link href={`/${cat.slug}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary hover:underline">
+                            <ChevronRight className="h-3 w-3" />
+                            {cat.title}
+                        </Link>
+                    </li>
+                ))}
               </ul>
             </div>
           </div>
