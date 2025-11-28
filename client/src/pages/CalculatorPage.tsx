@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft } from "lucide-react";
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
+import { useEffect } from "react";
 
 import BMICalculator from "@/components/BMICalculator";
 import StandardCalculator from "@/components/StandardCalculator";
@@ -301,6 +302,54 @@ export default function CalculatorPage() {
   };
 
   const toolData = getToolData(slug);
+
+  useEffect(() => {
+    // Update Title
+    document.title = `${title} - Free Online Tool | CalcHub`;
+
+    // Update Meta Description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', toolData?.description || `Free online ${title.toLowerCase()} for instant results. Accurate, fast, and easy to use.`);
+
+    // Update Canonical URL
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', `https://calchub.replit.app/calculator/${slug}`);
+
+    // Structured Data (SoftwareApplication)
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": title,
+      "applicationCategory": category.name,
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": toolData?.description || `Free online ${title.toLowerCase()} for instant results.`
+    };
+
+    let scriptTag = document.querySelector('#schema-structured-data');
+    if (!scriptTag) {
+      scriptTag = document.createElement('script');
+      scriptTag.id = 'schema-structured-data';
+      scriptTag.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(scriptTag);
+    }
+    scriptTag.textContent = JSON.stringify(schemaData);
+
+  }, [title, slug, toolData, category]);
 
   return (
     <Layout>
