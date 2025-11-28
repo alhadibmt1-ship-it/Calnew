@@ -43,6 +43,29 @@ import TimeZoneConverter from "@/components/TimeZoneConverter";
 import AgeGapCalculator from "@/components/AgeGapCalculator";
 import BirthdayCountdown from "@/components/BirthdayCountdown";
 
+import BodyFatCalculator from "@/components/BodyFatCalculator";
+import PregnancyCalculator from "@/components/PregnancyCalculator";
+import OvulationCalculator from "@/components/OvulationCalculator";
+import WaterIntakeCalculator from "@/components/WaterIntakeCalculator";
+import MacroCalculator from "@/components/MacroCalculator";
+import SleepCalculator from "@/components/SleepCalculator";
+
+import FractionCalculator from "@/components/FractionCalculator";
+import TriangleCalculator from "@/components/TriangleCalculator";
+import VolumeCalculator from "@/components/VolumeCalculator";
+import QuadraticCalculator from "@/components/QuadraticCalculator";
+import RomanNumeralConverter from "@/components/RomanNumeralConverter";
+
+import HexConverter from "@/components/HexConverter";
+import FactorCalculator from "@/components/FactorCalculator";
+import LogarithmCalculator from "@/components/LogarithmCalculator";
+import RatioCalculator from "@/components/RatioCalculator";
+import RootCalculator from "@/components/RootCalculator";
+import StandardDeviationCalculator from "@/components/StandardDeviationCalculator";
+import TextRepeater from "@/components/TextRepeater";
+import QRCodeGenerator from "@/components/QRCodeGenerator";
+import ColorPicker from "@/components/ColorPicker";
+
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
   const slug = params?.slug || "";
@@ -65,6 +88,20 @@ export default function CalculatorPage() {
         return <BMRCalculator />;
       case "ideal-weight-calculator":
         return <IdealWeightCalculator />;
+      case "body-fat-calculator":
+        return <BodyFatCalculator />;
+      case "pregnancy-calculator":
+      case "due-date-calculator":
+        return <PregnancyCalculator />;
+      case "ovulation-calculator":
+        return <OvulationCalculator />;
+      case "water-intake-calculator":
+        return <WaterIntakeCalculator />;
+      case "macro-calculator":
+      case "tdee-calculator":
+        return <MacroCalculator />;
+      case "sleep-calculator":
+        return <SleepCalculator />;
       
       // Math
       case "standard-calculator":
@@ -84,12 +121,36 @@ export default function CalculatorPage() {
       case "binary-to-decimal":
       case "decimal-to-binary":
       case "number-base-converter":
+      case "binary-to-decimal-converter":
         return <BinaryConverter />;
       case "prime-checker":
       case "prime-number-checker":
         return <PrimeChecker />;
       case "subnet-calculator":
         return <SubnetCalculator />;
+      case "fraction-calculator":
+        return <FractionCalculator />;
+      case "triangle-calculator":
+        return <TriangleCalculator />;
+      case "volume-calculator":
+        return <VolumeCalculator />;
+      case "quadratic-formula":
+      case "equation-calculator":
+        return <QuadraticCalculator />;
+      case "roman-numeral-converter":
+        return <RomanNumeralConverter />;
+      case "hex-to-decimal-converter":
+        return <HexConverter />;
+      case "factor-calculator":
+        return <FactorCalculator />;
+      case "logarithm-calculator":
+        return <LogarithmCalculator />;
+      case "ratio-calculator":
+        return <RatioCalculator />;
+      case "root-calculator":
+        return <RootCalculator />;
+      case "standard-deviation":
+        return <StandardDeviationCalculator />;
 
       // Financial
       case "loan-emi-calculator":
@@ -163,6 +224,12 @@ export default function CalculatorPage() {
         return <PasswordGenerator />;
       case "case-converter":
         return <CaseConverter />;
+      case "text-repeater":
+        return <TextRepeater />;
+      case "qr-code-generator":
+        return <QRCodeGenerator />;
+      case "color-picker-tool":
+        return <ColorPicker />;
 
       // Unit Converters (Dynamic mapping)
       case "length-converter":
