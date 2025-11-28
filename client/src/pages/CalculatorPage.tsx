@@ -29,6 +29,7 @@ import BMRCalculator from "@/components/BMRCalculator";
 import BinaryConverter from "@/components/BinaryConverter";
 import PrimeChecker from "@/components/PrimeChecker";
 import IdealWeightCalculator from "@/components/IdealWeightCalculator";
+import CurrencyConverter from "@/components/CurrencyConverter";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -103,6 +104,8 @@ export default function CalculatorPage() {
       case "margin-calculator":
       case "profit-margin":
         return <ProfitMarginCalculator />;
+      case "currency-converter":
+        return <CurrencyConverter />;
 
       // Daily Life
       case "age-calculator":
