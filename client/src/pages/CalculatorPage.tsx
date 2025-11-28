@@ -6,6 +6,7 @@ import { ArrowLeft, Construction } from "lucide-react";
 import { Link } from "wouter";
 import BMICalculator from "@/components/BMICalculator";
 import StandardCalculator from "@/components/StandardCalculator";
+import ScientificCalculator from "@/components/ScientificCalculator";
 import CaloriesCalculator from "@/components/CaloriesCalculator";
 import AgeCalculator from "@/components/AgeCalculator";
 import LoanCalculator from "@/components/LoanCalculator";
@@ -16,6 +17,10 @@ import TipCalculator from "@/components/TipCalculator";
 import WordCounter from "@/components/WordCounter";
 import PasswordGenerator from "@/components/PasswordGenerator";
 import DiscountCalculator from "@/components/DiscountCalculator";
+import GSTCalculator from "@/components/GSTCalculator";
+import DateCalculator from "@/components/DateCalculator";
+import RandomGenerator from "@/components/RandomGenerator";
+import CaseConverter from "@/components/CaseConverter";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -39,8 +44,12 @@ export default function CalculatorPage() {
       // Math
       case "standard-calculator":
         return <StandardCalculator />;
+      case "scientific-calculator":
+        return <ScientificCalculator />;
       case "percentage-calculator":
         return <PercentageCalculator />;
+      case "random-number-generator":
+        return <RandomGenerator />;
 
       // Financial
       case "loan-emi-calculator":
@@ -56,12 +65,17 @@ export default function CalculatorPage() {
 
       case "discount-calculator":
         return <DiscountCalculator />;
+      case "gst-vat-calculator":
+        return <GSTCalculator />;
 
       // Daily Life
       case "age-calculator":
         return <AgeCalculator />;
       case "tip-calculator":
         return <TipCalculator />;
+      case "date-calculator":
+      case "days-between-dates":
+        return <DateCalculator />;
 
       // SEO
       case "word-counter":
@@ -69,6 +83,8 @@ export default function CalculatorPage() {
         return <WordCounter />;
       case "password-generator":
         return <PasswordGenerator />;
+      case "case-converter":
+        return <CaseConverter />;
 
       // Unit Converters (Dynamic mapping)
       case "length-converter":
@@ -78,6 +94,9 @@ export default function CalculatorPage() {
       case "volume-converter":
       case "speed-converter":
       case "time-converter":
+      case "pressure-converter":
+      case "energy-converter":
+      case "power-converter":
         return <UnitConverter type={slug.replace("-converter", "")} />;
 
       default:
