@@ -66,7 +66,7 @@ export default function Home() {
   const allTools = categories.flatMap(cat => cat.items.map(item => ({
     name: item,
     category: cat.title,
-    href: `/calculator/${item.toLowerCase().replace(/\s+/g, '-')}`
+    href: `/calculator/${item.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
   })));
 
   const filteredTools = search 

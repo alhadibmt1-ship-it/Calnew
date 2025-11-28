@@ -58,6 +58,7 @@ export default function CalculatorPage() {
       case "percentage-calculator":
         return <PercentageCalculator />;
       case "random-number-generator":
+      case "random-number":
         return <RandomGenerator />;
       case "geometry-calculator":
         return <GeometryCalculator />;
@@ -82,17 +83,21 @@ export default function CalculatorPage() {
       case "simple-interest-calculator":
       case "compound-interest-calculator":
       case "interest-calculator":
+      case "compound-interest":
         return <InterestCalculator />;
 
       case "discount-calculator":
         return <DiscountCalculator />;
       case "gst-vat-calculator":
+      case "gst-calculator":
+      case "vat-calculator":
         return <GSTCalculator />;
       case "salary-calculator":
       case "paycheck-calculator":
         return <SalaryCalculator />;
       case "profit-margin-calculator":
       case "margin-calculator":
+      case "profit-margin":
         return <ProfitMarginCalculator />;
 
       // Daily Life
