@@ -30,6 +30,10 @@ import BinaryConverter from "@/components/BinaryConverter";
 import PrimeChecker from "@/components/PrimeChecker";
 import IdealWeightCalculator from "@/components/IdealWeightCalculator";
 import CurrencyConverter from "@/components/CurrencyConverter";
+import SavingGoalCalculator from "@/components/SavingGoalCalculator";
+import InvestmentCalculator from "@/components/InvestmentCalculator";
+import RetirementCalculator from "@/components/RetirementCalculator";
+import TaxCalculator from "@/components/TaxCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -82,6 +86,7 @@ export default function CalculatorPage() {
       case "loan-calculator":
       case "mortgage-calculator": 
       case "auto-loan-calculator":
+      case "amortization-calculator":
         return <LoanCalculator />;
       
       case "simple-interest-calculator":
@@ -106,6 +111,16 @@ export default function CalculatorPage() {
         return <ProfitMarginCalculator />;
       case "currency-converter":
         return <CurrencyConverter />;
+      case "saving-goal-calculator":
+      case "savings-calculator":
+        return <SavingGoalCalculator />;
+      case "investment-calculator":
+        return <InvestmentCalculator />;
+      case "retirement-calculator":
+        return <RetirementCalculator />;
+      case "tax-calculator":
+      case "income-tax-calculator":
+        return <TaxCalculator />;
 
       // Daily Life
       case "age-calculator":
