@@ -163,11 +163,62 @@ export default function CalculatorPage() {
 
   const getCategoryInfo = (slug: string) => {
     const s = slug.toLowerCase();
-    if (s.includes('bmi') || s.includes('calorie') || s.includes('bmr') || s.includes('ideal-weight')) return { name: "Health", href: "/health" };
-    if (s.includes('loan') || s.includes('mortgage') || s.includes('interest') || s.includes('gst') || s.includes('vat') || s.includes('salary') || s.includes('discount') || s.includes('profit')) return { name: "Financial", href: "/financial" };
-    if (s.includes('converter') && !s.includes('case')) return { name: "Converters", href: "/converters" };
-    if (s.includes('word') || s.includes('password') || s.includes('case')) return { name: "SEO Tools", href: "/seo-tools" };
-    if (s.includes('age') || s.includes('date') || s.includes('tip')) return { name: "Daily Life", href: "/other" };
+    
+    // Health
+    if (
+      s.includes('bmi') || 
+      s.includes('calorie') || 
+      s.includes('bmr') || 
+      s.includes('ideal-weight') ||
+      s.includes('body-fat') ||
+      s.includes('water-intake') ||
+      s.includes('sleep') ||
+      s.includes('ovulation')
+    ) return { name: "Health", href: "/health" };
+
+    // Financial
+    if (
+      s.includes('loan') || 
+      s.includes('mortgage') || 
+      s.includes('interest') || 
+      s.includes('gst') || 
+      s.includes('vat') || 
+      s.includes('salary') || 
+      s.includes('paycheck') ||
+      s.includes('discount') || 
+      s.includes('profit') ||
+      s.includes('margin') ||
+      s.includes('emi')
+    ) return { name: "Financial", href: "/financial" };
+
+    // Converters (Must be before generic 'calculator' checks if any)
+    if (
+      (s.includes('converter') && !s.includes('case')) ||
+      s.includes('to-binary') ||
+      s.includes('to-decimal') ||
+      s.includes('base-converter')
+    ) return { name: "Converters", href: "/converters" };
+
+    // SEO Tools
+    if (
+      s.includes('word') || 
+      s.includes('character') || 
+      s.includes('password') || 
+      s.includes('case') ||
+      s.includes('qr') ||
+      s.includes('text-repeater')
+    ) return { name: "SEO Tools", href: "/seo-tools" };
+
+    // Daily Life
+    if (
+      s.includes('age') || 
+      s.includes('date') || 
+      s.includes('time') || 
+      s.includes('tip') ||
+      s.includes('day')
+    ) return { name: "Daily Life", href: "/other" };
+
+    // Math (Default)
     return { name: "Math", href: "/math" };
   };
 
