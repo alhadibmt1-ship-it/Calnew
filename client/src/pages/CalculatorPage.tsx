@@ -1,9 +1,10 @@
 import Layout from "@/components/Layout";
-import { useRoute } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRoute, Link } from "wouter";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Construction } from "lucide-react";
-import { Link } from "wouter";
+import { ArrowRight, Construction, Home, ChevronRight } from "lucide-react";
+import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
+
 import BMICalculator from "@/components/BMICalculator";
 import StandardCalculator from "@/components/StandardCalculator";
 import ScientificCalculator from "@/components/ScientificCalculator";
@@ -271,109 +272,135 @@ export default function CalculatorPage() {
   };
 
   const getCategoryInfo = (slug: string) => {
-    const s = slug.toLowerCase();
+    const allTools = getAllTools();
+    const tool = allTools.find(t => t.slug === slug || t.slug === slug.replace(/-calculator$/, ''));
     
-    // Health
-    if (
-      s.includes('bmi') || 
-      s.includes('calorie') || 
-      s.includes('bmr') || 
-      s.includes('ideal-weight') ||
-      s.includes('body-fat') ||
-      s.includes('water-intake') ||
-      s.includes('sleep') ||
-      s.includes('ovulation')
-    ) return { name: "Health", href: "/health" };
-
-    // Financial
-    if (
-      s.includes('loan') || 
-      s.includes('mortgage') || 
-      s.includes('interest') || 
-      s.includes('gst') || 
-      s.includes('vat') || 
-      s.includes('salary') || 
-      s.includes('paycheck') || 
-      s.includes('discount') || 
-      s.includes('profit') ||
-      s.includes('margin') ||
-      s.includes('emi') ||
-      s.includes('tax') ||
-      s.includes('investment') ||
-      s.includes('retirement') ||
-      s.includes('amortization') ||
-      s.includes('currency') ||
-      s.includes('saving')
-    ) return { name: "Financial", href: "/financial" };
-
-    // Converters (Must be before generic 'calculator' checks if any)
-    if (
-      (s.includes('converter') && !s.includes('case')) ||
-      s.includes('to-binary') ||
-      s.includes('to-decimal') ||
-      s.includes('base-converter')
-    ) return { name: "Converters", href: "/converters" };
-
-    // SEO Tools
-    if (
-      s.includes('word') || 
-      s.includes('character') || 
-      s.includes('password') || 
-      s.includes('case') ||
-      s.includes('qr') ||
-      s.includes('text-repeater')
-    ) return { name: "SEO Tools", href: "/seo-tools" };
-
-    // Daily Life
-    if (
-      s.includes('age') || 
-      s.includes('date') || 
-      s.includes('time') || 
-      s.includes('tip') ||
-      s.includes('day') ||
-      s.includes('concrete') ||
-      s.includes('grade') ||
-      s.includes('gpa') ||
-      s.includes('subnet') ||
-      s.includes('time-zone')
-    ) return { name: "Daily Life", href: "/other" };
-
-    // Math (Default)
+    if (tool) {
+      return { name: tool.category, href: `/${tool.categorySlug}` };
+    }
+    
+    // Fallbacks for aliases not in the main list
+    const s = slug.toLowerCase();
+    if (s.includes('bmi') || s.includes('calorie') || s.includes('health')) return { name: "Health", href: "/health" };
+    if (s.includes('loan') || s.includes('tax') || s.includes('finance')) return { name: "Financial", href: "/financial" };
+    if (s.includes('converter')) return { name: "Converters", href: "/converters" };
+    
     return { name: "Math", href: "/math" };
   };
 
   const category = getCategoryInfo(slug);
+  
+  // Get related tools in the same category
+  const relatedTools = getAllTools()
+    .filter(t => t.category === category.name && t.slug !== slug)
+    .slice(0, 10); // Show top 10 related
 
   return (
     <Layout>
-      <div className="space-y-8">
-        <div className="flex items-center gap-4">
-          <Link href={category.href}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href={category.href}>{category.name}</Link>
+      <div className="grid lg:grid-cols-[1fr_300px] gap-8 max-w-7xl mx-auto">
+        
+        {/* Main Content Column */}
+        <div className="space-y-8 min-w-0">
+          
+          {/* Breadcrumbs */}
+          <nav className="flex items-center text-sm text-muted-foreground overflow-x-auto whitespace-nowrap pb-2">
+            <Link href="/" className="hover:text-primary flex items-center gap-1 transition-colors">
+              <Home className="h-4 w-4" />
+              Home
+            </Link>
+            <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
+            <Link href={category.href} className="hover:text-primary transition-colors">
+              {category.name}
+            </Link>
+            <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
+            <span className="font-medium text-foreground">{title}</span>
+          </nav>
+
+          {/* Main Calculator Area */}
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+              <p className="text-lg text-muted-foreground">
+                Free online {title.toLowerCase()} for instant results. Accurate, fast, and easy to use.
+              </p>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+
+            <div className="flex justify-center w-full bg-card rounded-xl border shadow-sm p-4 md:p-8">
+              {renderCalculator()}
+            </div>
+          </div>
+
+          {/* SEO Article / Description */}
+          <section className="prose dark:prose-invert max-w-none bg-muted/30 p-8 rounded-xl border">
+            <h2>About {title}</h2>
+            <p>
+              This <strong>{title}</strong> is a free online tool designed to help you calculate {title.toLowerCase().replace('calculator', '')} quickly and accurately. 
+              Whether you're a student, professional, or just need to make a quick calculation, our tool provides instant results without any complex setup.
+            </p>
+            
+            <h3>How to use this calculator</h3>
+            <ul>
+              <li>Enter the required values in the input fields above.</li>
+              <li>Check that the units are correct (if applicable).</li>
+              <li>Click the "Calculate" or "Convert" button to see your result.</li>
+              <li>Use the "Reset" or "Clear" button to start a new calculation.</li>
+            </ul>
+
+            <h3>Why use CalcHub?</h3>
+            <p>
+              CalcHub provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
+              Our tools are:
+            </p>
+            <ul>
+              <li><strong>Free:</strong> No registration or payment required.</li>
+              <li><strong>Fast:</strong> Instant results right in your browser.</li>
+              <li><strong>Private:</strong> Calculations happen on your device; we don't store your personal data.</li>
+              <li><strong>Mobile-Friendly:</strong> Works perfectly on phones, tablets, and desktops.</li>
+            </ul>
+          </section>
+        </div>
+
+        {/* Sidebar Column */}
+        <div className="space-y-6">
+          <div className="bg-card rounded-xl border shadow-sm p-6 sticky top-24">
+            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+              <div className="h-1 w-1 rounded-full bg-primary"></div>
+              More {category.name} Tools
+            </h3>
+            <ul className="space-y-1">
+              {relatedTools.map((tool) => (
+                <li key={tool.slug}>
+                  <Link href={tool.href} className="block py-2 px-3 rounded-md text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors flex items-center justify-between group">
+                    <span>{tool.name}</span>
+                    <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            
+            <div className="mt-6 pt-6 border-t">
+               <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                <div className="h-1 w-1 rounded-full bg-green-500"></div>
+                Popular Tools
+              </h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/calculator/bmi-calculator" className="text-sm text-muted-foreground hover:text-primary block">BMI Calculator</Link>
+                </li>
+                <li>
+                  <Link href="/calculator/percentage-calculator" className="text-sm text-muted-foreground hover:text-primary block">Percentage Calculator</Link>
+                </li>
+                <li>
+                  <Link href="/calculator/loan-emi-calculator" className="text-sm text-muted-foreground hover:text-primary block">Loan Calculator</Link>
+                </li>
+                <li>
+                  <Link href="/calculator/age-calculator" className="text-sm text-muted-foreground hover:text-primary block">Age Calculator</Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="flex justify-center">
-          {renderCalculator()}
-        </div>
-
-        <section className="prose dark:prose-invert max-w-none mt-12">
-          <h2>About {title}</h2>
-          <p>
-            This comprehensive {title.toLowerCase()} is designed to provide accurate and instant results. 
-            Like all our tools at CalcHub, it is completely free to use and optimized for both desktop and mobile devices.
-          </p>
-        </section>
       </div>
     </Layout>
   );
