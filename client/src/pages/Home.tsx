@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "wouter";
 import { useState } from "react";
+import { calculatorCategories } from "@/lib/calculator-data";
 import { 
   Calculator, 
   TrendingUp, 
@@ -23,7 +24,10 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [, setLocation] = useLocation();
 
-  const categories = [
+  // Local categories for the cards (using specific icons and subset if needed, 
+  // but mapped to match the structure if we want consistent icons)
+  // We'll keep the existing visual cards as they are for the main UI
+  const featuredCategories = [
     {
       title: "Finance & Business",
       href: "/financial",
@@ -81,7 +85,7 @@ export default function Home() {
   ];
 
   // Flatten items for search
-  const allTools = categories.flatMap(cat => cat.items.map(item => ({
+  const allTools = featuredCategories.flatMap(cat => cat.items.map(item => ({
     name: typeof item === 'string' ? item : item.name,
     category: cat.title,
     href: `/calculator/${(typeof item === 'string' ? item : item.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
@@ -176,7 +180,7 @@ export default function Home() {
 
             {/* All Categories with Links */}
             <div className="grid gap-6 sm:grid-cols-2">
-              {categories.map((cat) => (
+              {featuredCategories.map((cat) => (
                 <Link key={cat.title} href={cat.href} className="block h-full group">
                   <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer">
                     <CardHeader className="pb-3">
@@ -298,6 +302,39 @@ export default function Home() {
 
           </div>
         </div>
+
+        {/* Full Tools Sitemap / Footer Section */}
+        <section className="mt-12 pt-12 border-t border-border">
+          <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
+             <div className="h-2 w-2 rounded-full bg-primary"></div>
+             All Calculators & Tools
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
+            {calculatorCategories.map((cat) => (
+              <div key={cat.title} className="space-y-4">
+                <Link href={`/${cat.slug}`} className="block group">
+                  <h3 className="font-semibold text-lg flex items-center gap-2 group-hover:text-primary transition-colors">
+                    {/* We can use the icon component if we want, but let's keep it simple text for footer */}
+                    {cat.title}
+                    <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </h3>
+                </Link>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {cat.items.map((item) => {
+                    const slug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                    return (
+                      <li key={item.name}>
+                        <Link href={`/calculator/${slug}`} className="hover:text-primary hover:underline block py-0.5">
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </Layout>
   );
