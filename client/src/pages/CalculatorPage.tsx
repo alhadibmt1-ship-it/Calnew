@@ -184,11 +184,17 @@ export default function CalculatorPage() {
       s.includes('gst') || 
       s.includes('vat') || 
       s.includes('salary') || 
-      s.includes('paycheck') ||
+      s.includes('paycheck') || 
       s.includes('discount') || 
       s.includes('profit') ||
       s.includes('margin') ||
-      s.includes('emi')
+      s.includes('emi') ||
+      s.includes('tax') ||
+      s.includes('investment') ||
+      s.includes('retirement') ||
+      s.includes('amortization') ||
+      s.includes('currency') ||
+      s.includes('saving')
     ) return { name: "Financial", href: "/financial" };
 
     // Converters (Must be before generic 'calculator' checks if any)
