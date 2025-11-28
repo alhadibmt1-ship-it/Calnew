@@ -35,6 +35,10 @@ import InvestmentCalculator from "@/components/InvestmentCalculator";
 import RetirementCalculator from "@/components/RetirementCalculator";
 import TaxCalculator from "@/components/TaxCalculator";
 import ConcreteCalculator from "@/components/ConcreteCalculator";
+import SubnetCalculator from "@/components/SubnetCalculator";
+import GPACalculator from "@/components/GPACalculator";
+import GradeCalculator from "@/components/GradeCalculator";
+import TimeCalculator from "@/components/TimeCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -81,6 +85,8 @@ export default function CalculatorPage() {
       case "prime-checker":
       case "prime-number-checker":
         return <PrimeChecker />;
+      case "subnet-calculator":
+        return <SubnetCalculator />;
 
       // Financial
       case "loan-emi-calculator":
@@ -133,6 +139,12 @@ export default function CalculatorPage() {
         return <DateCalculator />;
       case "concrete-calculator":
         return <ConcreteCalculator />;
+      case "gpa-calculator":
+        return <GPACalculator />;
+      case "grade-calculator":
+        return <GradeCalculator />;
+      case "time-calculator":
+        return <TimeCalculator />;
 
       // SEO
       case "word-counter":
@@ -243,7 +255,10 @@ export default function CalculatorPage() {
       s.includes('time') || 
       s.includes('tip') ||
       s.includes('day') ||
-      s.includes('concrete')
+      s.includes('concrete') ||
+      s.includes('grade') ||
+      s.includes('gpa') ||
+      s.includes('subnet')
     ) return { name: "Daily Life", href: "/other" };
 
     // Math (Default)
