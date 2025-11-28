@@ -91,6 +91,7 @@ export default function CalculatorPage() {
       case "gst-vat-calculator":
       case "gst-calculator":
       case "vat-calculator":
+      case "gstvat-calculator":
         return <GSTCalculator />;
       case "salary-calculator":
       case "paycheck-calculator":
