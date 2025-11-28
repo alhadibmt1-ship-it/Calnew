@@ -38,6 +38,7 @@ import ConcreteCalculator from "@/components/ConcreteCalculator";
 import SubnetCalculator from "@/components/SubnetCalculator";
 import GPACalculator from "@/components/GPACalculator";
 import GradeCalculator from "@/components/GradeCalculator";
+import TimeCalculator from "@/components/TimeCalculator";
 import TimeZoneConverter from "@/components/TimeZoneConverter";
 import AgeGapCalculator from "@/components/AgeGapCalculator";
 import BirthdayCountdown from "@/components/BirthdayCountdown";
