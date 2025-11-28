@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Construction, Home, ChevronRight } from "lucide-react";
+import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft } from "lucide-react";
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 
 import BMICalculator from "@/components/BMICalculator";
@@ -310,18 +310,25 @@ export default function CalculatorPage() {
         <div className="space-y-8 min-w-0">
           
           {/* Breadcrumbs */}
-          <nav className="flex items-center text-sm text-muted-foreground overflow-x-auto whitespace-nowrap pb-2">
-            <Link href="/" className="hover:text-primary flex items-center gap-1 transition-colors">
-              <Home className="h-4 w-4" />
-              Home
+          <div className="flex items-center gap-2">
+            <Link href={category.href}>
+              <Button variant="ghost" size="icon" className="-ml-3 text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
             </Link>
-            <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
-            <Link href={category.href} className="hover:text-primary transition-colors">
-              {category.name}
-            </Link>
-            <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
-            <span className="font-medium text-foreground">{title}</span>
-          </nav>
+            <nav className="flex items-center text-sm text-muted-foreground overflow-x-auto whitespace-nowrap pb-2">
+              <Link href="/" className="hover:text-primary flex items-center gap-1 transition-colors">
+                <Home className="h-4 w-4" />
+                Home
+              </Link>
+              <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
+              <Link href={category.href} className="hover:text-primary transition-colors">
+                {category.name}
+              </Link>
+              <ChevronRight className="h-4 w-4 mx-2 shrink-0" />
+              <span className="font-medium text-foreground">{title}</span>
+            </nav>
+          </div>
 
           {/* Main Calculator Area */}
           <div className="space-y-6">
