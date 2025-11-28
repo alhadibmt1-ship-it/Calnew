@@ -21,6 +21,9 @@ import GSTCalculator from "@/components/GSTCalculator";
 import DateCalculator from "@/components/DateCalculator";
 import RandomGenerator from "@/components/RandomGenerator";
 import CaseConverter from "@/components/CaseConverter";
+import GeometryCalculator from "@/components/GeometryCalculator";
+import AlgebraCalculator from "@/components/AlgebraCalculator";
+import SalaryCalculator from "@/components/SalaryCalculator";
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -50,6 +53,11 @@ export default function CalculatorPage() {
         return <PercentageCalculator />;
       case "random-number-generator":
         return <RandomGenerator />;
+      case "geometry-calculator":
+        return <GeometryCalculator />;
+      case "algebra-solver":
+      case "algebra-calculator":
+        return <AlgebraCalculator />;
 
       // Financial
       case "loan-emi-calculator":
@@ -67,6 +75,9 @@ export default function CalculatorPage() {
         return <DiscountCalculator />;
       case "gst-vat-calculator":
         return <GSTCalculator />;
+      case "salary-calculator":
+      case "paycheck-calculator":
+        return <SalaryCalculator />;
 
       // Daily Life
       case "age-calculator":
