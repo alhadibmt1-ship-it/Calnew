@@ -1,11 +1,9 @@
 import Layout from "@/components/Layout";
-import StandardCalculator from "@/components/StandardCalculator";
-import BMICalculator from "@/components/BMICalculator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "wouter";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { calculatorCategories } from "@/lib/calculator-data";
 import { 
   Calculator, 
@@ -17,8 +15,13 @@ import {
   Type,
   Search,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Loader2
 } from "lucide-react";
+
+// Lazy load the prominent calculators to reduce initial bundle size
+const StandardCalculator = lazy(() => import("@/components/StandardCalculator"));
+const BMICalculator = lazy(() => import("@/components/BMICalculator"));
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -164,7 +167,13 @@ export default function Home() {
                   Standard Calculator
                 </h2>
               </div>
-              <StandardCalculator />
+              <Suspense fallback={
+                <div className="h-[400px] flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 rounded-xl border">
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+              }>
+                <StandardCalculator />
+              </Suspense>
             </section>
 
              {/* Featured Calculator - BMI */}
@@ -174,7 +183,13 @@ export default function Home() {
                 Featured: BMI Calculator
               </h2>
               <div className="max-w-2xl">
-                <BMICalculator />
+                <Suspense fallback={
+                  <div className="h-[300px] flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 rounded-xl border">
+                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  </div>
+                }>
+                  <BMICalculator />
+                </Suspense>
               </div>
             </section>
 
