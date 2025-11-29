@@ -52,18 +52,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-4">
             {/* Search - Visual only for now */}
             <div className="hidden md:flex relative w-full max-w-sm items-center">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" aria-hidden="true" />
               <Input
                 type="search"
                 placeholder="Search calculators..."
                 className="w-32 lg:w-64 pl-9 h-9 bg-muted/50 border-transparent focus:bg-background focus:border-input transition-all"
+                aria-label="Search calculators"
               />
             </div>
 
             {/* Mobile Menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -100,33 +101,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h3 className="font-semibold mb-4">Financial</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Mortgage Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Loan Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">GST/VAT Calculator</a></li>
+                <li><Link href="/calculator/mortgage-calculator" className="hover:text-foreground">Mortgage Calculator</Link></li>
+                <li><Link href="/calculator/loan-calculator" className="hover:text-foreground">Loan Calculator</Link></li>
+                <li><Link href="/calculator/gst-vat-calculator" className="hover:text-foreground">GST/VAT Calculator</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Fitness & Health</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">BMI Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Calorie Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Body Fat Calculator</a></li>
+                <li><Link href="/calculator/bmi-calculator" className="hover:text-foreground">BMI Calculator</Link></li>
+                <li><Link href="/calculator/calorie-calculator" className="hover:text-foreground">Calorie Calculator</Link></li>
+                <li><Link href="/calculator/body-fat-calculator" className="hover:text-foreground">Body Fat Calculator</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Tools</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Unit Converters</a></li>
-                <li><a href="#" className="hover:text-foreground">Password Generator</a></li>
-                <li><a href="#" className="hover:text-foreground">Word Counter</a></li>
+                <li><Link href="/converters" className="hover:text-foreground">Unit Converters</Link></li>
+                <li><Link href="/calculator/password-generator" className="hover:text-foreground">Password Generator</Link></li>
+                <li><Link href="/calculator/word-counter" className="hover:text-foreground">Word Counter</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Daily Life</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Age Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Date Calculator</a></li>
-                <li><a href="#" className="hover:text-foreground">Tip Calculator</a></li>
+                <li><Link href="/calculator/age-calculator" className="hover:text-foreground">Age Calculator</Link></li>
+                <li><Link href="/calculator/date-calculator" className="hover:text-foreground">Date Calculator</Link></li>
+                <li><Link href="/calculator/tip-calculator" className="hover:text-foreground">Tip Calculator</Link></li>
               </ul>
             </div>
           </div>
@@ -134,8 +135,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <p>&copy; 2025 CalcSmart24. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <Link href="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
-              <a href="#" className="hover:text-foreground">Terms of Use</a>
-              <a href="#" className="hover:text-foreground">About Us</a>
+              <Link href="/terms" className="hover:text-foreground">Terms of Use</Link>
+              <Link href="/about" className="hover:text-foreground">About Us</Link>
             </div>
           </div>
         </div>

@@ -359,7 +359,7 @@ export default function CalculatorPage() {
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2">
             <Link href={category.href}>
-              <Button variant="ghost" size="icon" className="-ml-3 text-muted-foreground hover:text-foreground">
+              <Button variant="ghost" size="icon" className="-ml-3 text-muted-foreground hover:text-foreground" aria-label="Back to category">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>

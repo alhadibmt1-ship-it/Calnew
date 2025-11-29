@@ -118,12 +118,13 @@ export default function Home() {
             
             <div className="relative max-w-lg mx-auto">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
                 <Input 
                   className="pl-10 h-12 text-lg bg-background shadow-sm rounded-xl border-slate-200" 
                   placeholder="Search for a calculator..." 
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
+                  aria-label="Search for a calculator"
                 />
               </div>
               
