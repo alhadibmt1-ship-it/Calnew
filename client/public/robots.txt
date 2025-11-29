@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://calcsmart.replit.app/sitemap.xml
+Sitemap: https://calcsmart24.replit.app/sitemap.xml

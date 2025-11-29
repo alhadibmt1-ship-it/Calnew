@@ -216,9 +216,9 @@ export default function Home() {
 
             {/* SEO Content Block */}
             <section className="prose dark:prose-invert max-w-none bg-slate-50 dark:bg-slate-900/50 p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
-              <h2>About CalcSmart</h2>
+              <h2>About CalcSmart24</h2>
               <p>
-                CalcSmart is your one-stop destination for online calculations. We understand that not everyone loves math, 
+                CalcSmart24 is your one-stop destination for online calculations. We understand that not everyone loves math, 
                 which is why we've built intuitive tools to handle the numbers for you.
               </p>
               <div className="grid sm:grid-cols-2 gap-8 mt-4 not-prose">

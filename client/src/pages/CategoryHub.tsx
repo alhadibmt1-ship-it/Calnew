@@ -71,7 +71,7 @@ export default function CategoryHub() {
           <p>
             Our {currentCategory.title.toLowerCase()} collection is designed to provide precise and instant answers for your needs. 
             Whether you are looking for {currentCategory.items[0].name.toLowerCase()} or {currentCategory.items[1].name.toLowerCase()}, 
-            CalcSmart ensures accuracy and ease of use.
+            CalcSmart24 ensures accuracy and ease of use.
           </p>
           <p>
             All calculators are free to use, mobile-friendly, and require no registration. Bookmark this page to have quick access to 

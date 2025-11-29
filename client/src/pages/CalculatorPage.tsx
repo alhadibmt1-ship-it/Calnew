@@ -305,7 +305,7 @@ export default function CalculatorPage() {
 
   useEffect(() => {
     // Update Title
-    document.title = `${title} - Free Online Tool | CalcSmart`;
+    document.title = `${title} - Free Online Tool | CalcSmart24`;
 
     // Update Meta Description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -323,7 +323,7 @@ export default function CalculatorPage() {
       canonicalLink.setAttribute('rel', 'canonical');
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.setAttribute('href', `https://calcsmart.replit.app/calculator/${slug}`);
+    canonicalLink.setAttribute('href', `https://calcsmart24.replit.app/calculator/${slug}`);
 
     // Structured Data (SoftwareApplication)
     const schemaData = {
@@ -452,9 +452,9 @@ export default function CalculatorPage() {
 
             {/* General Info */}
             <div>
-              <h3>Why use CalcSmart?</h3>
+              <h3>Why use CalcSmart24?</h3>
               <p>
-                CalcSmart provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
+                CalcSmart24 provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
                 Our tools are:
               </p>
               <ul>
