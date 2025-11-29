@@ -2,71 +2,69 @@ import Layout from "@/components/Layout";
 import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2 } from "lucide-react";
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 
-import BMICalculator from "@/components/BMICalculator";
-import StandardCalculator from "@/components/StandardCalculator";
-import ScientificCalculator from "@/components/ScientificCalculator";
-import CaloriesCalculator from "@/components/CaloriesCalculator";
-import AgeCalculator from "@/components/AgeCalculator";
-import LoanCalculator from "@/components/LoanCalculator";
-import PercentageCalculator from "@/components/PercentageCalculator";
-import UnitConverter from "@/components/UnitConverter";
-import InterestCalculator from "@/components/InterestCalculator";
-import TipCalculator from "@/components/TipCalculator";
-import WordCounter from "@/components/WordCounter";
-import PasswordGenerator from "@/components/PasswordGenerator";
-import DiscountCalculator from "@/components/DiscountCalculator";
-import GSTCalculator from "@/components/GSTCalculator";
-import DateCalculator from "@/components/DateCalculator";
-import RandomGenerator from "@/components/RandomGenerator";
-import CaseConverter from "@/components/CaseConverter";
-import GeometryCalculator from "@/components/GeometryCalculator";
-import AlgebraCalculator from "@/components/AlgebraCalculator";
-import SalaryCalculator from "@/components/SalaryCalculator";
-import ProfitMarginCalculator from "@/components/ProfitMarginCalculator";
-import BMRCalculator from "@/components/BMRCalculator";
-import BinaryConverter from "@/components/BinaryConverter";
-import PrimeChecker from "@/components/PrimeChecker";
-import IdealWeightCalculator from "@/components/IdealWeightCalculator";
-import CurrencyConverter from "@/components/CurrencyConverter";
-import SavingGoalCalculator from "@/components/SavingGoalCalculator";
-import InvestmentCalculator from "@/components/InvestmentCalculator";
-import RetirementCalculator from "@/components/RetirementCalculator";
-import TaxCalculator from "@/components/TaxCalculator";
-import ConcreteCalculator from "@/components/ConcreteCalculator";
-import SubnetCalculator from "@/components/SubnetCalculator";
-import GPACalculator from "@/components/GPACalculator";
-import GradeCalculator from "@/components/GradeCalculator";
-import TimeCalculator from "@/components/TimeCalculator";
-import TimeZoneConverter from "@/components/TimeZoneConverter";
-import AgeGapCalculator from "@/components/AgeGapCalculator";
-import BirthdayCountdown from "@/components/BirthdayCountdown";
-
-import BodyFatCalculator from "@/components/BodyFatCalculator";
-import PregnancyCalculator from "@/components/PregnancyCalculator";
-import OvulationCalculator from "@/components/OvulationCalculator";
-import WaterIntakeCalculator from "@/components/WaterIntakeCalculator";
-import MacroCalculator from "@/components/MacroCalculator";
-import SleepCalculator from "@/components/SleepCalculator";
-
-import FractionCalculator from "@/components/FractionCalculator";
-import TriangleCalculator from "@/components/TriangleCalculator";
-import VolumeCalculator from "@/components/VolumeCalculator";
-import QuadraticCalculator from "@/components/QuadraticCalculator";
-import RomanNumeralConverter from "@/components/RomanNumeralConverter";
-
-import HexConverter from "@/components/HexConverter";
-import FactorCalculator from "@/components/FactorCalculator";
-import LogarithmCalculator from "@/components/LogarithmCalculator";
-import RatioCalculator from "@/components/RatioCalculator";
-import RootCalculator from "@/components/RootCalculator";
-import StandardDeviationCalculator from "@/components/StandardDeviationCalculator";
-import TextRepeater from "@/components/TextRepeater";
-import QRCodeGenerator from "@/components/QRCodeGenerator";
-import ColorPicker from "@/components/ColorPicker";
+// Lazy load calculator components to reduce initial bundle size
+const BMICalculator = lazy(() => import("@/components/BMICalculator"));
+const StandardCalculator = lazy(() => import("@/components/StandardCalculator"));
+const ScientificCalculator = lazy(() => import("@/components/ScientificCalculator"));
+const CaloriesCalculator = lazy(() => import("@/components/CaloriesCalculator"));
+const AgeCalculator = lazy(() => import("@/components/AgeCalculator"));
+const LoanCalculator = lazy(() => import("@/components/LoanCalculator"));
+const PercentageCalculator = lazy(() => import("@/components/PercentageCalculator"));
+const UnitConverter = lazy(() => import("@/components/UnitConverter"));
+const InterestCalculator = lazy(() => import("@/components/InterestCalculator"));
+const TipCalculator = lazy(() => import("@/components/TipCalculator"));
+const WordCounter = lazy(() => import("@/components/WordCounter"));
+const PasswordGenerator = lazy(() => import("@/components/PasswordGenerator"));
+const DiscountCalculator = lazy(() => import("@/components/DiscountCalculator"));
+const GSTCalculator = lazy(() => import("@/components/GSTCalculator"));
+const DateCalculator = lazy(() => import("@/components/DateCalculator"));
+const RandomGenerator = lazy(() => import("@/components/RandomGenerator"));
+const CaseConverter = lazy(() => import("@/components/CaseConverter"));
+const GeometryCalculator = lazy(() => import("@/components/GeometryCalculator"));
+const AlgebraCalculator = lazy(() => import("@/components/AlgebraCalculator"));
+const SalaryCalculator = lazy(() => import("@/components/SalaryCalculator"));
+const ProfitMarginCalculator = lazy(() => import("@/components/ProfitMarginCalculator"));
+const BMRCalculator = lazy(() => import("@/components/BMRCalculator"));
+const BinaryConverter = lazy(() => import("@/components/BinaryConverter"));
+const PrimeChecker = lazy(() => import("@/components/PrimeChecker"));
+const IdealWeightCalculator = lazy(() => import("@/components/IdealWeightCalculator"));
+const CurrencyConverter = lazy(() => import("@/components/CurrencyConverter"));
+const SavingGoalCalculator = lazy(() => import("@/components/SavingGoalCalculator"));
+const InvestmentCalculator = lazy(() => import("@/components/InvestmentCalculator"));
+const RetirementCalculator = lazy(() => import("@/components/RetirementCalculator"));
+const TaxCalculator = lazy(() => import("@/components/TaxCalculator"));
+const ConcreteCalculator = lazy(() => import("@/components/ConcreteCalculator"));
+const SubnetCalculator = lazy(() => import("@/components/SubnetCalculator"));
+const GPACalculator = lazy(() => import("@/components/GPACalculator"));
+const GradeCalculator = lazy(() => import("@/components/GradeCalculator"));
+const TimeCalculator = lazy(() => import("@/components/TimeCalculator"));
+const TimeZoneConverter = lazy(() => import("@/components/TimeZoneConverter"));
+const AgeGapCalculator = lazy(() => import("@/components/AgeGapCalculator"));
+const BirthdayCountdown = lazy(() => import("@/components/BirthdayCountdown"));
+const BodyFatCalculator = lazy(() => import("@/components/BodyFatCalculator"));
+const PregnancyCalculator = lazy(() => import("@/components/PregnancyCalculator"));
+const OvulationCalculator = lazy(() => import("@/components/OvulationCalculator"));
+const WaterIntakeCalculator = lazy(() => import("@/components/WaterIntakeCalculator"));
+const MacroCalculator = lazy(() => import("@/components/MacroCalculator"));
+const SleepCalculator = lazy(() => import("@/components/SleepCalculator"));
+const FractionCalculator = lazy(() => import("@/components/FractionCalculator"));
+const TriangleCalculator = lazy(() => import("@/components/TriangleCalculator"));
+const VolumeCalculator = lazy(() => import("@/components/VolumeCalculator"));
+const QuadraticCalculator = lazy(() => import("@/components/QuadraticCalculator"));
+const RomanNumeralConverter = lazy(() => import("@/components/RomanNumeralConverter"));
+const HexConverter = lazy(() => import("@/components/HexConverter"));
+const FactorCalculator = lazy(() => import("@/components/FactorCalculator"));
+const LogarithmCalculator = lazy(() => import("@/components/LogarithmCalculator"));
+const RatioCalculator = lazy(() => import("@/components/RatioCalculator"));
+const RootCalculator = lazy(() => import("@/components/RootCalculator"));
+const StandardDeviationCalculator = lazy(() => import("@/components/StandardDeviationCalculator"));
+const TextRepeater = lazy(() => import("@/components/TextRepeater"));
+const QRCodeGenerator = lazy(() => import("@/components/QRCodeGenerator"));
+const ColorPicker = lazy(() => import("@/components/ColorPicker"));
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -388,8 +386,15 @@ export default function CalculatorPage() {
               </p>
             </div>
 
-            <div className="flex justify-center w-full bg-card rounded-xl border shadow-sm p-4 md:p-8">
-              {renderCalculator()}
+            <div className="flex justify-center w-full bg-card rounded-xl border shadow-sm p-4 md:p-8 min-h-[400px]">
+              <Suspense fallback={
+                <div className="flex flex-col items-center justify-center h-full space-y-4 p-8 text-muted-foreground w-full">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <p>Loading calculator...</p>
+                </div>
+              }>
+                {renderCalculator()}
+              </Suspense>
             </div>
           </div>
 
