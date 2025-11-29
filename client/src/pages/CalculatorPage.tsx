@@ -323,7 +323,7 @@ export default function CalculatorPage() {
       canonicalLink.setAttribute('rel', 'canonical');
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.setAttribute('href', `https://calcsmart24.replit.app/calculator/${slug}`);
+    canonicalLink.setAttribute('href', `https://calcsmart24.com/calculator/${slug}`);
 
     // Structured Data (SoftwareApplication)
     const schemaData = {
