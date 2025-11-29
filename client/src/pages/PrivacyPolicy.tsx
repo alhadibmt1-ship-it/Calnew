@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
           <CardContent className="p-8 prose dark:prose-invert max-w-none">
             <h2>1. Introduction</h2>
             <p>
-              Welcome to CalcHub ("we," "our," or "us"). We are committed to protecting your privacy and providing a safe online experience. 
+              Welcome to CalcSmart ("we," "our," or "us"). We are committed to protecting your privacy and providing a safe online experience. 
               This Privacy Policy explains how we handle your information when you use our website and online calculator tools.
             </p>
 

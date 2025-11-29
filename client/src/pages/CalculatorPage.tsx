@@ -305,7 +305,7 @@ export default function CalculatorPage() {
 
   useEffect(() => {
     // Update Title
-    document.title = `${title} - Free Online Tool | CalcHub`;
+    document.title = `${title} - Free Online Tool | CalcSmart`;
 
     // Update Meta Description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -452,9 +452,9 @@ export default function CalculatorPage() {
 
             {/* General Info */}
             <div>
-              <h3>Why use CalcHub?</h3>
+              <h3>Why use CalcSmart?</h3>
               <p>
-                CalcHub provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
+                CalcSmart provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
                 Our tools are:
               </p>
               <ul>

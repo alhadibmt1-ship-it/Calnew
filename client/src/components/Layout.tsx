@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
                 <Calculator className="h-5 w-5" />
               </div>
-              <span>CalcHub</span>
+              <span>CalcSmart</span>
             </Link>
 
             {/* Desktop Nav */}
@@ -131,7 +131,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div className="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>&copy; 2025 CalcHub. All rights reserved.</p>
+            <p>&copy; 2025 CalcSmart. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <Link href="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
               <a href="#" className="hover:text-foreground">Terms of Use</a>
