@@ -27,9 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2 md:gap-6">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-90 transition-opacity">
-              <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
-                <Calculator className="h-5 w-5" />
-              </div>
+              <img src="/logo.png" alt="CalcSmart24 Logo" className="h-8 w-8 rounded-lg object-contain" />
               <span>CalcSmart24</span>
             </Link>
 
