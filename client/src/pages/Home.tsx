@@ -122,7 +122,7 @@ export default function Home() {
                 <div className="relative flex items-center bg-background shadow-xl rounded-full border border-slate-200 dark:border-slate-800 p-2 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
                   <Search className="ml-4 h-6 w-6 text-muted-foreground" aria-hidden="true" />
                   <Input 
-                    className="flex-1 border-0 shadow-none focus-visible:ring-0 bg-transparent h-12 text-lg px-4 placeholder:text-muted-foreground/70" 
+                    className="flex-1 border-0 shadow-none focus-visible:ring-0 bg-transparent h-12 text-lg px-4 placeholder:text-muted-foreground/70 relative z-10 text-foreground" 
                     placeholder="What would you like to calculate today?" 
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -374,6 +374,14 @@ export default function Home() {
                       </li>
                     );
                   })}
+                  {/* Manually adding Currency Converter to Financial category if it's missing in the main loop */}
+                  {cat.title === "Financial" && !cat.items.some(i => i.name === "Currency Converter") && (
+                    <li>
+                      <Link href="/calculator/currency-converter" className="hover:text-primary hover:underline block py-0.5">
+                        Currency Converter
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             ))}
