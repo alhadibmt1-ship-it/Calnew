@@ -103,8 +103,8 @@ export default function Home() {
       <div className="space-y-10">
         
         {/* Hero Section with Search */}
-        <section className="relative text-center space-y-6 py-10 bg-slate-50 dark:bg-slate-900 rounded-3xl border shadow-sm overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
+        <section className="relative text-center space-y-6 py-10 bg-slate-50 dark:bg-slate-900 rounded-3xl border shadow-sm">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none rounded-3xl"></div>
           <div className="relative z-10 max-w-3xl mx-auto px-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               <Sparkles className="h-4 w-4" /> 50+ Free Online Tools Added
