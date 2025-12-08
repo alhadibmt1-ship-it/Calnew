@@ -116,39 +116,67 @@ export default function Home() {
               Your all-in-one destination for financial, health, math, and daily utility calculators. Fast, free, and easy to use.
             </p>
             
-            <div className="relative max-w-lg mx-auto">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-                <Input 
-                  className="pl-10 h-12 text-lg bg-background shadow-sm rounded-xl border-slate-200" 
-                  placeholder="Search for a calculator..." 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  aria-label="Search for a calculator"
-                />
+            <div className="relative max-w-2xl mx-auto">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative flex items-center bg-background shadow-xl rounded-full border border-slate-200 dark:border-slate-800 p-2 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+                  <Search className="ml-4 h-6 w-6 text-muted-foreground" aria-hidden="true" />
+                  <Input 
+                    className="flex-1 border-0 shadow-none focus-visible:ring-0 bg-transparent h-12 text-lg px-4 placeholder:text-muted-foreground/70" 
+                    placeholder="What would you like to calculate today?" 
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    aria-label="Search for a calculator"
+                  />
+                  <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 hidden sm:flex">
+                    Search
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Popular Tags */}
+              <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm text-muted-foreground">
+                <span>Try:</span>
+                {['BMI', 'Mortgage', 'Age', 'Percentage', 'Loan'].map(term => (
+                  <button 
+                    key={term}
+                    onClick={() => setSearch(term)}
+                    className="hover:text-primary underline decoration-dotted underline-offset-4 transition-colors"
+                  >
+                    {term}
+                  </button>
+                ))}
               </div>
               
               {/* Search Results Dropdown */}
               {search && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-background rounded-xl border shadow-lg z-50 overflow-hidden">
+                <div className="absolute top-full left-0 right-0 mt-4 bg-background/95 backdrop-blur-sm rounded-2xl border shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
                   {filteredTools.length > 0 ? (
-                    <div className="divide-y">
+                    <div className="divide-y divide-slate-100 dark:divide-slate-800">
                       {filteredTools.map((tool) => (
                         <div 
                           key={tool.name} 
-                          className="p-3 hover:bg-muted cursor-pointer text-left flex items-center justify-between group"
+                          className="p-4 hover:bg-primary/5 cursor-pointer text-left flex items-center justify-between group transition-colors"
                           onClick={() => setLocation(tool.href)}
                         >
-                          <div>
-                            <p className="font-medium text-foreground">{tool.name}</p>
-                            <p className="text-xs text-muted-foreground">{tool.category}</p>
+                          <div className="flex items-center gap-4">
+                            <div className="bg-primary/10 p-2 rounded-lg text-primary">
+                              <Search className="h-4 w-4" />
+                            </div>
+                            <div>
+                              <p className="font-semibold text-foreground">{tool.name}</p>
+                              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{tool.category}</p>
+                            </div>
                           </div>
-                          <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                          <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="p-4 text-muted-foreground text-sm">No tools found.</div>
+                    <div className="p-8 text-center text-muted-foreground">
+                      <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                      <p>No calculators found matching "{search}"</p>
+                    </div>
                   )}
                 </div>
               )}
