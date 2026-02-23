@@ -478,13 +478,15 @@ export default function CalculatorPage() {
               {relatedTools.slice(0, 6).map((tool) => (
                 <Link key={tool.slug} href={tool.href}>
                   <a className="block group">
-                    <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer">
-                      <CardContent className="p-4">
+                    <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer bg-slate-50 dark:bg-slate-900/50">
+                      <CardContent className="p-5">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium group-hover:text-primary transition-colors">{tool.name}</h4>
-                          <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all" />
+                          <h4 className="font-semibold text-base group-hover:text-primary transition-colors">{tool.name}</h4>
+                          <div className="bg-primary/10 p-1.5 rounded-full text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
+                            <ArrowRight className="h-4 w-4" />
+                          </div>
                         </div>
-                        <p className="text-xs text-muted-foreground line-clamp-2">
+                        <p className="text-sm text-muted-foreground line-clamp-2">
                           {tool.description || `Use our free online ${tool.name.toLowerCase()} to get instant results.`}
                         </p>
                       </CardContent>
@@ -527,15 +529,36 @@ export default function CalculatorPage() {
             
             <div className="mt-6 pt-6 border-t">
                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-                <div className="h-1 w-1 rounded-full bg-green-500"></div>
-                All Categories
+                <div className="h-2 w-2 rounded-full bg-rose-500"></div>
+                Popular Sitewide
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1 mb-6">
+                {[
+                  { name: "Percentage Calculator", slug: "percentage-calculator" },
+                  { name: "BMI Calculator", slug: "bmi-calculator" },
+                  { name: "Age Calculator", slug: "age-calculator" },
+                  { name: "Loan EMI Calculator", slug: "loan-emi-calculator" },
+                  { name: "Scientific Calculator", slug: "scientific-calculator" },
+                ].map(tool => (
+                  <li key={tool.slug}>
+                    <Link href={`/calculator/${tool.slug}`} className="block py-2 px-3 rounded-md text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors flex items-center justify-between group">
+                      <span>{tool.name}</span>
+                      <ArrowRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+               <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                Browse Categories
+              </h3>
+              <ul className="space-y-1">
                 {calculatorCategories.map(cat => (
                     <li key={cat.slug}>
-                        <Link href={`/${cat.slug}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary hover:underline">
-                            <ChevronRight className="h-3 w-3" />
-                            {cat.title}
+                        <Link href={`/${cat.slug}`} className="block py-2 px-3 rounded-md text-sm text-muted-foreground hover:text-primary hover:bg-muted transition-colors flex items-center justify-between group">
+                            <span>{cat.title}</span>
+                            <ChevronRight className="h-3 w-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                         </Link>
                     </li>
                 ))}
