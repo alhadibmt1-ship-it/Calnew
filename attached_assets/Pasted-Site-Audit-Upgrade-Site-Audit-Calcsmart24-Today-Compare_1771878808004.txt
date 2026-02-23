@@ -1,0 +1,312 @@
+Site Audit
+
+Upgrade
+
+
+Site Audit
+/
+
+Calcsmart24
+
+Today
+
+Compare with: Yesterday
+
+
+Crawl log
+From
+Today
+12:27 AM
+To
+Today
+12:31 AM
+Duration
+0:00:04:06
+d:hh:mm:ss
+URLs crawled
+84
+Billed pages
+1
+URLs crawled
+1 bar = 1 min
+2xx
+3xx
+4xx
+Timeout
+Latest URLs crawled
+Time
+Status
+Content type
+Load time
+Size
+Outlinks
+URL
+12:31:09 AM	
+200
+text/javascript; charset=utf-8	203 ms	429.2K	0	https://calcsmart24.com/assets/index-BFS1uGV4.js	
+12:31:08 AM	
+200
+text/css; charset=utf-8	189 ms	120.7K	0	https://calcsmart24.com/assets/index-ChFjlwnc.css	
+12:31:07 AM	
+404
+303 ms	0	0	https://calcsmart24.com/calculator/energy-converter	
+12:31:04 AM	
+404
+301 ms	0	0	https://calcsmart24.com/calculator/power-converter	
+12:31:00 AM	
+404
+377 ms	0	0	https://calcsmart24.com/calculator/pressure-converter	
+12:30:58 AM	
+404
+315 ms	0	0	https://calcsmart24.com/calculator/time-converter	
+12:30:56 AM	
+404
+277 ms	0	0	https://calcsmart24.com/calculator/speed-converter	
+12:30:54 AM	
+404
+289 ms	0	0	https://calcsmart24.com/calculator/volume-converter	
+12:30:52 AM	
+404
+292 ms	0	0	https://calcsmart24.com/calculator/area-converter	
+12:30:50 AM	
+404
+297 ms	0	0	https://calcsmart24.com/calculator/temperature-converter	
+12:30:48 AM	
+404
+294 ms	0	0	https://calcsmart24.com/calculator/weight-converter	
+12:30:46 AM	
+404
+316 ms	0	0	https://calcsmart24.com/calculator/password-generator	
+12:30:46 AM	
+404
+313 ms	0	0	https://calcsmart24.com/calculator/text-repeater	
+12:30:46 AM	
+404
+325 ms	0	0	https://calcsmart24.com/calculator/length-converter	
+12:30:45 AM	
+404
+389 ms	0	0	https://calcsmart24.com/calculator/time-zone-converter	
+12:30:45 AM	
+404
+323 ms	0	0	https://calcsmart24.com/calculator/color-picker-tool	
+12:30:45 AM	
+404
+338 ms	0	0	https://calcsmart24.com/calculator/time-calculator	
+12:30:42 AM	
+404
+301 ms	0	0	https://calcsmart24.com/calculator/qr-code-generator	
+12:30:38 AM	
+404
+352 ms	0	0	https://calcsmart24.com/calculator/subnet-calculator	
+12:30:38 AM	
+404
+314 ms	0	0	https://calcsmart24.com/calculator/case-converter	
+12:30:34 AM	
+404
+288 ms	0	0	https://calcsmart24.com/calculator/word-counter	
+12:30:26 AM	
+404
+315 ms	0	0	https://calcsmart24.com/calculator/grade-calculator	
+12:30:24 AM	
+404
+272 ms	0	0	https://calcsmart24.com/calculator/gpa-calculator	
+12:30:22 AM	
+404
+367 ms	0	0	https://calcsmart24.com/calculator/concrete-calculator	
+12:30:20 AM	
+404
+322 ms	0	0	https://calcsmart24.com/calculator/date-calculator	
+12:30:18 AM	
+404
+308 ms	0	0	https://calcsmart24.com/calculator/tip-calculator	
+12:30:16 AM	
+404
+284 ms	0	0	https://calcsmart24.com/calculator/birthday-countdown	
+12:30:14 AM	
+404
+313 ms	0	0	https://calcsmart24.com/calculator/age-gap-calculator	
+12:30:14 AM	
+404
+301 ms	0	0	https://calcsmart24.com/calculator/investment-calculator	
+12:30:12 AM	
+404
+317 ms	0	0	https://calcsmart24.com/calculator/age-calculator	
+12:30:10 AM	
+404
+316 ms	0	0	https://calcsmart24.com/calculator/tax-calculator	
+12:30:08 AM	
+404
+298 ms	0	0	https://calcsmart24.com/calculator/retirement-calculator	
+12:30:05 AM	
+404
+416 ms	0	0	https://calcsmart24.com/calculator/gst-vat-calculator	
+12:30:04 AM	
+404
+283 ms	0	0	https://calcsmart24.com/calculator/saving-goal-calculator	
+12:30:02 AM	
+404
+303 ms	0	0	https://calcsmart24.com/calculator/currency-converter	
+12:30:00 AM	
+404
+309 ms	0	0	https://calcsmart24.com/calculator/profit-margin-calculator	
+12:29:58 AM	
+404
+307 ms	0	0	https://calcsmart24.com/calculator/salary-calculator	
+12:29:54 AM	
+404
+304 ms	0	0	https://calcsmart24.com/calculator/discount-calculator	
+12:29:52 AM	
+404
+298 ms	0	0	https://calcsmart24.com/calculator/interest-calculator	
+12:29:51 AM	
+404
+292 ms	0	0	https://calcsmart24.com/calculator/loan-emi-calculator	
+12:29:49 AM	
+404
+324 ms	0	0	https://calcsmart24.com/calculator/standard-deviation	
+12:29:47 AM	
+404
+316 ms	0	0	https://calcsmart24.com/calculator/logarithm-calculator	
+12:29:46 AM	
+404
+313 ms	0	0	https://calcsmart24.com/calculator/root-calculator	
+12:29:44 AM	
+404
+277 ms	0	0	https://calcsmart24.com/calculator/ratio-calculator	
+12:29:40 AM	
+404
+326 ms	0	0	https://calcsmart24.com/calculator/factor-calculator	
+12:29:39 AM	
+404
+297 ms	0	0	https://calcsmart24.com/calculator/hex-to-decimal-converter	
+12:29:36 AM	
+404
+281 ms	0	0	https://calcsmart24.com/calculator/roman-numeral-converter	
+12:29:35 AM	
+404
+305 ms	0	0	https://calcsmart24.com/calculator/fraction-calculator	
+12:29:34 AM	
+404
+308 ms	0	0	https://calcsmart24.com/calculator/quadratic-formula	
+12:29:32 AM	
+404
+288 ms	0	0	https://calcsmart24.com/calculator/volume-calculator	
+12:29:30 AM	
+404
+344 ms	0	0	https://calcsmart24.com/calculator/algebra-solver	
+12:29:30 AM	
+404
+288 ms	0	0	https://calcsmart24.com/calculator/triangle-calculator	
+12:29:26 AM	
+404
+300 ms	0	0	https://calcsmart24.com/calculator/random-number-generator	
+12:29:26 AM	
+404
+285 ms	0	0	https://calcsmart24.com/calculator/prime-checker	
+12:29:24 AM	
+404
+287 ms	0	0	https://calcsmart24.com/calculator/binary-to-decimal	
+12:29:22 AM	
+404
+368 ms	0	0	https://calcsmart24.com/calculator/scientific-calculator	
+12:29:20 AM	
+404
+175 ms	0	0	https://calcsmart24.com/calculator/geometry-calculator	
+12:29:16 AM	
+404
+301 ms	0	0	https://calcsmart24.com/calculator/percentage-calculator	
+12:29:12 AM	
+404
+280 ms	0	0	https://calcsmart24.com/calculator/standard-calculator	
+12:29:10 AM	
+404
+300 ms	0	0	https://calcsmart24.com/calculator/sleep-calculator	
+12:29:08 AM	
+404
+296 ms	0	0	https://calcsmart24.com/calculator/macro-calculator	
+12:29:06 AM	
+404
+326 ms	0	0	https://calcsmart24.com/calculator/water-intake-calculator	
+12:29:04 AM	
+404
+305 ms	0	0	https://calcsmart24.com/calculator/ovulation-calculator	
+12:29:02 AM	
+404
+321 ms	0	0	https://calcsmart24.com/calculator/pregnancy-calculator	
+12:29:00 AM	
+404
+317 ms	0	0	https://calcsmart24.com/calculator/body-fat-calculator	
+12:28:58 AM	
+404
+299 ms	0	0	https://calcsmart24.com/calculator/ideal-weight-calculator	
+12:28:56 AM	
+404
+295 ms	0	0	https://calcsmart24.com/calculator/bmr-calculator	
+12:28:54 AM	
+404
+304 ms	0	0	https://calcsmart24.com/calculator/calorie-calculator	
+12:28:52 AM	
+404
+291 ms	0	0	https://calcsmart24.com/calculator/bmi-calculator	
+12:28:50 AM	
+404
+315 ms	0	0	https://calcsmart24.com/contact	
+12:28:48 AM	
+404
+290 ms	0	0	https://calcsmart24.com/about	
+12:28:46 AM	
+404
+322 ms	0	0	https://calcsmart24.com/terms	
+12:28:44 AM	
+404
+330 ms	0	0	https://calcsmart24.com/privacy-policy	
+12:28:42 AM	
+404
+305 ms	0	0	https://calcsmart24.com/converters	
+12:28:40 AM	
+404
+305 ms	0	0	https://calcsmart24.com/other	
+12:28:40 AM	
+404
+304 ms	0	0	https://calcsmart24.com/financial	
+12:28:40 AM	
+404
+323 ms	0	0	https://calcsmart24.com/seo-tools	
+12:28:36 AM	
+404
+307 ms	0	0	https://calcsmart24.com/math	
+12:28:34 AM	
+404
+301 ms	0	0	https://calcsmart24.com/health	
+12:28:30 AM	
+301
+text/html; charset=utf-8	3 ms	0	0	http://calcsmart24.com/	
+12:28:28 AM	
+200
+text/html; charset=utf-8	265 ms	3.5K	0	https://calcsmart24.com/	
+12:28:27 AM	
+200
+text/xml; charset=utf-8	171 ms	6.5K	0	https://calcsmart24.com/sitemap.xml	
+12:28:05 AM	
+0
+6 ms	0	0	https://www.calcsmart24.com/robots.txt	
+12:28:00 AM	
+200
+159 ms	68	0	https://calcsmart24.com/robots.txt	
+View more in Page explorer
+About
+Team
+Our data
+Blog
+Robot
+Jobs
+Plans & pricing
+API
+Help
+Contact us
+
+English
+© 2026 Ahrefs Pte. Ltd. (201227417H) 16 Raffles Quay, #33-03 Hong Leong Building, Singapore 048581
+Legal info
+
+32
