@@ -19,6 +19,9 @@ function Router() {
       <Route path="/converters" component={CategoryHub} />
       <Route path="/seo-tools" component={CategoryHub} />
       <Route path="/other" component={CategoryHub} />
+      <Route path="/terms" component={PrivacyPolicy} />
+      <Route path="/about" component={PrivacyPolicy} />
+      <Route path="/contact" component={PrivacyPolicy} />
       <Route path="/calculator/:slug" component={CalculatorPage} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
