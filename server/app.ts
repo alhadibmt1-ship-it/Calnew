@@ -1,6 +1,7 @@
 import { type Server } from "node:http";
 
 import express, { type Express, type Request, Response, NextFunction } from "express";
+import compression from "compression";
 import { registerRoutes } from "./routes";
 
 export function log(message: string, source = "express") {
@@ -21,6 +22,7 @@ declare module 'http' {
     rawBody: unknown
   }
 }
+app.use(compression());
 app.use(express.json({
   verify: (req, _res, buf) => {
     req.rawBody = buf;
