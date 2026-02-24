@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 /**
  * Vite plugin that updates og:image and twitter:image meta tags
@@ -52,6 +53,15 @@ export function metaImagesPlugin(): Plugin {
 
       return html;
     },
+    closeBundle() {
+      // Execute prerender script after Vite build is done
+      try {
+        console.log('[prerender] Running static fallback pre-render for all routes...');
+        execSync('node scripts/prerender.js', { stdio: 'inherit' });
+      } catch (error) {
+        console.error('[prerender] Failed to pre-render routes:', error);
+      }
+    }
   };
 }
 
