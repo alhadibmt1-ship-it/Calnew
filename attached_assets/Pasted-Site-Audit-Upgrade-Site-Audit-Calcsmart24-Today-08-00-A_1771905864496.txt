@@ -1,0 +1,238 @@
+Site Audit
+
+Upgrade
+
+
+Site Audit
+/
+
+Calcsmart24
+
+Today, 08:00 AM
+
+Compare with: Today, 07:49 AM
+
+Segment
+
+
+Overview
+
+Print to PDF
+Crawled URLs distribution
+
+81
+
+Internal
+79
+
+Resources
+2
+Crawl status of links found
+
+0
+NO DATA
+Health Score
+6
+Weak
+Health Score reflects the proportion of internal URLs on your site that don't have errors
+26 Jan
+2 Feb
+9 Feb
+16 Feb
+24 Feb
+24 Feb
+24 Feb
+0
+50
+100
+Issues distribution
+685
+
+Errors
+234
+
+Warnings
+228
+
+Notices
+223
+Error distribution
+84
+
+URLs with errors
+79
+
+URLs without errors
+5
+What's new
+Top issues
+
+Issue
+Crawled
+Change
+Added
+New
+Removed
+Missing
+Duplicate pages without canonical  
+New
+75	
+75
+75
+0
+0
+0
+
+
+Orphan page (has no incoming internal links) 
+New
+74	
+74
+74
+0
+0
+0
+
+
+Page has no outgoing links 
+75	
+74
+74
+0
+0
+0
+
+
+H1 tag missing or empty 
+75	
+74
+74
+0
+0
+0
+
+
+Low word count  
+75	
+74
+74
+0
+0
+0
+
+
+Not compressed 
+75	
+74
+74
+0
+0
+0
+
+
+Pages to submit to IndexNow  
+New
+74	
+74
+—
+—
+—
+—
+
+
+Meta description changed  
+New
+74	
+74
+—
+—
+—
+—
+
+
+Title tag changed  
+New
+74	
+74
+—
+—
+—
+—
+
+
+
+View all issues
+HTTP status codes distribution
+
+Success (2xx)
+79
+
+Client error (4xx)
+3
+
+Redirect (3xx)
+1
+
+Timeout
+1
+AI content level distribution
+Disabled
+NO DATA
+HTTP status codes by depth level
+
+0
+1
+0
+20
+40
+60
+80
+
+Success (2xx)
+
+Redirect (3xx)
+
+Client error (4xx)
+Bulk export
+Internal URLs	All crawled internal URLs. Includes non-200 pages and resources.	84	
+Export CSV
+
+View
+Uncrawled links	Links to URLs that our crawler didn't crawl. This could be due to your project settings or website restrictions like robots.txt.	150	
+Export CSV
+
+View
+Anchor texts	Anchor texts of all hyperlinks found during the crawl.	0	
+Export CSV
+
+View
+Image references without alt texts	All image references without alt texts found during the crawl.	0	
+Export CSV
+
+View
+Links to URLs blocked by robots.txt	Links to all URLs that our crawler could not access because of instructions in robots.txt.	0	
+Export CSV
+
+View
+Links to 4xx (Client error) URLs	Links to URLs returning client error codes, which means that there was a problem with the request.	3	
+Export CSV
+
+View
+
+View all export options
+About
+Team
+Our data
+Blog
+Robot
+Jobs
+Plans & pricing
+API
+Help
+Contact us
+
+English
+© 2026 Ahrefs Pte. Ltd. (201227417H) 16 Raffles Quay, #33-03 Hong Leong Building, Singapore 048581
+Legal info
+
+20
