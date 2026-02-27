@@ -14,6 +14,7 @@ export const calculatorCategorySlugs = [
   { title: "Daily Life", slug: "other" },
   { title: "SEO & Text Tools", slug: "seo-tools" },
   { title: "Unit Converters", slug: "converters" },
+  { title: "Construction", slug: "construction" },
 ];
 
 const slugify = (text: string) =>
@@ -42,6 +43,22 @@ const toolsByCategory: Record<string, { name: string; description: string }[]> =
     { name: "Payment Calculator", description: "Calculate monthly payment amounts for any loan." },
     { name: "Salary to Hourly Calculator", description: "Convert annual salary to hourly wage and vice versa." },
     { name: "Gratuity Calculator", description: "Calculate end-of-service gratuity benefits based on labor law." },
+    { name: "Markup Calculator", description: "Calculate selling price from cost price and markup percentage." },
+    { name: "Break Even Calculator", description: "Find the break-even point in units and revenue for your business." },
+    { name: "ROI Calculator", description: "Calculate Return on Investment percentage and annualized ROI." },
+    { name: "Cash Flow Calculator", description: "Track income and expenses to calculate net cash flow." },
+    { name: "Business Loan Calculator", description: "Calculate business loan payments with amortization schedule." },
+    { name: "Invoice Calculator", description: "Create invoice totals with line items, subtotal, and tax." },
+    { name: "Expense Calculator", description: "Track and categorize expenses with total and breakdown." },
+    { name: "Revenue Calculator", description: "Calculate total revenue, monthly averages, and growth rate." },
+    { name: "Overtime Calculator", description: "Calculate overtime pay based on hourly rate and hours worked." },
+    { name: "Cost Price Calculator", description: "Calculate selling price from cost price and desired profit." },
+    { name: "Gross Profit Calculator", description: "Calculate gross profit and gross margin from revenue and COGS." },
+    { name: "Net Profit Calculator", description: "Calculate net profit with full income statement breakdown." },
+    { name: "Inventory Turnover Calculator", description: "Calculate inventory turnover ratio and days to sell inventory." },
+    { name: "Price Per Unit Calculator", description: "Calculate the price per unit, per kg, or per piece." },
+    { name: "Wholesale Price Calculator", description: "Calculate wholesale pricing with bulk discount tables." },
+    { name: "Accounts Receivable Calculator", description: "Calculate AR turnover ratio and average collection period." },
   ],
   health: [
     { name: "BMI Calculator", description: "Calculate your Body Mass Index (BMI) instantly." },
@@ -134,6 +151,22 @@ const toolsByCategory: Record<string, { name: string; description: string }[]> =
     { name: "Data Storage Converter", description: "Convert between bytes, KB, MB, GB, TB, and more." },
     { name: "Fuel Efficiency Converter", description: "Convert between MPG, km/L, and L/100km." },
     { name: "Angle Converter", description: "Convert between degrees, radians, and gradians." },
+  ],
+  construction: [
+    { name: "Cement Calculator", description: "Calculate cement bags, sand, and aggregate needed for construction." },
+    { name: "Concrete Mix Calculator", description: "Calculate concrete mix quantities by ratio and volume needed." },
+    { name: "Steel Weight Calculator", description: "Calculate the weight of steel bars, plates, pipes, and angles." },
+    { name: "Sand Calculator", description: "Calculate sand volume and weight needed for your project." },
+    { name: "Brick Calculator", description: "Calculate the number of bricks and mortar needed for a wall." },
+    { name: "Tile Calculator", description: "Calculate tiles needed for floors and walls with wastage allowance." },
+    { name: "Paint Calculator", description: "Calculate paint quantity needed based on room dimensions." },
+    { name: "Plywood Calculator", description: "Calculate plywood sheets needed to cover an area." },
+    { name: "Construction Cost Calculator", description: "Estimate total construction cost per square foot." },
+    { name: "BOQ Calculator", description: "Create a Bill of Quantities with itemized costs and totals." },
+    { name: "Labor Cost Calculator", description: "Calculate total labor costs including overtime for projects." },
+    { name: "Material Cost Estimator", description: "Estimate total material costs with markup for projects." },
+    { name: "Project Cost Calculator", description: "Calculate total project cost with materials, labor, and overhead." },
+    { name: "Project Profit Calculator", description: "Calculate project profit margins from revenue and costs." },
   ],
 };
 

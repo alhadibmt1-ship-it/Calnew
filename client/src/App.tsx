@@ -23,6 +23,7 @@ function Router() {
       <Route path="/converters" component={CategoryHub} />
       <Route path="/seo-tools" component={CategoryHub} />
       <Route path="/other" component={CategoryHub} />
+      <Route path="/construction" component={CategoryHub} />
       <Route path="/terms" component={Terms} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />

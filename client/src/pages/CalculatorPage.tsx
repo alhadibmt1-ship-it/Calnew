@@ -88,6 +88,36 @@ const FuelCostCalculator = lazy(() => import("@/components/FuelCostCalculator"))
 const ElectricityCostCalculator = lazy(() => import("@/components/ElectricityCostCalculator"));
 const ShoeSizeConverter = lazy(() => import("@/components/ShoeSizeConverter"));
 const GratuityCalculator = lazy(() => import("@/components/GratuityCalculator"));
+const MarkupCalculator = lazy(() => import("@/components/MarkupCalculator"));
+const BreakEvenCalculator = lazy(() => import("@/components/BreakEvenCalculator"));
+const ROICalculator = lazy(() => import("@/components/ROICalculator"));
+const CashFlowCalculator = lazy(() => import("@/components/CashFlowCalculator"));
+const BusinessLoanCalculator = lazy(() => import("@/components/BusinessLoanCalculator"));
+const InvoiceCalculator = lazy(() => import("@/components/InvoiceCalculator"));
+const ExpenseCalculator = lazy(() => import("@/components/ExpenseCalculator"));
+const RevenueCalculator = lazy(() => import("@/components/RevenueCalculator"));
+const OvertimeCalculator = lazy(() => import("@/components/OvertimeCalculator"));
+const CostPriceCalculator = lazy(() => import("@/components/CostPriceCalculator"));
+const GrossProfitCalculator = lazy(() => import("@/components/GrossProfitCalculator"));
+const NetProfitCalculator = lazy(() => import("@/components/NetProfitCalculator"));
+const InventoryTurnoverCalculator = lazy(() => import("@/components/InventoryTurnoverCalculator"));
+const PricePerUnitCalculator = lazy(() => import("@/components/PricePerUnitCalculator"));
+const WholesalePriceCalculator = lazy(() => import("@/components/WholesalePriceCalculator"));
+const AccountsReceivableCalculator = lazy(() => import("@/components/AccountsReceivableCalculator"));
+const CementCalculator = lazy(() => import("@/components/CementCalculator"));
+const ConcreteMixCalculator = lazy(() => import("@/components/ConcreteMixCalculator"));
+const SteelWeightCalculator = lazy(() => import("@/components/SteelWeightCalculator"));
+const SandCalculator = lazy(() => import("@/components/SandCalculator"));
+const BrickCalculator = lazy(() => import("@/components/BrickCalculator"));
+const TileCalculator = lazy(() => import("@/components/TileCalculator"));
+const PaintCalculator = lazy(() => import("@/components/PaintCalculator"));
+const PlywoodCalculator = lazy(() => import("@/components/PlywoodCalculator"));
+const ConstructionCostCalculator = lazy(() => import("@/components/ConstructionCostCalculator"));
+const BOQCalculator = lazy(() => import("@/components/BOQCalculator"));
+const LaborCostCalculator = lazy(() => import("@/components/LaborCostCalculator"));
+const MaterialCostEstimator = lazy(() => import("@/components/MaterialCostEstimator"));
+const ProjectCostCalculator = lazy(() => import("@/components/ProjectCostCalculator"));
+const ProjectProfitCalculator = lazy(() => import("@/components/ProjectProfitCalculator"));
 const AttendanceCalculator = lazy(() => import("@/components/AttendanceCalculator"));
 const CGPACalculator = lazy(() => import("@/components/CGPACalculator"));
 const MarksPercentageCalculator = lazy(() => import("@/components/MarksPercentageCalculator"));
@@ -256,6 +286,68 @@ export default function CalculatorPage() {
         return <SalaryToHourlyCalculator />;
       case "gratuity-calculator":
         return <GratuityCalculator />;
+      case "markup-calculator":
+        return <MarkupCalculator />;
+      case "break-even-calculator":
+        return <BreakEvenCalculator />;
+      case "roi-calculator":
+        return <ROICalculator />;
+      case "cash-flow-calculator":
+        return <CashFlowCalculator />;
+      case "business-loan-calculator":
+        return <BusinessLoanCalculator />;
+      case "invoice-calculator":
+        return <InvoiceCalculator />;
+      case "expense-calculator":
+        return <ExpenseCalculator />;
+      case "revenue-calculator":
+        return <RevenueCalculator />;
+      case "overtime-calculator":
+        return <OvertimeCalculator />;
+      case "cost-price-calculator":
+        return <CostPriceCalculator />;
+      case "gross-profit-calculator":
+        return <GrossProfitCalculator />;
+      case "net-profit-calculator":
+        return <NetProfitCalculator />;
+      case "inventory-turnover-calculator":
+        return <InventoryTurnoverCalculator />;
+      case "price-per-unit-calculator":
+        return <PricePerUnitCalculator />;
+      case "wholesale-price-calculator":
+        return <WholesalePriceCalculator />;
+      case "accounts-receivable-calculator":
+        return <AccountsReceivableCalculator />;
+
+      // Construction
+      case "cement-calculator":
+        return <CementCalculator />;
+      case "concrete-mix-calculator":
+        return <ConcreteMixCalculator />;
+      case "steel-weight-calculator":
+        return <SteelWeightCalculator />;
+      case "sand-calculator":
+        return <SandCalculator />;
+      case "brick-calculator":
+        return <BrickCalculator />;
+      case "tile-calculator":
+        return <TileCalculator />;
+      case "paint-calculator":
+        return <PaintCalculator />;
+      case "plywood-calculator":
+        return <PlywoodCalculator />;
+      case "construction-cost-calculator":
+        return <ConstructionCostCalculator />;
+      case "boq-calculator":
+        return <BOQCalculator />;
+      case "labor-cost-calculator":
+        return <LaborCostCalculator />;
+      case "material-cost-estimator":
+        return <MaterialCostEstimator />;
+      case "project-cost-calculator":
+        return <ProjectCostCalculator />;
+      case "project-profit-calculator":
+        return <ProjectProfitCalculator />;
 
       // Daily Life
       case "age-calculator":
