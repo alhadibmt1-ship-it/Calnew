@@ -43,7 +43,14 @@ export const calculatorCategories = [
       { name: "Saving Goal Calculator", description: "Plan how much you need to save to reach your goals." },
       { name: "Investment Calculator", description: "Project the future value of your investments." },
       { name: "Retirement Calculator", description: "Plan for a secure and comfortable retirement." },
-      { name: "Tax Calculator", description: "Estimate your income tax liability based on income." }
+      { name: "Tax Calculator", description: "Estimate your income tax liability based on income." },
+      { name: "Auto Loan Calculator", description: "Calculate monthly car payments, total interest, and loan cost." },
+      { name: "Amortization Calculator", description: "Generate a full loan amortization schedule with payment breakdown." },
+      { name: "Inflation Calculator", description: "Calculate the future cost of goods adjusted for inflation." },
+      { name: "Sales Tax Calculator", description: "Calculate sales tax amounts for any purchase." },
+      { name: "Interest Rate Calculator", description: "Find the required interest rate to reach your financial goal." },
+      { name: "Payment Calculator", description: "Calculate monthly payment amounts for any loan." },
+      { name: "Salary to Hourly Calculator", description: "Convert annual salary to hourly wage and vice versa." }
     ]
   },
   {
@@ -70,7 +77,10 @@ export const calculatorCategories = [
       { name: "Ideal Weight Calculator", description: "Find your ideal weight range based on height." },
       { name: "Pregnancy Calculator", description: "Estimate your due date and track pregnancy milestones." },
       { name: "Ovulation Calculator", description: "Track your fertility window and ovulation dates." },
-      { name: "Macro Calculator", description: "Calculate your optimal macronutrient split." }
+      { name: "Macro Calculator", description: "Calculate your optimal macronutrient split." },
+      { name: "Pace Calculator", description: "Calculate running or walking pace, speed, distance, and time." },
+      { name: "Due Date Calculator", description: "Calculate your pregnancy due date from last period or conception." },
+      { name: "TDEE Calculator", description: "Calculate your Total Daily Energy Expenditure for diet planning." }
     ]
   },
   {
@@ -97,7 +107,15 @@ export const calculatorCategories = [
       { name: "Logarithm Calculator", description: "Calculate logarithms with any base." },
       { name: "Ratio Calculator", description: "Solve ratio and proportion problems." },
       { name: "Root Calculator", description: "Calculate square roots, cube roots, and nth roots." },
-      { name: "Standard Deviation", description: "Calculate mean, variance, and standard deviation." }
+      { name: "Standard Deviation", description: "Calculate mean, variance, and standard deviation." },
+      { name: "Pythagorean Theorem Calculator", description: "Find the missing side of a right triangle using the Pythagorean theorem." },
+      { name: "Percentage Increase Calculator", description: "Calculate the percentage increase or decrease between two values." },
+      { name: "Circumference Calculator", description: "Calculate the circumference, area, and diameter of a circle." },
+      { name: "Slope Calculator", description: "Calculate the slope of a line from two points." },
+      { name: "Exponent Calculator", description: "Calculate the result of a base number raised to any power." },
+      { name: "Scientific Notation Calculator", description: "Convert numbers to and from scientific notation." },
+      { name: "Significant Figures Calculator", description: "Count and round numbers to significant figures." },
+      { name: "Square Footage Calculator", description: "Calculate area in square feet for any space or room." }
     ]
   },
   {
@@ -116,7 +134,11 @@ export const calculatorCategories = [
       { name: "GPA Calculator", description: "Calculate your Grade Point Average (GPA)." },
       { name: "Grade Calculator", description: "Calculate your weighted grade for a class." },
       { name: "Time Zone Converter", description: "Convert time between different time zones." },
-      { name: "Subnet Calculator", description: "Calculate IP subnets and network masks." }
+      { name: "Subnet Calculator", description: "Calculate IP subnets and network masks." },
+      { name: "Hours Calculator", description: "Add or subtract hours and minutes for time tracking." },
+      { name: "Fuel Cost Calculator", description: "Estimate fuel costs for any trip based on distance and efficiency." },
+      { name: "Electricity Cost Calculator", description: "Estimate electricity costs for appliances and devices." },
+      { name: "Shoe Size Converter", description: "Convert shoe sizes between US, UK, EU, and CM systems." }
     ]
   },
   {
@@ -149,7 +171,10 @@ export const calculatorCategories = [
       { name: "Time Converter", description: "Convert between seconds, minutes, hours, and days." },
       { name: "Pressure Converter", description: "Convert between pascal, bar, psi, and atm." },
       { name: "Energy Converter", description: "Convert between joules, calories, and kilowatt-hours." },
-      { name: "Power Converter", description: "Convert between watts, horsepower, and kilowatts." }
+      { name: "Power Converter", description: "Convert between watts, horsepower, and kilowatts." },
+      { name: "Data Storage Converter", description: "Convert between bytes, KB, MB, GB, TB, and more." },
+      { name: "Fuel Efficiency Converter", description: "Convert between MPG, km/L, and L/100km." },
+      { name: "Angle Converter", description: "Convert between degrees, radians, and gradians." }
     ]
   }
 ];

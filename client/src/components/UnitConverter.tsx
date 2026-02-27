@@ -60,14 +60,72 @@ const conversionRates: Record<string, Record<string, number>> = {
     kilometer_per_hour: 3.6,
     mile_per_hour: 2.23694,
     knot: 1.94384,
-  }
+  },
+  // Pressure (Base: Pascal)
+  pressure: {
+    pascal: 1,
+    kilopascal: 0.001,
+    bar: 0.00001,
+    psi: 0.000145038,
+    atm: 0.00000986923,
+    mmhg: 0.00750062,
+  },
+  // Energy (Base: Joule)
+  energy: {
+    joule: 1,
+    kilojoule: 0.001,
+    calorie: 0.239006,
+    kilocalorie: 0.000239006,
+    watt_hour: 0.000277778,
+    kilowatt_hour: 0.000000277778,
+    btu: 0.000947817,
+  },
+  // Power (Base: Watt)
+  power: {
+    watt: 1,
+    kilowatt: 0.001,
+    megawatt: 0.000001,
+    horsepower: 0.00134102,
+    btu_per_hour: 3.41214,
+  },
+  // Data Storage (Base: Byte)
+  "data-storage": {
+    byte: 1,
+    kilobyte: 1/1024,
+    megabyte: 1/(1024**2),
+    gigabyte: 1/(1024**3),
+    terabyte: 1/(1024**4),
+    petabyte: 1/(1024**5),
+    bit: 8,
+    kilobit: 8/1024,
+    megabit: 8/(1024**2),
+  },
+  // Fuel Efficiency (Base: km per liter)
+  "fuel-efficiency": {
+    km_per_liter: 1,
+    miles_per_gallon: 2.35215,
+  },
+  // Angle (Base: Degree)
+  angle: {
+    degree: 1,
+    radian: Math.PI/180,
+    gradian: 10/9,
+    arcminute: 60,
+    arcsecond: 3600,
+    turn: 1/360,
+  },
 };
 
-type UnitType = "length" | "weight" | "volume" | "time" | "area" | "speed" | "temperature";
+type UnitType = "length" | "weight" | "volume" | "time" | "area" | "speed" | "temperature" | "pressure" | "energy" | "power" | "data-storage" | "fuel-efficiency" | "angle";
 
 export default function UnitConverter({ type = "length" }: { type?: string }) {
-  // Normalize type from slug
-  const category = (type.split("-")[0] as UnitType) || "length";
+  const normalizeType = (t: string): UnitType => {
+    if (t === "data-storage" || t === "fuel-efficiency") return t as UnitType;
+    const base = t.split("-")[0];
+    if (conversionRates[base] || base === "temperature") return base as UnitType;
+    return "length";
+  };
+  const category = normalizeType(type);
   
   const [fromUnit, setFromUnit] = useState("");
   const [toUnit, setToUnit] = useState("");

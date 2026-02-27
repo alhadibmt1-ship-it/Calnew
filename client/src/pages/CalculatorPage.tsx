@@ -65,6 +65,28 @@ const StandardDeviationCalculator = lazy(() => import("@/components/StandardDevi
 const TextRepeater = lazy(() => import("@/components/TextRepeater"));
 const QRCodeGenerator = lazy(() => import("@/components/QRCodeGenerator"));
 const ColorPicker = lazy(() => import("@/components/ColorPicker"));
+const AutoLoanCalculator = lazy(() => import("@/components/AutoLoanCalculator"));
+const AmortizationCalculator = lazy(() => import("@/components/AmortizationCalculator"));
+const InflationCalculator = lazy(() => import("@/components/InflationCalculator"));
+const SalesTaxCalculator = lazy(() => import("@/components/SalesTaxCalculator"));
+const InterestRateCalculator = lazy(() => import("@/components/InterestRateCalculator"));
+const PaymentCalculator = lazy(() => import("@/components/PaymentCalculator"));
+const SalaryToHourlyCalculator = lazy(() => import("@/components/SalaryToHourlyCalculator"));
+const PaceCalculator = lazy(() => import("@/components/PaceCalculator"));
+const DueDateCalculator = lazy(() => import("@/components/DueDateCalculator"));
+const TDEECalculator = lazy(() => import("@/components/TDEECalculator"));
+const PythagoreanCalculator = lazy(() => import("@/components/PythagoreanCalculator"));
+const PercentageIncreaseCalculator = lazy(() => import("@/components/PercentageIncreaseCalculator"));
+const CircumferenceCalculator = lazy(() => import("@/components/CircumferenceCalculator"));
+const SlopeCalculator = lazy(() => import("@/components/SlopeCalculator"));
+const ExponentCalculator = lazy(() => import("@/components/ExponentCalculator"));
+const ScientificNotationCalculator = lazy(() => import("@/components/ScientificNotationCalculator"));
+const SignificantFiguresCalculator = lazy(() => import("@/components/SignificantFiguresCalculator"));
+const SquareFootageCalculator = lazy(() => import("@/components/SquareFootageCalculator"));
+const HoursCalculator = lazy(() => import("@/components/HoursCalculator"));
+const FuelCostCalculator = lazy(() => import("@/components/FuelCostCalculator"));
+const ElectricityCostCalculator = lazy(() => import("@/components/ElectricityCostCalculator"));
+const ShoeSizeConverter = lazy(() => import("@/components/ShoeSizeConverter"));
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -91,15 +113,19 @@ export default function CalculatorPage() {
       case "body-fat-calculator":
         return <BodyFatCalculator />;
       case "pregnancy-calculator":
-      case "due-date-calculator":
         return <PregnancyCalculator />;
+      case "due-date-calculator":
+        return <DueDateCalculator />;
       case "ovulation-calculator":
         return <OvulationCalculator />;
       case "water-intake-calculator":
         return <WaterIntakeCalculator />;
       case "macro-calculator":
-      case "tdee-calculator":
         return <MacroCalculator />;
+      case "tdee-calculator":
+        return <TDEECalculator />;
+      case "pace-calculator":
+        return <PaceCalculator />;
       case "sleep-calculator":
         return <SleepCalculator />;
       
@@ -151,14 +177,32 @@ export default function CalculatorPage() {
         return <RootCalculator />;
       case "standard-deviation":
         return <StandardDeviationCalculator />;
+      case "pythagorean-theorem-calculator":
+        return <PythagoreanCalculator />;
+      case "percentage-increase-calculator":
+        return <PercentageIncreaseCalculator />;
+      case "circumference-calculator":
+        return <CircumferenceCalculator />;
+      case "slope-calculator":
+        return <SlopeCalculator />;
+      case "exponent-calculator":
+        return <ExponentCalculator />;
+      case "scientific-notation-calculator":
+        return <ScientificNotationCalculator />;
+      case "significant-figures-calculator":
+        return <SignificantFiguresCalculator />;
+      case "square-footage-calculator":
+        return <SquareFootageCalculator />;
 
       // Financial
       case "loan-emi-calculator":
       case "loan-calculator":
       case "mortgage-calculator": 
-      case "auto-loan-calculator":
-      case "amortization-calculator":
         return <LoanCalculator />;
+      case "auto-loan-calculator":
+        return <AutoLoanCalculator />;
+      case "amortization-calculator":
+        return <AmortizationCalculator />;
       
       case "simple-interest-calculator":
       case "compound-interest-calculator":
@@ -192,6 +236,16 @@ export default function CalculatorPage() {
       case "tax-calculator":
       case "income-tax-calculator":
         return <TaxCalculator />;
+      case "inflation-calculator":
+        return <InflationCalculator />;
+      case "sales-tax-calculator":
+        return <SalesTaxCalculator />;
+      case "interest-rate-calculator":
+        return <InterestRateCalculator />;
+      case "payment-calculator":
+        return <PaymentCalculator />;
+      case "salary-to-hourly-calculator":
+        return <SalaryToHourlyCalculator />;
 
       // Daily Life
       case "age-calculator":
@@ -215,6 +269,14 @@ export default function CalculatorPage() {
         return <TimeCalculator />;
       case "time-zone-converter":
         return <TimeZoneConverter />;
+      case "hours-calculator":
+        return <HoursCalculator />;
+      case "fuel-cost-calculator":
+        return <FuelCostCalculator />;
+      case "electricity-cost-calculator":
+        return <ElectricityCostCalculator />;
+      case "shoe-size-converter":
+        return <ShoeSizeConverter />;
 
       // SEO
       case "word-counter":
@@ -242,6 +304,9 @@ export default function CalculatorPage() {
       case "pressure-converter":
       case "energy-converter":
       case "power-converter":
+      case "data-storage-converter":
+      case "fuel-efficiency-converter":
+      case "angle-converter":
         return <UnitConverter type={slug.replace("-converter", "")} />;
 
       default:
