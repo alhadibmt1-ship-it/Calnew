@@ -87,6 +87,7 @@ const HoursCalculator = lazy(() => import("@/components/HoursCalculator"));
 const FuelCostCalculator = lazy(() => import("@/components/FuelCostCalculator"));
 const ElectricityCostCalculator = lazy(() => import("@/components/ElectricityCostCalculator"));
 const ShoeSizeConverter = lazy(() => import("@/components/ShoeSizeConverter"));
+const GratuityCalculator = lazy(() => import("@/components/GratuityCalculator"));
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -246,6 +247,8 @@ export default function CalculatorPage() {
         return <PaymentCalculator />;
       case "salary-to-hourly-calculator":
         return <SalaryToHourlyCalculator />;
+      case "gratuity-calculator":
+        return <GratuityCalculator />;
 
       // Daily Life
       case "age-calculator":

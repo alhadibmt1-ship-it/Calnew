@@ -50,7 +50,8 @@ export const calculatorCategories = [
       { name: "Sales Tax Calculator", description: "Calculate sales tax amounts for any purchase." },
       { name: "Interest Rate Calculator", description: "Find the required interest rate to reach your financial goal." },
       { name: "Payment Calculator", description: "Calculate monthly payment amounts for any loan." },
-      { name: "Salary to Hourly Calculator", description: "Convert annual salary to hourly wage and vice versa." }
+      { name: "Salary to Hourly Calculator", description: "Convert annual salary to hourly wage and vice versa." },
+      { name: "Gratuity Calculator", description: "Calculate end-of-service gratuity benefits based on labor law." }
     ]
   },
   {
