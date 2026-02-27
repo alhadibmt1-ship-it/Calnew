@@ -88,6 +88,13 @@ const FuelCostCalculator = lazy(() => import("@/components/FuelCostCalculator"))
 const ElectricityCostCalculator = lazy(() => import("@/components/ElectricityCostCalculator"));
 const ShoeSizeConverter = lazy(() => import("@/components/ShoeSizeConverter"));
 const GratuityCalculator = lazy(() => import("@/components/GratuityCalculator"));
+const AttendanceCalculator = lazy(() => import("@/components/AttendanceCalculator"));
+const CGPACalculator = lazy(() => import("@/components/CGPACalculator"));
+const MarksPercentageCalculator = lazy(() => import("@/components/MarksPercentageCalculator"));
+const LetterGradeConverter = lazy(() => import("@/components/LetterGradeConverter"));
+const StudentLoanCalculator = lazy(() => import("@/components/StudentLoanCalculator"));
+const StudyTimeCalculator = lazy(() => import("@/components/StudyTimeCalculator"));
+const ExamCountdownTimer = lazy(() => import("@/components/ExamCountdownTimer"));
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -280,6 +287,20 @@ export default function CalculatorPage() {
         return <ElectricityCostCalculator />;
       case "shoe-size-converter":
         return <ShoeSizeConverter />;
+      case "attendance-calculator":
+        return <AttendanceCalculator />;
+      case "cgpa-calculator":
+        return <CGPACalculator />;
+      case "marks-percentage-calculator":
+        return <MarksPercentageCalculator />;
+      case "letter-grade-converter":
+        return <LetterGradeConverter />;
+      case "student-loan-calculator":
+        return <StudentLoanCalculator />;
+      case "study-time-calculator":
+        return <StudyTimeCalculator />;
+      case "exam-countdown-timer":
+        return <ExamCountdownTimer />;
 
       // SEO
       case "word-counter":

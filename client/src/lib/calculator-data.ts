@@ -139,7 +139,14 @@ export const calculatorCategories = [
       { name: "Hours Calculator", description: "Add or subtract hours and minutes for time tracking." },
       { name: "Fuel Cost Calculator", description: "Estimate fuel costs for any trip based on distance and efficiency." },
       { name: "Electricity Cost Calculator", description: "Estimate electricity costs for appliances and devices." },
-      { name: "Shoe Size Converter", description: "Convert shoe sizes between US, UK, EU, and CM systems." }
+      { name: "Shoe Size Converter", description: "Convert shoe sizes between US, UK, EU, and CM systems." },
+      { name: "Attendance Calculator", description: "Calculate your attendance percentage and classes needed to meet targets." },
+      { name: "CGPA Calculator", description: "Calculate cumulative GPA from semester grades and credit hours." },
+      { name: "Marks Percentage Calculator", description: "Convert obtained marks to percentage with grade and pass/fail status." },
+      { name: "Letter Grade Converter", description: "Convert letter grades to GPA scale and percentage equivalents." },
+      { name: "Student Loan Calculator", description: "Calculate student loan payments with grace period and interest." },
+      { name: "Study Time Calculator", description: "Plan study hours for each subject based on difficulty and time available." },
+      { name: "Exam Countdown Timer", description: "Set exam dates and see a live countdown with days, hours, and minutes." }
     ]
   },
   {
