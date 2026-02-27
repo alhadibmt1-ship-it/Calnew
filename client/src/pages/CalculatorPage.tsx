@@ -320,6 +320,8 @@ export default function CalculatorPage() {
         return <AccountsReceivableCalculator />;
 
       // Construction
+      case "concrete-calculator":
+        return <ConcreteCalculator />;
       case "cement-calculator":
         return <CementCalculator />;
       case "concrete-mix-calculator":
@@ -361,12 +363,6 @@ export default function CalculatorPage() {
       case "date-calculator":
       case "days-between-dates":
         return <DateCalculator />;
-      case "concrete-calculator":
-        return <ConcreteCalculator />;
-      case "gpa-calculator":
-        return <GPACalculator />;
-      case "grade-calculator":
-        return <GradeCalculator />;
       case "time-calculator":
         return <TimeCalculator />;
       case "time-zone-converter":
@@ -379,20 +375,26 @@ export default function CalculatorPage() {
         return <ElectricityCostCalculator />;
       case "shoe-size-converter":
         return <ShoeSizeConverter />;
-      case "attendance-calculator":
-        return <AttendanceCalculator />;
+
+      // Education
+      case "gpa-calculator":
+        return <GPACalculator />;
       case "cgpa-calculator":
         return <CGPACalculator />;
+      case "grade-calculator":
+        return <GradeCalculator />;
       case "marks-percentage-calculator":
         return <MarksPercentageCalculator />;
       case "letter-grade-converter":
         return <LetterGradeConverter />;
-      case "student-loan-calculator":
-        return <StudentLoanCalculator />;
+      case "attendance-calculator":
+        return <AttendanceCalculator />;
       case "study-time-calculator":
         return <StudyTimeCalculator />;
       case "exam-countdown-timer":
         return <ExamCountdownTimer />;
+      case "student-loan-calculator":
+        return <StudentLoanCalculator />;
 
       // SEO
       case "word-counter":

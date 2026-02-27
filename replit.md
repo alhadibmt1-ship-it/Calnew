@@ -2,7 +2,7 @@
 
 ## Overview
 
-CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 130+ calculators organized into seven categories: Financial & Business (38), Fitness & Health (13), Math (27), Unit Converters (13), SEO & Text Tools (7), Daily Life (22), and Construction (14). The app is a full-stack TypeScript project with a React SPA frontend and an Express backend. All calculator logic runs client-side (no server computation needed). The backend primarily handles serving the SPA, SEO (server-side HTML injection for meta tags, sitemap, robots.txt), and has a minimal user schema for potential future features.
+CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 130+ calculators organized into nine categories: Financial (21), Business (17), Fitness & Health (13), Math (27), Education (8), Daily Life (12), SEO & Text Tools (7), Unit Converters (13), and Construction (15). The app is a full-stack TypeScript project with a React SPA frontend and an Express backend. All calculator logic runs client-side (no server computation needed). The backend primarily handles serving the SPA, SEO (server-side HTML injection for meta tags, sitemap, robots.txt), and has a minimal user schema for potential future features.
 
 ## User Preferences
 
@@ -25,7 +25,7 @@ Preferred communication style: Simple, everyday language.
   - Client-side: `client/src/lib/calculator-data.ts` (for routing and display)
   - Server-side: `server/seo.ts` (for SSR meta tag injection and sitemap generation)
 - All calculations happen entirely in the browser — no API calls needed for computation
-- Categories: financial, health, math, converters, seo-tools, other
+- Categories: financial, business, health, math, education, other, seo-tools, converters, construction
 
 ### Backend
 - **Runtime**: Node.js with Express
