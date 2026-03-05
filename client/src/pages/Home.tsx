@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "wouter";
-import { useState, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { calculatorCategories } from "@/lib/calculator-data";
 import { 
   Calculator, 
@@ -26,6 +26,10 @@ const BMICalculator = lazy(() => import("@/components/BMICalculator"));
 export default function Home() {
   const [search, setSearch] = useState("");
   const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Local categories for the cards (using specific icons and subset if needed, 
   // but mapped to match the structure if we want consistent icons)
