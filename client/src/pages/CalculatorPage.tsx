@@ -485,8 +485,6 @@ export default function CalculatorPage() {
   const toolData = getToolData(slug);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     document.title = `${title} - Free Online Tool | CalcSmart24`;
 
     // Update Meta Description

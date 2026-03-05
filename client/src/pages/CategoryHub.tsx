@@ -4,14 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { calculatorCategories } from "@/lib/calculator-data";
 import { ArrowRight } from "lucide-react";
-import { useEffect } from "react";
 
 export default function CategoryHub() {
   const [location] = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
   
   // Identify category from the URL path
   const currentCategory = calculatorCategories.find(cat => 
