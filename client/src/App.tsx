@@ -9,6 +9,8 @@ import Home from "@/pages/Home";
 import CategoryHub from "@/pages/CategoryHub";
 import CalculatorPage from "@/pages/CalculatorPage";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import ConverterHub from "@/pages/ConverterHub";
+import ConvertRouter from "@/pages/ConvertRouter";
 
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
@@ -41,6 +43,8 @@ function Router() {
         <Route path="/about" component={About} />
         <Route path="/contact" component={Contact} />
         <Route path="/calculator/:slug" component={CalculatorPage} />
+        <Route path="/convert" component={ConverterHub} />
+        <Route path="/convert/:slug" component={ConvertRouter} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route component={NotFound} />
       </Switch>
