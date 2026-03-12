@@ -125,6 +125,87 @@ const LetterGradeConverter = lazy(() => import("@/components/LetterGradeConverte
 const StudentLoanCalculator = lazy(() => import("@/components/StudentLoanCalculator"));
 const StudyTimeCalculator = lazy(() => import("@/components/StudyTimeCalculator"));
 const ExamCountdownTimer = lazy(() => import("@/components/ExamCountdownTimer"));
+const FHALoanCalculator = lazy(() => import("@/components/FHALoanCalculator"));
+const VALoanCalculator = lazy(() => import("@/components/VALoanCalculator"));
+const ConventionalLoanCalculator = lazy(() => import("@/components/ConventionalLoanCalculator"));
+const FixedRateMortgageCalculator = lazy(() => import("@/components/FixedRateMortgageCalculator"));
+const AdjustableRateMortgageCalculator = lazy(() => import("@/components/AdjustableRateMortgageCalculator"));
+const MortgagePayoffCalculator = lazy(() => import("@/components/MortgagePayoffCalculator"));
+const EarlyMortgagePayoffCalculator = lazy(() => import("@/components/EarlyMortgagePayoffCalculator"));
+const HouseAffordabilityCalculator = lazy(() => import("@/components/HouseAffordabilityCalculator"));
+const RentVsBuyCalculator = lazy(() => import("@/components/RentVsBuyCalculator"));
+const DownPaymentCalculator = lazy(() => import("@/components/DownPaymentCalculator"));
+const RefinanceBreakEvenCalculator = lazy(() => import("@/components/RefinanceBreakEvenCalculator"));
+const BoatLoanCalculator = lazy(() => import("@/components/BoatLoanCalculator"));
+const RVLoanCalculator = lazy(() => import("@/components/RVLoanCalculator"));
+const PersonalLoanCalculator = lazy(() => import("@/components/PersonalLoanCalculator"));
+const DebtToIncomeCalculator = lazy(() => import("@/components/DebtToIncomeCalculator"));
+const CreditCardPayoffCalculator = lazy(() => import("@/components/CreditCardPayoffCalculator"));
+const InterestOnlyLoanCalculator = lazy(() => import("@/components/InterestOnlyLoanCalculator"));
+const BalloonPaymentCalculator = lazy(() => import("@/components/BalloonPaymentCalculator"));
+const LoanComparisonCalculator = lazy(() => import("@/components/LoanComparisonCalculator"));
+const PaydayLoanCalculator = lazy(() => import("@/components/PaydayLoanCalculator"));
+const CompoundInterestDailyCalculator = lazy(() => import("@/components/CompoundInterestDailyCalculator"));
+const CompoundInterestMonthlyCalculator = lazy(() => import("@/components/CompoundInterestMonthlyCalculator"));
+const FourOOneKProjectionCalculator = lazy(() => import("@/components/FourOOneKProjectionCalculator"));
+const RothIRACalculator = lazy(() => import("@/components/RothIRACalculator"));
+const TraditionalIRACalculator = lazy(() => import("@/components/TraditionalIRACalculator"));
+const StockProfitLossCalculator = lazy(() => import("@/components/StockProfitLossCalculator"));
+const DividendReinvestmentCalculator = lazy(() => import("@/components/DividendReinvestmentCalculator"));
+const CAGRCalculator = lazy(() => import("@/components/CAGRCalculator"));
+const CryptoROICalculator = lazy(() => import("@/components/CryptoROICalculator"));
+const PortfolioRebalanceCalculator = lazy(() => import("@/components/PortfolioRebalanceCalculator"));
+const CustomerLifetimeValueCalculator = lazy(() => import("@/components/CustomerLifetimeValueCalculator"));
+const CustomerAcquisitionCostCalculator = lazy(() => import("@/components/CustomerAcquisitionCostCalculator"));
+const NetPromoterScoreCalculator = lazy(() => import("@/components/NetPromoterScoreCalculator"));
+const PayrollTaxCalculator = lazy(() => import("@/components/PayrollTaxCalculator"));
+const CommissionCalculator = lazy(() => import("@/components/CommissionCalculator"));
+const ConcreteSlabCalculator = lazy(() => import("@/components/ConcreteSlabCalculator"));
+const ConcreteFootingCalculator = lazy(() => import("@/components/ConcreteFootingCalculator"));
+const ConcreteColumnSquareCalculator = lazy(() => import("@/components/ConcreteColumnSquareCalculator"));
+const ConcreteColumnRoundCalculator = lazy(() => import("@/components/ConcreteColumnRoundCalculator"));
+const ConcreteWallCalculator = lazy(() => import("@/components/ConcreteWallCalculator"));
+const ConcreteCurbCalculator = lazy(() => import("@/components/ConcreteCurbCalculator"));
+const ConcreteStairsCalculator = lazy(() => import("@/components/ConcreteStairsCalculator"));
+const BrickWallCalculator = lazy(() => import("@/components/BrickWallCalculator"));
+const BrickLayerCalculator = lazy(() => import("@/components/BrickLayerCalculator"));
+const CinderBlockWallCalculator = lazy(() => import("@/components/CinderBlockWallCalculator"));
+const MortarMixRatioCalculator = lazy(() => import("@/components/MortarMixRatioCalculator"));
+const RebarWeightCalculator = lazy(() => import("@/components/RebarWeightCalculator"));
+const GravelEstimator = lazy(() => import("@/components/GravelEstimator"));
+const SandEstimator = lazy(() => import("@/components/SandEstimator"));
+const AsphaltPavingCalculator = lazy(() => import("@/components/AsphaltPavingCalculator"));
+const WallStudCounter = lazy(() => import("@/components/WallStudCounter"));
+const FloorJoistSizeCalculator = lazy(() => import("@/components/FloorJoistSizeCalculator"));
+const RafterLengthCalculator = lazy(() => import("@/components/RafterLengthCalculator"));
+const RoofPitchCalculator = lazy(() => import("@/components/RoofPitchCalculator"));
+const RoofSquareCalculator = lazy(() => import("@/components/RoofSquareCalculator"));
+const DrywallSheetCalculator = lazy(() => import("@/components/DrywallSheetCalculator"));
+const SidingSquareCalculator = lazy(() => import("@/components/SidingSquareCalculator"));
+const TrimLengthCalculator = lazy(() => import("@/components/TrimLengthCalculator"));
+const LumberBoardFootCalculator = lazy(() => import("@/components/LumberBoardFootCalculator"));
+const PlywoodSheetCalculator = lazy(() => import("@/components/PlywoodSheetCalculator"));
+const StairStringerCalculator = lazy(() => import("@/components/StairStringerCalculator"));
+const DeckBoardCalculator = lazy(() => import("@/components/DeckBoardCalculator"));
+const FencePicketCalculator = lazy(() => import("@/components/FencePicketCalculator"));
+const FencePostCalculator = lazy(() => import("@/components/FencePostCalculator"));
+const CabinetDimensionCalculator = lazy(() => import("@/components/CabinetDimensionCalculator"));
+const WoodBeamSpanCalculator = lazy(() => import("@/components/WoodBeamSpanCalculator"));
+const BTUHeatLoadCalculator = lazy(() => import("@/components/BTUHeatLoadCalculator"));
+const AirDuctSizeCalculator = lazy(() => import("@/components/AirDuctSizeCalculator"));
+const ACTonnageCalculator = lazy(() => import("@/components/ACTonnageCalculator"));
+const WireSizeAWGCalculator = lazy(() => import("@/components/WireSizeAWGCalculator"));
+const VoltageDropCalculator = lazy(() => import("@/components/VoltageDropCalculator"));
+const OhmsLawCalculator = lazy(() => import("@/components/OhmsLawCalculator"));
+const PowerFactorCalculator = lazy(() => import("@/components/PowerFactorCalculator"));
+const ConduitFillCalculator = lazy(() => import("@/components/ConduitFillCalculator"));
+const PipeVolumeCalculator = lazy(() => import("@/components/PipeVolumeCalculator"));
+const WaterFlowRateCalculator = lazy(() => import("@/components/WaterFlowRateCalculator"));
+const VerticalTankCapacityCalculator = lazy(() => import("@/components/VerticalTankCapacityCalculator"));
+const HorizontalTankCapacityCalculator = lazy(() => import("@/components/HorizontalTankCapacityCalculator"));
+const PumpHeadCalculator = lazy(() => import("@/components/PumpHeadCalculator"));
+const SolarPanelArrayCalculator = lazy(() => import("@/components/SolarPanelArrayCalculator"));
+const InsulationRValueCalculator = lazy(() => import("@/components/InsulationRValueCalculator"));
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -318,6 +399,78 @@ export default function CalculatorPage() {
         return <WholesalePriceCalculator />;
       case "accounts-receivable-calculator":
         return <AccountsReceivableCalculator />;
+      case "customer-lifetime-value-calculator":
+        return <CustomerLifetimeValueCalculator />;
+      case "customer-acquisition-cost-calculator":
+        return <CustomerAcquisitionCostCalculator />;
+      case "net-promoter-score-calculator":
+        return <NetPromoterScoreCalculator />;
+      case "payroll-tax-calculator":
+        return <PayrollTaxCalculator />;
+      case "commission-calculator":
+        return <CommissionCalculator />;
+
+      // Financial - New
+      case "fha-loan-calculator":
+        return <FHALoanCalculator />;
+      case "va-loan-calculator":
+        return <VALoanCalculator />;
+      case "conventional-loan-calculator":
+        return <ConventionalLoanCalculator />;
+      case "fixed-rate-mortgage-calculator":
+        return <FixedRateMortgageCalculator />;
+      case "adjustable-rate-mortgage-calculator":
+        return <AdjustableRateMortgageCalculator />;
+      case "mortgage-payoff-calculator":
+        return <MortgagePayoffCalculator />;
+      case "early-mortgage-payoff-savings-calculator":
+        return <EarlyMortgagePayoffCalculator />;
+      case "house-affordability-calculator":
+        return <HouseAffordabilityCalculator />;
+      case "rent-vs-buy-calculator":
+        return <RentVsBuyCalculator />;
+      case "down-payment-calculator":
+        return <DownPaymentCalculator />;
+      case "refinance-break-even-calculator":
+        return <RefinanceBreakEvenCalculator />;
+      case "boat-loan-calculator":
+        return <BoatLoanCalculator />;
+      case "rv-loan-calculator":
+        return <RVLoanCalculator />;
+      case "personal-loan-calculator":
+        return <PersonalLoanCalculator />;
+      case "debt-to-income-calculator":
+        return <DebtToIncomeCalculator />;
+      case "credit-card-payoff-calculator":
+        return <CreditCardPayoffCalculator />;
+      case "interest-only-loan-calculator":
+        return <InterestOnlyLoanCalculator />;
+      case "balloon-payment-calculator":
+        return <BalloonPaymentCalculator />;
+      case "loan-comparison-calculator":
+        return <LoanComparisonCalculator />;
+      case "payday-loan-calculator":
+        return <PaydayLoanCalculator />;
+      case "compound-interest-daily-calculator":
+        return <CompoundInterestDailyCalculator />;
+      case "compound-interest-monthly-calculator":
+        return <CompoundInterestMonthlyCalculator />;
+      case "401k-projection-calculator":
+        return <FourOOneKProjectionCalculator />;
+      case "roth-ira-calculator":
+        return <RothIRACalculator />;
+      case "traditional-ira-calculator":
+        return <TraditionalIRACalculator />;
+      case "stock-profit-loss-calculator":
+        return <StockProfitLossCalculator />;
+      case "dividend-reinvestment-calculator":
+        return <DividendReinvestmentCalculator />;
+      case "cagr-calculator":
+        return <CAGRCalculator />;
+      case "crypto-roi-calculator":
+        return <CryptoROICalculator />;
+      case "portfolio-rebalance-calculator":
+        return <PortfolioRebalanceCalculator />;
 
       // Construction
       case "concrete-calculator":
@@ -350,6 +503,98 @@ export default function CalculatorPage() {
         return <ProjectCostCalculator />;
       case "project-profit-calculator":
         return <ProjectProfitCalculator />;
+      case "concrete-slab-calculator":
+        return <ConcreteSlabCalculator />;
+      case "concrete-footing-calculator":
+        return <ConcreteFootingCalculator />;
+      case "concrete-column-square-calculator":
+        return <ConcreteColumnSquareCalculator />;
+      case "concrete-column-round-calculator":
+        return <ConcreteColumnRoundCalculator />;
+      case "concrete-wall-calculator":
+        return <ConcreteWallCalculator />;
+      case "concrete-curb-calculator":
+        return <ConcreteCurbCalculator />;
+      case "concrete-stairs-calculator":
+        return <ConcreteStairsCalculator />;
+      case "brick-wall-calculator":
+        return <BrickWallCalculator />;
+      case "brick-layer-calculator":
+        return <BrickLayerCalculator />;
+      case "cinder-block-wall-calculator":
+        return <CinderBlockWallCalculator />;
+      case "mortar-mix-ratio-calculator":
+        return <MortarMixRatioCalculator />;
+      case "rebar-weight-calculator":
+        return <RebarWeightCalculator />;
+      case "gravel-estimator":
+        return <GravelEstimator />;
+      case "sand-estimator":
+        return <SandEstimator />;
+      case "asphalt-paving-calculator":
+        return <AsphaltPavingCalculator />;
+      case "wall-stud-counter":
+        return <WallStudCounter />;
+      case "floor-joist-size-calculator":
+        return <FloorJoistSizeCalculator />;
+      case "rafter-length-calculator":
+        return <RafterLengthCalculator />;
+      case "roof-pitch-calculator":
+        return <RoofPitchCalculator />;
+      case "roof-square-calculator":
+        return <RoofSquareCalculator />;
+      case "drywall-sheet-calculator":
+        return <DrywallSheetCalculator />;
+      case "siding-square-calculator":
+        return <SidingSquareCalculator />;
+      case "trim-length-calculator":
+        return <TrimLengthCalculator />;
+      case "lumber-board-foot-calculator":
+        return <LumberBoardFootCalculator />;
+      case "plywood-sheet-calculator":
+        return <PlywoodSheetCalculator />;
+      case "stair-stringer-calculator":
+        return <StairStringerCalculator />;
+      case "deck-board-calculator":
+        return <DeckBoardCalculator />;
+      case "fence-picket-calculator":
+        return <FencePicketCalculator />;
+      case "fence-post-calculator":
+        return <FencePostCalculator />;
+      case "cabinet-dimension-calculator":
+        return <CabinetDimensionCalculator />;
+      case "wood-beam-span-calculator":
+        return <WoodBeamSpanCalculator />;
+      case "btu-heat-load-calculator":
+        return <BTUHeatLoadCalculator />;
+      case "air-duct-size-calculator":
+        return <AirDuctSizeCalculator />;
+      case "ac-tonnage-calculator":
+        return <ACTonnageCalculator />;
+      case "wire-size-awg-calculator":
+        return <WireSizeAWGCalculator />;
+      case "voltage-drop-calculator":
+        return <VoltageDropCalculator />;
+      case "ohms-law-calculator":
+        return <OhmsLawCalculator />;
+      case "power-factor-calculator":
+        return <PowerFactorCalculator />;
+      case "conduit-fill-calculator":
+        return <ConduitFillCalculator />;
+      case "pipe-volume-calculator":
+        return <PipeVolumeCalculator />;
+      case "water-flow-rate-calculator":
+        return <WaterFlowRateCalculator />;
+      case "vertical-tank-capacity-calculator":
+        return <VerticalTankCapacityCalculator />;
+      case "horizontal-tank-capacity-calculator":
+        return <HorizontalTankCapacityCalculator />;
+      case "pump-head-calculator":
+        return <PumpHeadCalculator />;
+      case "solar-panel-array-calculator":
+        return <SolarPanelArrayCalculator />;
+      case "insulation-r-value-calculator":
+        return <InsulationRValueCalculator />;
 
       // Daily Life
       case "age-calculator":
