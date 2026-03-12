@@ -338,9 +338,14 @@ export default function Home() {
                     <input type="number" placeholder="°F" className="bg-slate-800 border-slate-700 rounded px-3 py-2 text-sm w-full" readOnly />
                   </div>
                 </div>
-                <Button variant="secondary" className="w-full hover:bg-slate-200 transition-colors" asChild>
-                  <Link href="/converters">View All Converters</Link>
-                </Button>
+                <div className="grid grid-cols-1 gap-2">
+                  <Button variant="secondary" className="w-full hover:bg-slate-200 transition-colors" asChild>
+                    <Link href="/convert">400+ Unit Converters</Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full text-slate-400 hover:text-slate-200 text-xs" asChild>
+                    <Link href="/converters">General Converters</Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 

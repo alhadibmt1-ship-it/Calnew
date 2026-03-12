@@ -16,6 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "Fitness & Health", href: "/health" },
     { name: "Math", href: "/math" },
     { name: "Converters", href: "/converters" },
+    { name: "Unit Converters", href: "/convert" },
     { name: "SEO & Text", href: "/seo-tools" },
     { name: "Daily Life", href: "/other" },
   ];

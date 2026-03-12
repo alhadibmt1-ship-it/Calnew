@@ -257,6 +257,221 @@ const toolsByCategory: Record<string, { name: string; description: string }[]> =
   ],
 };
 
+export const converterCategorySlugs = [
+  "length", "weight", "area", "volume", "temperature", "speed",
+  "digital-storage", "data-transfer", "pressure", "energy", "power",
+  "fuel-efficiency", "angle", "time",
+];
+
+const converterCategoryNames: Record<string, string> = {
+  length: "Length", weight: "Weight", area: "Area", volume: "Volume",
+  temperature: "Temperature", speed: "Speed", "digital-storage": "Digital Storage",
+  "data-transfer": "Data Transfer", pressure: "Pressure", energy: "Energy",
+  power: "Power", "fuel-efficiency": "Fuel Efficiency", angle: "Angle", time: "Time",
+};
+
+function convPair(cat: string, from: string, to: string): { slug: string; name: string; description: string; category: string }[] {
+  const fmt = (u: string) => u.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  const s = (u: string) => u.replace(/_/g, "-");
+  return [
+    { slug: `${s(from)}-to-${s(to)}`, name: `${fmt(from)} to ${fmt(to)} Converter`, description: `Convert ${fmt(from)} to ${fmt(to)} instantly with our free online converter.`, category: cat },
+    { slug: `${s(to)}-to-${s(from)}`, name: `${fmt(to)} to ${fmt(from)} Converter`, description: `Convert ${fmt(to)} to ${fmt(from)} instantly with our free online converter.`, category: cat },
+  ];
+}
+
+export const converterPages = [
+  ...convPair("length","meters","feet"),...convPair("length","meters","inches"),...convPair("length","meters","yards"),
+  ...convPair("length","meters","centimeters"),...convPair("length","meters","millimeters"),...convPair("length","meters","kilometers"),
+  ...convPair("length","meters","miles"),...convPair("length","kilometers","miles"),...convPair("length","centimeters","inches"),
+  ...convPair("length","millimeters","inches"),...convPair("length","feet","inches"),...convPair("length","feet","centimeters"),
+  ...convPair("length","feet","yards"),...convPair("length","yards","miles"),...convPair("length","inches","millimeters"),
+  ...convPair("length","miles","kilometers"),...convPair("length","nautical_miles","kilometers"),...convPair("length","nautical_miles","miles"),
+  ...convPair("length","micrometers","millimeters"),...convPair("length","meters","nautical_miles"),...convPair("length","feet","meters"),
+  ...convPair("length","yards","meters"),...convPair("length","centimeters","feet"),...convPair("length","centimeters","millimeters"),
+  ...convPair("length","kilometers","meters"),...convPair("length","inches","centimeters"),...convPair("length","miles","feet"),
+  ...convPair("length","miles","yards"),...convPair("length","fathoms","feet"),...convPair("length","fathoms","meters"),
+  ...convPair("length","leagues","miles"),...convPair("length","leagues","kilometers"),
+  ...convPair("weight","kilograms","pounds"),...convPair("weight","kilograms","ounces"),...convPair("weight","kilograms","grams"),
+  ...convPair("weight","kilograms","milligrams"),...convPair("weight","kilograms","metric_tons"),...convPair("weight","grams","ounces"),
+  ...convPair("weight","grams","milligrams"),...convPair("weight","grams","pounds"),...convPair("weight","pounds","ounces"),
+  ...convPair("weight","metric_tons","pounds"),...convPair("weight","metric_tons","short_tons"),...convPair("weight","short_tons","pounds"),
+  ...convPair("weight","stones","pounds"),...convPair("weight","stones","kilograms"),...convPair("weight","milligrams","micrograms"),
+  ...convPair("weight","carats","grams"),...convPair("weight","carats","milligrams"),...convPair("weight","troy_ounces","grams"),
+  ...convPair("weight","troy_ounces","ounces"),...convPair("weight","kilograms","stones"),...convPair("weight","pounds","kilograms"),
+  ...convPair("weight","ounces","grams"),...convPair("weight","long_tons","kilograms"),...convPair("weight","long_tons","metric_tons"),
+  ...convPair("weight","long_tons","short_tons"),
+  ...convPair("area","square_meters","square_feet"),...convPair("area","square_meters","square_inches"),
+  ...convPair("area","square_meters","square_yards"),...convPair("area","square_meters","acres"),
+  ...convPair("area","square_meters","hectares"),...convPair("area","square_kilometers","square_miles"),
+  ...convPair("area","hectares","acres"),...convPair("area","square_feet","square_inches"),
+  ...convPair("area","square_feet","square_yards"),...convPair("area","acres","square_feet"),
+  ...convPair("area","square_miles","acres"),...convPair("area","square_feet","square_meters"),
+  ...convPair("area","acres","hectares"),
+  ...convPair("volume","liters","gallons"),...convPair("volume","liters","milliliters"),
+  ...convPair("volume","liters","fluid_ounces"),...convPair("volume","liters","cups"),
+  ...convPair("volume","liters","pints"),...convPair("volume","liters","quarts"),
+  ...convPair("volume","gallons","quarts"),...convPair("volume","gallons","liters"),
+  ...convPair("volume","cups","milliliters"),...convPair("volume","fluid_ounces","milliliters"),
+  ...convPair("volume","tablespoons","teaspoons"),...convPair("volume","tablespoons","milliliters"),
+  ...convPair("volume","cubic_meters","cubic_feet"),...convPair("volume","cubic_meters","liters"),
+  ...convPair("volume","cubic_feet","gallons"),...convPair("volume","cubic_inches","cubic_centimeters"),
+  ...convPair("temperature","celsius","fahrenheit"),...convPair("temperature","celsius","kelvin"),
+  ...convPair("temperature","fahrenheit","kelvin"),
+  ...convPair("speed","km_per_hour","mph"),...convPair("speed","km_per_hour","meters_per_second"),
+  ...convPair("speed","mph","meters_per_second"),...convPair("speed","knots","km_per_hour"),
+  ...convPair("speed","knots","mph"),...convPair("speed","meters_per_second","feet_per_second"),
+  ...convPair("speed","km_per_hour","feet_per_second"),...convPair("speed","mph","feet_per_second"),
+  ...convPair("speed","knots","meters_per_second"),
+  ...convPair("digital-storage","bytes","kilobytes"),...convPair("digital-storage","kilobytes","megabytes"),
+  ...convPair("digital-storage","megabytes","gigabytes"),...convPair("digital-storage","gigabytes","terabytes"),
+  ...convPair("digital-storage","terabytes","petabytes"),...convPair("digital-storage","bytes","megabytes"),
+  ...convPair("digital-storage","bytes","gigabytes"),...convPair("digital-storage","kilobytes","gigabytes"),
+  ...convPair("digital-storage","megabytes","terabytes"),...convPair("digital-storage","kibibytes","mebibytes"),
+  ...convPair("digital-storage","mebibytes","gibibytes"),
+  ...convPair("data-transfer","kbps","mbps"),...convPair("data-transfer","mbps","gbps"),
+  ...convPair("data-transfer","kbps","gbps"),...convPair("data-transfer","bytes_per_sec","kbps"),
+  ...convPair("data-transfer","bytes_per_sec","mbps"),...convPair("data-transfer","mbps","kbps"),
+  ...convPair("data-transfer","gbps","mbps"),
+  ...convPair("pressure","psi","bar"),...convPair("pressure","bar","pascal"),
+  ...convPair("pressure","atm","psi"),...convPair("pressure","atm","bar"),
+  ...convPair("pressure","atm","pascal"),...convPair("pressure","psi","pascal"),
+  ...convPair("pressure","psi","kilopascal"),...convPair("pressure","bar","kilopascal"),
+  ...convPair("pressure","mmhg","psi"),...convPair("pressure","mmhg","pascal"),
+  ...convPair("pressure","mmhg","atm"),...convPair("pressure","inhg","psi"),
+  ...convPair("energy","joules","calories"),...convPair("energy","joules","kilocalories"),
+  ...convPair("energy","joules","kilowatt_hours"),...convPair("energy","joules","btu"),
+  ...convPair("energy","kilowatt_hours","btu"),...convPair("energy","kilowatt_hours","calories"),
+  ...convPair("energy","kilowatt_hours","kilocalories"),...convPair("energy","kilowatt_hours","joules"),
+  ...convPair("energy","calories","kilocalories"),...convPair("energy","btu","kilojoules"),
+  ...convPair("energy","kilocalories","joules"),...convPair("energy","kilocalories","btu"),
+  ...convPair("power","watts","kilowatts"),...convPair("power","watts","horsepower"),
+  ...convPair("power","watts","btu_per_hour"),...convPair("power","kilowatts","horsepower"),
+  ...convPair("power","kilowatts","megawatts"),...convPair("power","horsepower","btu_per_hour"),
+  ...convPair("power","megawatts","horsepower"),...convPair("power","watts","megawatts"),
+  ...convPair("fuel-efficiency","mpg","km_per_liter"),
+  ...convPair("fuel-efficiency","km_per_liter","liters_per_100km"),
+  ...convPair("fuel-efficiency","mpg","liters_per_100km"),
+  ...convPair("angle","degrees","radians"),...convPair("angle","degrees","gradians"),
+  ...convPair("angle","radians","gradians"),...convPair("angle","degrees","arcminutes"),
+  ...convPair("angle","degrees","arcseconds"),
+  ...convPair("time","seconds","minutes"),...convPair("time","seconds","hours"),
+  ...convPair("time","minutes","hours"),...convPair("time","hours","days"),
+  ...convPair("time","days","weeks"),...convPair("time","days","hours"),
+  ...convPair("time","weeks","days"),...convPair("time","hours","minutes"),
+  ...convPair("time","minutes","seconds"),...convPair("time","days","years"),
+];
+
+const converterPageMap = new Map(converterPages.map(c => [c.slug, c]));
+
+export function getConverterPageBySlug(slug: string) {
+  return converterPageMap.get(slug);
+}
+
+export function injectConverterSeoIntoHtml(html: string, converter: { slug: string; name: string; description: string; category: string }): string {
+  const title = `${converter.name} - Free Online Unit Converter | CalcSmart24`;
+  const description = converter.description;
+  const canonicalUrl = `https://calcsmart24.com/convert/${converter.slug}`;
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  const catName = converterCategoryNames[converter.category] || converter.category;
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>${converter.name}</h1>
+      <p>${description}</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/convert">Unit Converters</a>
+        <a href="/convert/${converter.category}">${catName} Converters</a>
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  return html;
+}
+
+export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: string): string {
+  const catName = converterCategoryNames[categorySlug];
+  if (!catName) return html;
+
+  const catConverters = converterPages.filter(c => c.category === categorySlug);
+  const title = `${catName} Converters - Free Online Unit Converters | CalcSmart24`;
+  const description = `${catConverters.length}+ free online ${catName.toLowerCase()} converters. Convert instantly with accurate results.`;
+  const canonicalUrl = `https://calcsmart24.com/convert/${categorySlug}`;
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  const convLinks = catConverters.map(c => `<a href="/convert/${c.slug}">${c.name}</a>`).join("\n        ");
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>${catName} Converters</h1>
+      <p>${description}</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/convert">Unit Converters</a>
+        ${convLinks}
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  return html;
+}
+
+export function injectConverterHubSeoIntoHtml(html: string): string {
+  const title = "Unit Converters - Free Online Conversion Tools | CalcSmart24";
+  const description = `${converterPages.length}+ free online unit converters. Convert length, weight, temperature, volume, and more instantly.`;
+  const canonicalUrl = "https://calcsmart24.com/convert";
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  const catLinks = converterCategorySlugs.map(s => `<a href="/convert/${s}">${converterCategoryNames[s]} Converters</a>`).join("\n        ");
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>Free Online Unit Converters</h1>
+      <p>${description}</p>
+      <nav>
+        <a href="/">Home</a>
+        ${catLinks}
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  return html;
+}
+
 export function getAllToolsServer(): CalculatorToolData[] {
   const tools: CalculatorToolData[] = [];
   for (const cat of calculatorCategorySlugs) {
@@ -299,6 +514,16 @@ export function generateSitemapXml(): string {
 
   for (const tool of tools) {
     xml += `  <url>\n    <loc>https://calcsmart24.com/calculator/${tool.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
+  }
+
+  xml += `  <url>\n    <loc>https://calcsmart24.com/convert</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+
+  for (const convCat of converterCategorySlugs) {
+    xml += `  <url>\n    <loc>https://calcsmart24.com/convert/${convCat}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
+  }
+
+  for (const conv of converterPages) {
+    xml += `  <url>\n    <loc>https://calcsmart24.com/convert/${conv.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
   }
 
   xml += `</urlset>`;
@@ -453,13 +678,18 @@ export function injectHomeSeoIntoHtml(html: string): string {
   const toolLinks = tools
     .map((t) => `<a href="/calculator/${t.slug}">${t.name}</a>`)
     .join("\n        ");
+  const convCatLinks = converterCategorySlugs
+    .map((s) => `<a href="/convert/${s}">${converterCategoryNames[s]} Converters</a>`)
+    .join("\n        ");
 
   const seoContent = `
     <div id="seo-content" style="display:none" aria-hidden="true">
       <h1>CalcSmart24 - Free Online Calculators</h1>
-      <p>Free online calculators for math, fitness, finance, and more. ${tools.length}+ accurate, fast tools for everyday calculations.</p>
+      <p>Free online calculators for math, fitness, finance, and more. ${tools.length}+ accurate, fast tools for everyday calculations. ${converterPages.length}+ unit converters.</p>
       <nav>
         ${catLinks}
+        <a href="/convert">Unit Converters</a>
+        ${convCatLinks}
         ${toolLinks}
         <a href="/about">About</a>
         <a href="/contact">Contact</a>

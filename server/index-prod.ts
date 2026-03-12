@@ -13,7 +13,12 @@ import {
   injectSeoIntoHtml,
   injectCategorySeoIntoHtml,
   injectHomeSeoIntoHtml,
+  injectConverterSeoIntoHtml,
+  injectConverterCategorySeoIntoHtml,
+  injectConverterHubSeoIntoHtml,
   calculatorCategorySlugs,
+  converterCategorySlugs as convCatSlugs,
+  getConverterPageBySlug,
 } from "./seo";
 
 export async function serveStatic(app: Express, server: Server) {
@@ -67,6 +72,28 @@ export async function serveStatic(app: Express, server: Server) {
       res.type("html").send(html);
     } else {
       res.type("html").send(indexHtml);
+    }
+  });
+
+  app.get("/convert", (_req, res) => {
+    const html = injectConverterHubSeoIntoHtml(indexHtml);
+    res.type("html").send(html);
+  });
+
+  const convCatSet = new Set(convCatSlugs);
+  app.get("/convert/:slug", (req, res) => {
+    const slug = req.params.slug;
+    if (convCatSet.has(slug)) {
+      const html = injectConverterCategorySeoIntoHtml(indexHtml, slug);
+      res.type("html").send(html);
+    } else {
+      const conv = getConverterPageBySlug(slug);
+      if (conv) {
+        const html = injectConverterSeoIntoHtml(indexHtml, conv);
+        res.type("html").send(html);
+      } else {
+        res.type("html").send(indexHtml);
+      }
     }
   });
 
