@@ -6,91 +6,48 @@ import { Button } from "@/components/ui/button";
 
 export default function AccountsReceivableCalculator() {
   const [creditSales, setCreditSales] = useState("");
-  const [beginningAR, setBeginningAR] = useState("");
-  const [endingAR, setEndingAR] = useState("");
-  const [result, setResult] = useState<{
-    averageAR: number;
-    arTurnover: number;
-    avgCollectionPeriod: number;
-  } | null>(null);
+  const [beginAR, setBeginAR] = useState("");
+  const [endAR, setEndAR] = useState("");
+  const [result, setResult] = useState<{ turnover: number; avgAR: number; collectionPeriod: number } | null>(null);
 
   const calculate = () => {
     const cs = parseFloat(creditSales);
-    const bar = parseFloat(beginningAR);
-    const ear = parseFloat(endingAR);
-
-    if (!isNaN(cs) && !isNaN(bar) && !isNaN(ear) && cs >= 0 && bar >= 0 && ear >= 0) {
-      const averageAR = (bar + ear) / 2;
-      const arTurnover = averageAR > 0 ? cs / averageAR : 0;
-      const avgCollectionPeriod = arTurnover > 0 ? 365 / arTurnover : 0;
-
-      setResult({ averageAR, arTurnover, avgCollectionPeriod });
+    const bar = parseFloat(beginAR);
+    const ear = parseFloat(endAR);
+    if (cs > 0 && bar >= 0 && ear >= 0) {
+      const avg = (bar + ear) / 2;
+      const turnover = avg > 0 ? cs / avg : 0;
+      const period = turnover > 0 ? 365 / turnover : 0;
+      setResult({ turnover, avgAR: avg, collectionPeriod: period });
     }
   };
 
   return (
-    <Card className="w-full border-t-4 border-t-violet-600">
+    <Card className="w-full border-t-4 border-t-slate-600" data-testid="accounts-receivable-calculator">
       <CardHeader>
         <CardTitle>Accounts Receivable Calculator</CardTitle>
-        <CardDescription>Calculate AR turnover ratio and average collection period from credit sales and receivables data.</CardDescription>
+        <CardDescription>Calculate AR turnover ratio and average collection period in days.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid sm:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label>Total Credit Sales ($)</Label>
-            <Input
-              data-testid="input-credit-sales"
-              type="number"
-              value={creditSales}
-              onChange={(e) => setCreditSales(e.target.value)}
-              placeholder="1000000"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Beginning AR ($)</Label>
-            <Input
-              data-testid="input-beginning-ar"
-              type="number"
-              value={beginningAR}
-              onChange={(e) => setBeginningAR(e.target.value)}
-              placeholder="80000"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Ending AR ($)</Label>
-            <Input
-              data-testid="input-ending-ar"
-              type="number"
-              value={endingAR}
-              onChange={(e) => setEndingAR(e.target.value)}
-              placeholder="120000"
-            />
-          </div>
+          <div className="space-y-2"><Label>Total Credit Sales ($)</Label><Input type="number" placeholder="1000000" value={creditSales} onChange={(e) => setCreditSales(e.target.value)} data-testid="input-credit-sales" /></div>
+          <div className="space-y-2"><Label>Beginning AR ($)</Label><Input type="number" placeholder="120000" value={beginAR} onChange={(e) => setBeginAR(e.target.value)} data-testid="input-begin-ar" /></div>
+          <div className="space-y-2"><Label>Ending AR ($)</Label><Input type="number" placeholder="100000" value={endAR} onChange={(e) => setEndAR(e.target.value)} data-testid="input-end-ar" /></div>
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full bg-violet-600 hover:bg-violet-700">
-          Calculate AR Turnover
-        </Button>
-
+        <Button onClick={calculate} className="w-full bg-slate-600 hover:bg-slate-700" data-testid="button-calculate">Calculate</Button>
         {result && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-            <div className="p-4 bg-violet-50 dark:bg-violet-900/20 rounded-lg border border-violet-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">AR Turnover</p>
-              <p data-testid="text-ar-turnover" className="text-2xl font-bold text-violet-700 dark:text-violet-400">
-                {result.arTurnover.toFixed(2)}x
-              </p>
+          <div className="grid grid-cols-3 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">AR Turnover</p>
+              <p className="text-2xl font-bold text-slate-600" data-testid="text-turnover">{result.turnover.toFixed(2)}x</p>
             </div>
-            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Avg Collection Period</p>
-              <p data-testid="text-collection-period" className="text-2xl font-bold text-blue-700 dark:text-blue-400">
-                {result.avgCollectionPeriod.toFixed(1)} days
-              </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Average AR</p>
+              <p className="text-2xl font-bold text-blue-600" data-testid="text-avg-ar">${result.avgAR.toLocaleString()}</p>
             </div>
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Average AR</p>
-              <p data-testid="text-average-ar" className="text-2xl font-bold text-green-700 dark:text-green-400">
-                ${result.averageAR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Collection Period</p>
+              <p className="text-2xl font-bold text-orange-600" data-testid="text-period">{Math.round(result.collectionPeriod)} days</p>
             </div>
           </div>
         )}

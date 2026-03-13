@@ -3,116 +3,62 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Plus, Trash2 } from "lucide-react";
 
-interface MaterialItem {
-  id: number;
-  name: string;
-  quantity: string;
-  unitPrice: string;
-}
+interface Material { name: string; quantity: string; unitPrice: string }
 
 export default function MaterialCostEstimator() {
-  const [items, setItems] = useState<MaterialItem[]>([
-    { id: 1, name: "", quantity: "", unitPrice: "" },
-  ]);
-  const [markup, setMarkup] = useState("0");
-  const [result, setResult] = useState<{
-    itemCosts: number[];
-    totalMaterialCost: number;
-    markupAmount: number;
-    grandTotal: number;
-  } | null>(null);
+  const [materials, setMaterials] = useState<Material[]>([{ name: "", quantity: "", unitPrice: "" }]);
+  const [markupPct, setMarkupPct] = useState("0");
 
-  let nextId = items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1;
-
-  const addItem = () => {
-    setItems([...items, { id: nextId, name: "", quantity: "", unitPrice: "" }]);
+  const addMaterial = () => setMaterials(prev => [...prev, { name: "", quantity: "", unitPrice: "" }]);
+  const removeMaterial = (idx: number) => setMaterials(prev => prev.filter((_, i) => i !== idx));
+  const updateMaterial = (idx: number, field: keyof Material, value: string) => {
+    setMaterials(prev => prev.map((m, i) => i === idx ? { ...m, [field]: value } : m));
   };
 
-  const removeItem = (id: number) => {
-    if (items.length > 1) setItems(items.filter((i) => i.id !== id));
-  };
-
-  const updateItem = (id: number, field: keyof MaterialItem, value: string) => {
-    setItems(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-  };
-
-  const calculate = () => {
-    const mPct = parseFloat(markup) || 0;
-    const itemCosts = items.map((i) => {
-      const qty = parseFloat(i.quantity) || 0;
-      const price = parseFloat(i.unitPrice) || 0;
-      return qty * price;
-    });
-    const totalMaterialCost = itemCosts.reduce((a, b) => a + b, 0);
-    const markupAmount = totalMaterialCost * (mPct / 100);
-    const grandTotal = totalMaterialCost + markupAmount;
-
-    setResult({ itemCosts, totalMaterialCost, markupAmount, grandTotal });
-  };
+  const lineAmounts = materials.map(m => (parseFloat(m.quantity) || 0) * (parseFloat(m.unitPrice) || 0));
+  const subtotal = lineAmounts.reduce((s, a) => s + a, 0);
+  const markup = subtotal * ((parseFloat(markupPct) || 0) / 100);
+  const total = subtotal + markup;
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-emerald-700" data-testid="material-cost-estimator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Material Cost Estimator</CardTitle>
-        <CardDescription>Add materials with quantity and unit price to estimate total material costs, with optional markup.</CardDescription>
+        <CardTitle>Material Cost Estimator</CardTitle>
+        <CardDescription>List materials with quantities and prices to estimate total material cost.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-          {items.map((item, index) => (
-            <div key={item.id} className="grid grid-cols-12 gap-2 items-end border p-3 rounded-lg">
-              <div className="col-span-12 sm:col-span-4 space-y-1">
-                <Label className="text-xs">Material Name</Label>
-                <Input data-testid={`input-name-${index}`} value={item.name} onChange={(e) => updateItem(item.id, "name", e.target.value)} placeholder="Cement bags" />
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          {materials.map((mat, i) => (
+            <div key={i} className="flex gap-2 items-end">
+              <div className="flex-1">
+                {i === 0 && <Label className="text-xs">Material</Label>}
+                <Input placeholder="Material name" value={mat.name} onChange={(e) => updateMaterial(i, "name", e.target.value)} data-testid={`input-name-${i}`} />
               </div>
-              <div className="col-span-4 sm:col-span-2 space-y-1">
-                <Label className="text-xs">Quantity</Label>
-                <Input data-testid={`input-quantity-${index}`} type="number" value={item.quantity} onChange={(e) => updateItem(item.id, "quantity", e.target.value)} placeholder="50" />
+              <div className="w-24">
+                {i === 0 && <Label className="text-xs">Qty</Label>}
+                <Input type="number" placeholder="0" value={mat.quantity} onChange={(e) => updateMaterial(i, "quantity", e.target.value)} data-testid={`input-qty-${i}`} />
               </div>
-              <div className="col-span-4 sm:col-span-3 space-y-1">
-                <Label className="text-xs">Unit Price ($)</Label>
-                <Input data-testid={`input-unit-price-${index}`} type="number" value={item.unitPrice} onChange={(e) => updateItem(item.id, "unitPrice", e.target.value)} placeholder="12.50" />
+              <div className="w-28">
+                {i === 0 && <Label className="text-xs">Unit Price ($)</Label>}
+                <Input type="number" placeholder="0" value={mat.unitPrice} onChange={(e) => updateMaterial(i, "unitPrice", e.target.value)} data-testid={`input-price-${i}`} />
               </div>
-              <div className="col-span-3 sm:col-span-2 text-right">
-                <p className="text-xs text-muted-foreground">Cost</p>
-                <p className="font-medium">${((parseFloat(item.quantity) || 0) * (parseFloat(item.unitPrice) || 0)).toFixed(2)}</p>
-              </div>
-              <div className="col-span-1 flex justify-end">
-                <Button data-testid={`button-remove-${index}`} variant="ghost" size="sm" onClick={() => removeItem(item.id)} disabled={items.length === 1}>✕</Button>
-              </div>
+              <div className="w-24 text-right font-medium text-sm pt-2">${lineAmounts[i].toFixed(2)}</div>
+              {materials.length > 1 && <Button variant="ghost" size="icon" onClick={() => removeMaterial(i)} className="text-red-500 shrink-0"><Trash2 className="h-4 w-4" /></Button>}
             </div>
           ))}
         </div>
-
-        <Button data-testid="button-add-item" variant="outline" onClick={addItem} className="w-full">+ Add Material</Button>
-
+        <Button variant="outline" size="sm" onClick={addMaterial} data-testid="button-add-material"><Plus className="h-3 w-3 mr-1" />Add Material</Button>
         <div className="space-y-2">
           <Label>Markup (%)</Label>
-          <Input data-testid="input-markup" type="number" value={markup} onChange={(e) => setMarkup(e.target.value)} placeholder="0" min="0" />
+          <Input type="number" placeholder="0" value={markupPct} onChange={(e) => setMarkupPct(e.target.value)} className="w-32" data-testid="input-markup" />
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full">Calculate Total</Button>
-
-        {result && (
-          <div className="space-y-4 pt-4 animate-in fade-in-50">
-            <div className="space-y-2 border-t pt-3">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Material Cost</span>
-                <span data-testid="text-material-cost" className="font-medium">${result.totalMaterialCost.toFixed(2)}</span>
-              </div>
-              {result.markupAmount > 0 && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Markup ({markup}%)</span>
-                  <span data-testid="text-markup-amount" className="font-medium">${result.markupAmount.toFixed(2)}</span>
-                </div>
-              )}
-              <div className="flex justify-between text-lg font-bold border-t pt-2">
-                <span>Grand Total</span>
-                <span data-testid="text-grand-total" className="text-primary">${result.grandTotal.toFixed(2)}</span>
-              </div>
-            </div>
-          </div>
-        )}
+        <div className="border-t pt-4 space-y-2 text-right" data-testid="result-section">
+          <div className="flex justify-between"><span className="text-muted-foreground">Material Subtotal</span><span className="font-medium" data-testid="text-subtotal">${subtotal.toFixed(2)}</span></div>
+          {parseFloat(markupPct) > 0 && <div className="flex justify-between"><span className="text-muted-foreground">Markup ({markupPct}%)</span><span className="font-medium" data-testid="text-markup">${markup.toFixed(2)}</span></div>}
+          <div className="flex justify-between text-lg border-t pt-2"><span className="font-semibold">Total</span><span className="font-bold text-emerald-700" data-testid="text-total">${total.toFixed(2)}</span></div>
+        </div>
       </CardContent>
     </Card>
   );

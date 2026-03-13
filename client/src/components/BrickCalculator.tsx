@@ -8,157 +8,89 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function BrickCalculator() {
   const [wallLength, setWallLength] = useState("");
   const [wallHeight, setWallHeight] = useState("");
-  const [wallUnit, setWallUnit] = useState("ft");
+  const [unit, setUnit] = useState("ft");
   const [brickSize, setBrickSize] = useState("standard");
   const [mortarThickness, setMortarThickness] = useState("10");
-
-  const [result, setResult] = useState<{
-    wallArea: number;
-    bricksNeeded: number;
-    mortarVolumeM3: number;
-    cementBags: number;
-  } | null>(null);
-
-  const brickSizes: Record<string, { l: number; h: number; w: number; label: string }> = {
-    standard: { l: 230, h: 75, w: 110, label: "Standard (230×110×75 mm)" },
-    modular: { l: 190, h: 90, w: 90, label: "Modular (190×90×90 mm)" },
-    queen: { l: 230, h: 75, w: 80, label: "Queen (230×80×75 mm)" },
-    king: { l: 300, h: 100, w: 150, label: "King (300×150×100 mm)" },
-  };
+  const [wastage, setWastage] = useState("5");
+  const [result, setResult] = useState<{ bricks: number; mortarVolume: number; wallArea: number } | null>(null);
 
   const calculate = () => {
-    const lengthVal = parseFloat(wallLength) || 0;
-    const heightVal = parseFloat(wallHeight) || 0;
-    if (lengthVal <= 0 || heightVal <= 0) return;
-
-    let lengthM = lengthVal;
-    let heightM = heightVal;
-    if (wallUnit === "ft") {
-      lengthM = lengthVal * 0.3048;
-      heightM = heightVal * 0.3048;
+    const l = parseFloat(wallLength);
+    const h = parseFloat(wallHeight);
+    if (l > 0 && h > 0) {
+      const toM = unit === "ft" ? 0.3048 : 1;
+      const lM = l * toM;
+      const hM = h * toM;
+      const wallArea = lM * hM;
+      const sizes: Record<string, [number, number, number]> = {
+        standard: [0.19, 0.09, 0.09],
+        modular: [0.19, 0.09, 0.057],
+        queen: [0.203, 0.076, 0.07],
+      };
+      const [bL, bW, bH] = sizes[brickSize] || sizes.standard;
+      const mt = parseFloat(mortarThickness) / 1000;
+      const bricksPerM2 = 1 / ((bL + mt) * (bH + mt));
+      const rawBricks = Math.ceil(wallArea * bricksPerM2);
+      const wPct = parseFloat(wastage) || 5;
+      const totalBricks = Math.ceil(rawBricks * (1 + wPct / 100));
+      const mortarVolume = wallArea * bW - (rawBricks * bL * bW * bH);
+      setResult({ bricks: totalBricks, mortarVolume: Math.max(0, mortarVolume), wallArea });
     }
-
-    const wallAreaM2 = lengthM * heightM;
-    const brick = brickSizes[brickSize];
-    const mortar = parseFloat(mortarThickness) || 10;
-
-    const brickWithMortarL = (brick.l + mortar) / 1000;
-    const brickWithMortarH = (brick.h + mortar) / 1000;
-
-    const bricksPerM2 = 1 / (brickWithMortarL * brickWithMortarH);
-    const bricksNeeded = Math.ceil(wallAreaM2 * bricksPerM2 * 1.05);
-
-    const mortarPerBrickM3 =
-      ((brick.l + mortar) * (brick.h + mortar) * (brick.w + mortar) -
-        brick.l * brick.h * brick.w) /
-      1e9;
-    const totalMortarM3 = mortarPerBrickM3 * bricksNeeded * 1.25;
-
-    const cementBags = Math.ceil((totalMortarM3 * 1.54 * (1 / 7)) / 0.035);
-
-    setResult({
-      wallArea: wallAreaM2,
-      bricksNeeded,
-      mortarVolumeM3: totalMortarM3,
-      cementBags,
-    });
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-red-700" data-testid="brick-calculator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Brick Calculator</CardTitle>
-        <CardDescription>Calculate the number of bricks and mortar needed for your wall.</CardDescription>
+        <CardTitle>Brick Calculator</CardTitle>
+        <CardDescription>Calculate the number of bricks and mortar volume for your wall.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <CardContent className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Wall Length</Label>
-            <Input
-              data-testid="input-wall-length"
-              type="number"
-              value={wallLength}
-              onChange={(e) => setWallLength(e.target.value)}
-              placeholder="e.g. 20"
-            />
+            <div className="flex gap-2">
+              <Input type="number" placeholder="20" value={wallLength} onChange={(e) => setWallLength(e.target.value)} className="flex-1" data-testid="input-length" />
+              <Select value={unit} onValueChange={setUnit}>
+                <SelectTrigger className="w-20"><SelectValue /></SelectTrigger>
+                <SelectContent><SelectItem value="ft">ft</SelectItem><SelectItem value="m">m</SelectItem></SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="space-y-2">
-            <Label>Wall Height</Label>
-            <Input
-              data-testid="input-wall-height"
-              type="number"
-              value={wallHeight}
-              onChange={(e) => setWallHeight(e.target.value)}
-              placeholder="e.g. 10"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Unit</Label>
-            <Select value={wallUnit} onValueChange={setWallUnit}>
-              <SelectTrigger data-testid="select-wall-unit">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ft">Feet</SelectItem>
-                <SelectItem value="m">Meters</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Wall Height ({unit})</Label>
+            <Input type="number" placeholder="10" value={wallHeight} onChange={(e) => setWallHeight(e.target.value)} data-testid="input-height" />
           </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label>Brick Size</Label>
             <Select value={brickSize} onValueChange={setBrickSize}>
-              <SelectTrigger data-testid="select-brick-size">
-                <SelectValue />
-              </SelectTrigger>
+              <SelectTrigger data-testid="select-brick-size"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {Object.entries(brickSizes).map(([key, val]) => (
-                  <SelectItem key={key} value={key}>{val.label}</SelectItem>
-                ))}
+                <SelectItem value="standard">Standard (190×90×90mm)</SelectItem>
+                <SelectItem value="modular">Modular (190×90×57mm)</SelectItem>
+                <SelectItem value="queen">Queen (203×76×70mm)</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2">
-            <Label>Mortar Thickness (mm)</Label>
-            <Input
-              data-testid="input-mortar-thickness"
-              type="number"
-              value={mortarThickness}
-              onChange={(e) => setMortarThickness(e.target.value)}
-              placeholder="10"
-            />
-          </div>
+          <div className="space-y-2"><Label>Mortar Thickness (mm)</Label><Input type="number" placeholder="10" value={mortarThickness} onChange={(e) => setMortarThickness(e.target.value)} data-testid="input-mortar" /></div>
+          <div className="space-y-2"><Label>Wastage (%)</Label><Input type="number" placeholder="5" value={wastage} onChange={(e) => setWastage(e.target.value)} data-testid="input-wastage" /></div>
         </div>
-
-        <Button data-testid="button-calculate" className="w-full" onClick={calculate}>
-          Calculate Bricks
-        </Button>
-
+        <Button onClick={calculate} className="w-full bg-red-700 hover:bg-red-800" data-testid="button-calculate">Calculate</Button>
         {result && (
-          <div className="mt-6 space-y-4 animate-in fade-in-50">
-            <div className="bg-muted p-4 rounded-lg text-center">
-              <p className="text-sm text-muted-foreground">Wall Area</p>
-              <p data-testid="text-wall-area" className="text-2xl font-bold text-primary">{result.wallArea.toFixed(2)} m²</p>
+          <div className="grid grid-cols-3 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-red-50 dark:bg-red-950/30 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Bricks Needed</p>
+              <p className="text-2xl font-bold text-red-700" data-testid="text-bricks">{result.bricks.toLocaleString()}</p>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="flex flex-col items-center p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
-                <span data-testid="text-bricks-needed" className="text-3xl font-bold text-foreground">{result.bricksNeeded.toLocaleString()}</span>
-                <span className="text-sm text-muted-foreground text-center">Bricks Needed</span>
-              </div>
-              <div className="flex flex-col items-center p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
-                <span data-testid="text-mortar-volume" className="text-3xl font-bold text-foreground">{result.mortarVolumeM3.toFixed(3)}</span>
-                <span className="text-sm text-muted-foreground text-center">Mortar (m³)</span>
-              </div>
-              <div className="flex flex-col items-center p-4 border rounded-lg bg-slate-50 dark:bg-slate-900">
-                <span data-testid="text-cement-bags" className="text-3xl font-bold text-foreground">{result.cementBags}</span>
-                <span className="text-sm text-muted-foreground text-center">Cement Bags</span>
-              </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Mortar Volume</p>
+              <p className="text-2xl font-bold text-amber-600" data-testid="text-mortar">{result.mortarVolume.toFixed(2)} m³</p>
             </div>
-            <p className="text-xs text-muted-foreground text-center">
-              *Includes 5% wastage for bricks. Mortar calculated with 1:6 cement-sand ratio. Deduct openings (doors/windows) from wall area.
-            </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Wall Area</p>
+              <p className="text-2xl font-bold text-blue-600" data-testid="text-area">{result.wallArea.toFixed(1)} m²</p>
+            </div>
           </div>
         )}
       </CardContent>

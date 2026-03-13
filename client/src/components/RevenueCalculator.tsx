@@ -2,95 +2,70 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function RevenueCalculator() {
   const [revenues, setRevenues] = useState<string[]>(Array(12).fill(""));
+  const [calculated, setCalculated] = useState(false);
 
-  const updateRevenue = (index: number, value: string) => {
-    const updated = [...revenues];
-    updated[index] = value;
-    setRevenues(updated);
-  };
+  const values = revenues.map(r => parseFloat(r) || 0);
+  const total = values.reduce((s, v) => s + v, 0);
+  const filledMonths = values.filter(v => v > 0).length;
+  const average = filledMonths > 0 ? total / filledMonths : 0;
+  const firstNonZero = values.findIndex(v => v > 0);
+  const lastNonZero = values.findLastIndex(v => v > 0);
+  const growthRate = firstNonZero >= 0 && lastNonZero > firstNonZero && values[firstNonZero] > 0
+    ? ((values[lastNonZero] - values[firstNonZero]) / values[firstNonZero]) * 100 : 0;
 
-  const values = revenues.map((r) => parseFloat(r) || 0);
-  const filledValues = values.filter((v) => v > 0);
-  const totalRevenue = values.reduce((sum, v) => sum + v, 0);
-  const averageRevenue = filledValues.length > 0 ? totalRevenue / filledValues.length : 0;
-
-  let growthRate = 0;
-  if (filledValues.length >= 2) {
-    const firstNonZeroIdx = values.findIndex((v) => v > 0);
-    let lastNonZeroIdx = -1;
-    for (let i = values.length - 1; i >= 0; i--) {
-      if (values[i] > 0) { lastNonZeroIdx = i; break; }
-    }
-    if (firstNonZeroIdx !== lastNonZeroIdx && values[firstNonZeroIdx] > 0) {
-      growthRate = ((values[lastNonZeroIdx] - values[firstNonZeroIdx]) / values[firstNonZeroIdx]) * 100;
-    }
-  }
-
-  const maxValue = Math.max(...values, 1);
+  const chartData = MONTHS.map((m, i) => ({ name: m, revenue: values[i] }));
 
   return (
-    <Card className="w-full border-t-4 border-t-teal-600">
+    <Card className="w-full border-t-4 border-t-cyan-600" data-testid="revenue-calculator">
       <CardHeader>
         <CardTitle>Revenue Calculator</CardTitle>
-        <CardDescription>Enter monthly revenues to see total, average, and growth rate with a visual chart.</CardDescription>
+        <CardDescription>Enter monthly revenues to see totals, averages, and growth trends.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          {MONTHS.map((month, idx) => (
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+          {MONTHS.map((month, i) => (
             <div key={month} className="space-y-1">
               <Label className="text-xs">{month}</Label>
-              <Input
-                data-testid={`input-revenue-${month.toLowerCase()}`}
-                type="number"
-                value={revenues[idx]}
-                onChange={(e) => updateRevenue(idx, e.target.value)}
-                placeholder="0"
-              />
+              <Input type="number" placeholder="0" value={revenues[i]} onChange={(e) => { const r = [...revenues]; r[i] = e.target.value; setRevenues(r); }} data-testid={`input-${month.toLowerCase()}`} />
             </div>
           ))}
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-          <div className="p-4 bg-teal-50 dark:bg-teal-900/20 rounded-lg border border-teal-200 text-center">
-            <p className="text-xs text-muted-foreground uppercase font-medium">Total Revenue</p>
-            <p data-testid="text-total-revenue" className="text-2xl font-bold text-teal-700 dark:text-teal-400">
-              ${totalRevenue.toFixed(2)}
-            </p>
-          </div>
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 text-center">
-            <p className="text-xs text-muted-foreground uppercase font-medium">Average Monthly</p>
-            <p data-testid="text-average-revenue" className="text-2xl font-bold text-blue-700 dark:text-blue-400">
-              ${averageRevenue.toFixed(2)}
-            </p>
-          </div>
-          <div className={`p-4 rounded-lg border text-center ${growthRate >= 0 ? "bg-green-50 dark:bg-green-900/20 border-green-200" : "bg-red-50 dark:bg-red-900/20 border-red-200"}`}>
-            <p className="text-xs text-muted-foreground uppercase font-medium">Growth Rate</p>
-            <p data-testid="text-growth-rate" className={`text-2xl font-bold ${growthRate >= 0 ? "text-green-700 dark:text-green-400" : "text-red-700 dark:text-red-400"}`}>
-              {growthRate.toFixed(1)}%
-            </p>
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <h4 className="font-semibold mb-3 text-sm">Monthly Revenue Chart</h4>
-          <div className="flex items-end gap-1 h-40">
-            {values.map((val, idx) => (
-              <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full">
-                <div
-                  className="w-full bg-teal-500 dark:bg-teal-400 rounded-t-sm min-h-[2px]"
-                  style={{ height: `${(val / maxValue) * 100}%` }}
-                  data-testid={`bar-revenue-${MONTHS[idx].toLowerCase()}`}
-                />
-                <span className="text-[10px] text-muted-foreground mt-1">{MONTHS[idx]}</span>
+        <Button onClick={() => setCalculated(true)} className="w-full bg-cyan-600 hover:bg-cyan-700" data-testid="button-calculate">Analyze Revenue</Button>
+        {calculated && (
+          <div className="space-y-4 animate-in fade-in" data-testid="result-section">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-muted/50 rounded-lg p-4 text-center">
+                <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Total Revenue</p>
+                <p className="text-2xl font-bold text-cyan-600" data-testid="text-total">${total.toLocaleString()}</p>
               </div>
-            ))}
+              <div className="bg-muted/50 rounded-lg p-4 text-center">
+                <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Monthly Average</p>
+                <p className="text-2xl font-bold text-blue-600" data-testid="text-average">${Math.round(average).toLocaleString()}</p>
+              </div>
+              <div className="bg-muted/50 rounded-lg p-4 text-center">
+                <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Growth Rate</p>
+                <p className={`text-2xl font-bold ${growthRate >= 0 ? "text-green-600" : "text-red-600"}`} data-testid="text-growth">{growthRate.toFixed(1)}%</p>
+              </div>
+            </div>
+            <div className="h-[200px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData}>
+                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} />
+                  <Tooltip formatter={(v: number) => [`$${v.toLocaleString()}`, "Revenue"]} />
+                  <Bar dataKey="revenue" fill="#0891b2" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowRightLeft, Calculator } from "lucide-react";
 import Layout from "@/components/Layout";
+import CopyShareButtons from "@/components/CopyShareButtons";
+import FormulaBox from "@/components/FormulaBox";
 import {
   getConverterBySlug,
   getRelatedConverters,
@@ -53,7 +55,10 @@ function ConverterWidget({ def }: { def: ConverterDefinition }) {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">{fmtUnit(def.toUnit)} ({def.toSymbol})</label>
-            <div className="flex h-10 w-full rounded-md border bg-muted px-3 py-2 text-lg font-semibold" data-testid="output-result">{result}</div>
+            <div className="flex h-10 w-full rounded-md border bg-muted px-3 py-2 text-lg font-semibold items-center justify-between" data-testid="output-result">
+              <span>{result}</span>
+              {result && <CopyShareButtons textToCopy={`${inputValue} ${def.fromSymbol} = ${result} ${def.toSymbol}`} shareTitle={def.name} shareText={`${inputValue} ${def.fromSymbol} = ${result} ${def.toSymbol}`} compact />}
+            </div>
           </div>
         </div>
       </CardContent>
@@ -128,13 +133,7 @@ export default function ConverterPage() {
         <ConverterWidget def={def} />
 
         <div className="grid md:grid-cols-2 gap-6 mt-8">
-          <Card>
-            <CardHeader><CardTitle className="text-lg">Formula</CardTitle></CardHeader>
-            <CardContent>
-              <p className="font-mono bg-muted rounded p-3">{def.formula}</p>
-              <p className="text-sm text-muted-foreground mt-3">{def.example}</p>
-            </CardContent>
-          </Card>
+          <FormulaBox formula={def.formula} description={def.example} />
           <ConversionTable def={def} />
         </div>
 

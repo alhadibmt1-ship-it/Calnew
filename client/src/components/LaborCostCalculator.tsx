@@ -10,85 +10,56 @@ export default function LaborCostCalculator() {
   const [days, setDays] = useState("");
   const [overtimeHours, setOvertimeHours] = useState("0");
   const [overtimeRate, setOvertimeRate] = useState("");
-  const [result, setResult] = useState<{
-    regularCost: number;
-    overtimeCost: number;
-    totalLaborCost: number;
-    perWorkerCost: number;
-  } | null>(null);
+  const [result, setResult] = useState<{ regularCost: number; overtimeCost: number; totalCost: number; perWorkerCost: number } | null>(null);
 
   const calculate = () => {
-    const w = parseInt(workers) || 0;
-    const dw = parseFloat(dailyWage) || 0;
-    const d = parseInt(days) || 0;
-    const otHours = parseFloat(overtimeHours) || 0;
-    const otRate = parseFloat(overtimeRate) || 0;
-
+    const w = parseFloat(workers);
+    const dw = parseFloat(dailyWage);
+    const d = parseFloat(days);
     if (w > 0 && dw > 0 && d > 0) {
       const regularCost = w * dw * d;
-      const overtimeCost = w * otHours * otRate * d;
-      const totalLaborCost = regularCost + overtimeCost;
-      const perWorkerCost = totalLaborCost / w;
-
-      setResult({ regularCost, overtimeCost, totalLaborCost, perWorkerCost });
+      const oh = parseFloat(overtimeHours) || 0;
+      const or_ = parseFloat(overtimeRate) || (dw / 8);
+      const overtimeCost = w * oh * or_ * d;
+      const totalCost = regularCost + overtimeCost;
+      setResult({ regularCost, overtimeCost, totalCost, perWorkerCost: totalCost / w });
     }
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-blue-700" data-testid="labor-cost-calculator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Labor Cost Calculator</CardTitle>
-        <CardDescription>Calculate total labor cost including regular wages and overtime for construction projects.</CardDescription>
+        <CardTitle>Labor Cost Calculator</CardTitle>
+        <CardDescription>Calculate total labor costs including regular wages and overtime.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid sm:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label>Number of Workers</Label>
-            <Input data-testid="input-workers" type="number" value={workers} onChange={(e) => setWorkers(e.target.value)} placeholder="10" min="1" />
-          </div>
-          <div className="space-y-2">
-            <Label>Daily Wage ($)</Label>
-            <Input data-testid="input-daily-wage" type="number" value={dailyWage} onChange={(e) => setDailyWage(e.target.value)} placeholder="150" />
-          </div>
-          <div className="space-y-2">
-            <Label>Number of Days</Label>
-            <Input data-testid="input-days" type="number" value={days} onChange={(e) => setDays(e.target.value)} placeholder="30" min="1" />
-          </div>
+          <div className="space-y-2"><Label>Number of Workers</Label><Input type="number" placeholder="10" value={workers} onChange={(e) => setWorkers(e.target.value)} data-testid="input-workers" /></div>
+          <div className="space-y-2"><Label>Daily Wage ($)</Label><Input type="number" placeholder="150" value={dailyWage} onChange={(e) => setDailyWage(e.target.value)} data-testid="input-daily-wage" /></div>
+          <div className="space-y-2"><Label>Number of Days</Label><Input type="number" placeholder="30" value={days} onChange={(e) => setDays(e.target.value)} data-testid="input-days" /></div>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Overtime Hours (per worker/day)</Label>
-            <Input data-testid="input-overtime-hours" type="number" value={overtimeHours} onChange={(e) => setOvertimeHours(e.target.value)} placeholder="0" min="0" />
-          </div>
-          <div className="space-y-2">
-            <Label>Overtime Rate ($/hour)</Label>
-            <Input data-testid="input-overtime-rate" type="number" value={overtimeRate} onChange={(e) => setOvertimeRate(e.target.value)} placeholder="25" />
-          </div>
+          <div className="space-y-2"><Label>Overtime Hours/Day</Label><Input type="number" placeholder="0" value={overtimeHours} onChange={(e) => setOvertimeHours(e.target.value)} data-testid="input-ot-hours" /></div>
+          <div className="space-y-2"><Label>Overtime Rate ($/hr)</Label><Input type="number" placeholder="Auto" value={overtimeRate} onChange={(e) => setOvertimeRate(e.target.value)} data-testid="input-ot-rate" /></div>
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full">Calculate Labor Cost</Button>
-
+        <Button onClick={calculate} className="w-full bg-blue-700 hover:bg-blue-800" data-testid="button-calculate">Calculate</Button>
         {result && (
-          <div className="space-y-4 pt-4 animate-in fade-in-50">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Regular Wages</p>
-                <p data-testid="text-regular-cost" className="text-xl font-bold">${result.regularCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-              </div>
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Overtime Cost</p>
-                <p data-testid="text-overtime-cost" className="text-xl font-bold">${result.overtimeCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-              </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Regular Cost</p>
+              <p className="text-xl font-bold text-blue-600" data-testid="text-regular">${result.regularCost.toLocaleString()}</p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-primary/10 rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Total Labor Cost</p>
-                <p data-testid="text-total-labor-cost" className="text-2xl font-bold text-primary">${result.totalLaborCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-              </div>
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Per Worker Cost</p>
-                <p data-testid="text-per-worker-cost" className="text-xl font-bold">${result.perWorkerCost.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-              </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Overtime Cost</p>
+              <p className="text-xl font-bold text-amber-600" data-testid="text-overtime">${result.overtimeCost.toLocaleString()}</p>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Total Cost</p>
+              <p className="text-xl font-bold text-green-600" data-testid="text-total">${result.totalCost.toLocaleString()}</p>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Per Worker</p>
+              <p className="text-xl font-bold text-purple-600" data-testid="text-per-worker">${result.perWorkerCost.toLocaleString()}</p>
             </div>
           </div>
         )}

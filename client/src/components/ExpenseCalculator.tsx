@@ -4,120 +4,77 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus, Trash2 } from "lucide-react";
 
-interface ExpenseItem {
-  id: number;
-  category: string;
-  description: string;
-  amount: string;
-  date: string;
-}
+const CATEGORIES = ["Food & Dining", "Transportation", "Housing", "Utilities", "Entertainment", "Shopping", "Healthcare", "Education", "Travel", "Other"];
 
-const CATEGORIES = ["Food", "Transport", "Utilities", "Rent", "Office", "Marketing", "Salaries", "Other"];
-
-let nextId = 1;
+interface Expense { category: string; description: string; amount: string }
 
 export default function ExpenseCalculator() {
-  const [items, setItems] = useState<ExpenseItem[]>([{ id: nextId++, category: "Other", description: "", amount: "", date: "" }]);
+  const [expenses, setExpenses] = useState<Expense[]>([{ category: "Food & Dining", description: "", amount: "" }]);
 
-  const addItem = () => setItems([...items, { id: nextId++, category: "Other", description: "", amount: "", date: "" }]);
-  const removeItem = (id: number) => setItems(items.filter((i) => i.id !== id));
-
-  const updateItem = (id: number, field: keyof ExpenseItem, value: string) => {
-    setItems(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+  const addExpense = () => setExpenses(prev => [...prev, { category: "Other", description: "", amount: "" }]);
+  const removeExpense = (idx: number) => setExpenses(prev => prev.filter((_, i) => i !== idx));
+  const updateExpense = (idx: number, field: keyof Expense, value: string) => {
+    setExpenses(prev => prev.map((e, i) => i === idx ? { ...e, [field]: value } : e));
   };
 
-  const totalExpenses = items.reduce((sum, i) => sum + (parseFloat(i.amount) || 0), 0);
-
-  const categoryBreakdown = items.reduce<Record<string, number>>((acc, item) => {
-    const amount = parseFloat(item.amount) || 0;
-    if (amount > 0) {
-      acc[item.category] = (acc[item.category] || 0) + amount;
-    }
-    return acc;
-  }, {});
+  const total = expenses.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+  const byCategory = CATEGORIES.map(cat => ({
+    category: cat,
+    total: expenses.filter(e => e.category === cat).reduce((s, e) => s + (parseFloat(e.amount) || 0), 0)
+  })).filter(c => c.total > 0).sort((a, b) => b.total - a.total);
 
   return (
-    <Card className="w-full border-t-4 border-t-red-600">
+    <Card className="w-full border-t-4 border-t-rose-600" data-testid="expense-calculator">
       <CardHeader>
         <CardTitle>Expense Calculator</CardTitle>
-        <CardDescription>Track expenses by category to see total spending and category breakdown.</CardDescription>
+        <CardDescription>Track expenses by category and see your spending breakdown.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <Label className="text-base font-semibold">Expenses</Label>
-            <Button data-testid="button-add-expense" variant="outline" size="sm" onClick={addItem}>+ Add Expense</Button>
-          </div>
-          {items.map((item) => (
-            <div key={item.id} className="flex flex-wrap gap-2 items-end">
-              <div className="w-32">
-                <Select value={item.category} onValueChange={(v) => updateItem(item.id, "category", v)}>
-                  <SelectTrigger data-testid={`select-category-${item.id}`}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIES.map((cat) => (
-                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                    ))}
-                  </SelectContent>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          {expenses.map((exp, i) => (
+            <div key={i} className="flex gap-2 items-end">
+              <div className="w-40">
+                {i === 0 && <Label className="text-xs">Category</Label>}
+                <Select value={exp.category} onValueChange={(v) => updateExpense(i, "category", v)}>
+                  <SelectTrigger data-testid={`select-category-${i}`}><SelectValue /></SelectTrigger>
+                  <SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="flex-1 min-w-[120px]">
-                <Input
-                  data-testid={`input-expense-desc-${item.id}`}
-                  placeholder="Description"
-                  value={item.description}
-                  onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                />
+              <div className="flex-1">
+                {i === 0 && <Label className="text-xs">Description</Label>}
+                <Input placeholder="Description" value={exp.description} onChange={(e) => updateExpense(i, "description", e.target.value)} data-testid={`input-desc-${i}`} />
               </div>
               <div className="w-28">
-                <Input
-                  data-testid={`input-expense-amount-${item.id}`}
-                  type="number"
-                  placeholder="Amount"
-                  value={item.amount}
-                  onChange={(e) => updateItem(item.id, "amount", e.target.value)}
-                />
+                {i === 0 && <Label className="text-xs">Amount</Label>}
+                <Input type="number" placeholder="0.00" value={exp.amount} onChange={(e) => updateExpense(i, "amount", e.target.value)} data-testid={`input-amount-${i}`} />
               </div>
-              <div className="w-36">
-                <Input
-                  data-testid={`input-expense-date-${item.id}`}
-                  type="date"
-                  value={item.date}
-                  onChange={(e) => updateItem(item.id, "date", e.target.value)}
-                />
-              </div>
-              {items.length > 1 && (
-                <Button data-testid={`button-remove-expense-${item.id}`} variant="ghost" size="sm" onClick={() => removeItem(item.id)} className="text-red-500">✕</Button>
-              )}
+              {expenses.length > 1 && <Button variant="ghost" size="icon" onClick={() => removeExpense(i)} className="text-red-500 shrink-0"><Trash2 className="h-4 w-4" /></Button>}
             </div>
           ))}
         </div>
-
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 text-center">
-          <p className="text-xs text-muted-foreground uppercase font-medium">Total Expenses</p>
-          <p data-testid="text-total-expenses" className="text-3xl font-bold text-red-700 dark:text-red-400">
-            ${totalExpenses.toFixed(2)}
-          </p>
-        </div>
-
-        {Object.keys(categoryBreakdown).length > 0 && (
-          <div className="pt-2">
-            <h4 className="font-semibold mb-3 text-sm">Breakdown by Category</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {Object.entries(categoryBreakdown)
-                .sort((a, b) => b[1] - a[1])
-                .map(([cat, amt]) => (
-                  <div key={cat} className="p-3 bg-slate-50 dark:bg-slate-900/40 rounded-lg border text-center" data-testid={`text-category-${cat.toLowerCase()}`}>
-                    <p className="text-xs text-muted-foreground font-medium">{cat}</p>
-                    <p className="text-lg font-bold">${amt.toFixed(2)}</p>
-                    <p className="text-xs text-muted-foreground">{((amt / totalExpenses) * 100).toFixed(1)}%</p>
-                  </div>
-                ))}
-            </div>
+        <Button variant="outline" size="sm" onClick={addExpense} data-testid="button-add-expense"><Plus className="h-3 w-3 mr-1" />Add Expense</Button>
+        <div className="border-t pt-4" data-testid="result-section">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-semibold">Total Expenses</span>
+            <span className="text-2xl font-bold text-rose-600" data-testid="text-total">${total.toFixed(2)}</span>
           </div>
-        )}
+          {byCategory.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-muted-foreground uppercase">Breakdown by Category</p>
+              {byCategory.map(c => (
+                <div key={c.category} className="flex justify-between items-center">
+                  <span className="text-sm">{c.category}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 h-2 bg-muted rounded-full overflow-hidden"><div className="h-full bg-rose-500 rounded-full" style={{ width: `${(c.total / total) * 100}%` }} /></div>
+                    <span className="text-sm font-medium w-20 text-right">${c.total.toFixed(2)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

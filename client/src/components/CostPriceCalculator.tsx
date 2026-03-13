@@ -3,107 +3,71 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function CostPriceCalculator() {
   const [costPrice, setCostPrice] = useState("");
   const [percentage, setPercentage] = useState("");
   const [mode, setMode] = useState<"margin" | "markup">("margin");
-  const [result, setResult] = useState<{
-    sellingPrice: number;
-    profitAmount: number;
-    effectiveMargin: number;
-    effectiveMarkup: number;
-  } | null>(null);
 
-  const calculate = () => {
-    const cost = parseFloat(costPrice);
-    const pct = parseFloat(percentage);
+  const cp = parseFloat(costPrice) || 0;
+  const pct = parseFloat(percentage) || 0;
 
-    if (cost > 0 && pct >= 0) {
-      let sellingPrice: number;
-      if (mode === "margin") {
-        sellingPrice = cost / (1 - pct / 100);
-      } else {
-        sellingPrice = cost * (1 + pct / 100);
-      }
-
-      const profitAmount = sellingPrice - cost;
-      const effectiveMargin = (profitAmount / sellingPrice) * 100;
-      const effectiveMarkup = (profitAmount / cost) * 100;
-
-      setResult({
-        sellingPrice,
-        profitAmount,
-        effectiveMargin: isFinite(effectiveMargin) ? effectiveMargin : 0,
-        effectiveMarkup: isFinite(effectiveMarkup) ? effectiveMarkup : 0,
-      });
+  let sellingPrice = 0, profit = 0, effectiveMargin = 0, effectiveMarkup = 0;
+  if (cp > 0 && pct > 0) {
+    if (mode === "margin") {
+      sellingPrice = cp / (1 - pct / 100);
+      profit = sellingPrice - cp;
+      effectiveMargin = pct;
+      effectiveMarkup = (profit / cp) * 100;
+    } else {
+      profit = cp * (pct / 100);
+      sellingPrice = cp + profit;
+      effectiveMarkup = pct;
+      effectiveMargin = (profit / sellingPrice) * 100;
     }
-  };
+  }
+
+  const hasResult = cp > 0 && pct > 0;
 
   return (
-    <Card className="w-full border-t-4 border-t-cyan-600">
+    <Card className="w-full border-t-4 border-t-lime-600" data-testid="cost-price-calculator">
       <CardHeader>
         <CardTitle>Cost Price Calculator</CardTitle>
-        <CardDescription>Calculate selling price from cost price using profit margin or markup percentage.</CardDescription>
+        <CardDescription>Calculate selling price from cost price using profit margin or markup.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex gap-2 mb-2">
-          <Button
-            data-testid="button-mode-margin"
-            variant={mode === "margin" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setMode("margin")}
-          >
-            Profit Margin
-          </Button>
-          <Button
-            data-testid="button-mode-markup"
-            variant={mode === "markup" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setMode("markup")}
-          >
-            Markup
-          </Button>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <Label>Cost Price ($)</Label>
+          <Input type="number" placeholder="50" value={costPrice} onChange={(e) => setCostPrice(e.target.value)} data-testid="input-cost-price" />
         </div>
-
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Cost Price ($)</Label>
-            <Input data-testid="input-cost-price" type="number" value={costPrice} onChange={(e) => setCostPrice(e.target.value)} placeholder="100" />
-          </div>
-          <div className="space-y-2">
-            <Label>{mode === "margin" ? "Desired Profit Margin (%)" : "Desired Markup (%)"}</Label>
-            <Input data-testid="input-percentage" type="number" value={percentage} onChange={(e) => setPercentage(e.target.value)} placeholder="30" />
-          </div>
+        <Tabs value={mode} onValueChange={(v) => setMode(v as "margin" | "markup")}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="margin">Profit Margin</TabsTrigger>
+            <TabsTrigger value="markup">Markup</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <div className="space-y-2">
+          <Label>{mode === "margin" ? "Desired Profit Margin (%)" : "Desired Markup (%)"}</Label>
+          <Input type="number" placeholder="30" value={percentage} onChange={(e) => setPercentage(e.target.value)} data-testid="input-percentage" />
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full bg-cyan-600 hover:bg-cyan-700">Calculate</Button>
-
-        {result && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
-            <div className="p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg border border-cyan-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Selling Price</p>
-              <p data-testid="text-selling-price" className="text-xl font-bold text-cyan-700 dark:text-cyan-400">
-                ${result.sellingPrice.toFixed(2)}
-              </p>
+        {hasResult && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Selling Price</p>
+              <p className="text-xl font-bold text-lime-600" data-testid="text-selling-price">${sellingPrice.toFixed(2)}</p>
             </div>
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Profit Amount</p>
-              <p data-testid="text-profit-amount" className="text-xl font-bold text-green-700 dark:text-green-400">
-                ${result.profitAmount.toFixed(2)}
-              </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Profit</p>
+              <p className="text-xl font-bold text-green-600" data-testid="text-profit">${profit.toFixed(2)}</p>
             </div>
-            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Profit Margin</p>
-              <p data-testid="text-effective-margin" className="text-xl font-bold text-blue-700 dark:text-blue-400">
-                {result.effectiveMargin.toFixed(2)}%
-              </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Margin</p>
+              <p className="text-xl font-bold text-blue-600" data-testid="text-margin">{effectiveMargin.toFixed(1)}%</p>
             </div>
-            <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 text-center">
-              <p className="text-xs text-muted-foreground uppercase font-medium">Markup</p>
-              <p data-testid="text-effective-markup" className="text-xl font-bold text-purple-700 dark:text-purple-400">
-                {result.effectiveMarkup.toFixed(2)}%
-              </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Markup</p>
+              <p className="text-xl font-bold text-purple-600" data-testid="text-markup">{effectiveMarkup.toFixed(1)}%</p>
             </div>
           </div>
         )}

@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import CopyShareButtons from "@/components/CopyShareButtons";
 
 export default function LoanCalculator() {
   const [amount, setAmount] = useState("");
@@ -139,6 +140,14 @@ export default function LoanCalculator() {
                     </span>
                     <span className="font-medium">${result.totalInterest.toLocaleString()}</span>
                   </div>
+                </div>
+
+                <div className="mt-4 flex justify-center">
+                  <CopyShareButtons
+                    textToCopy={`Loan: $${parseFloat(amount).toLocaleString()} at ${rate}% for ${years} years\nMonthly Payment: $${result.monthlyPayment.toLocaleString()}\nTotal Interest: $${result.totalInterest.toLocaleString()}\nTotal Payment: $${result.totalPayment.toLocaleString()}`}
+                    shareTitle="Loan EMI Calculation"
+                    shareText={`Monthly Payment: $${result.monthlyPayment.toLocaleString()} for a $${parseFloat(amount).toLocaleString()} loan at ${rate}% over ${years} years. Total interest: $${result.totalInterest.toLocaleString()}`}
+                  />
                 </div>
               </>
             ) : (

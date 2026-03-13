@@ -3,118 +3,61 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Plus, Trash2 } from "lucide-react";
 
-interface LineItem {
-  id: number;
-  description: string;
-  qty: string;
-  unitPrice: string;
-}
-
-let nextId = 1;
+interface LineItem { description: string; qty: string; unitPrice: string }
 
 export default function InvoiceCalculator() {
-  const [items, setItems] = useState<LineItem[]>([{ id: nextId++, description: "", qty: "", unitPrice: "" }]);
-  const [taxRate, setTaxRate] = useState("10");
+  const [items, setItems] = useState<LineItem[]>([{ description: "", qty: "1", unitPrice: "" }]);
+  const [taxRate, setTaxRate] = useState("0");
 
-  const addItem = () => setItems([...items, { id: nextId++, description: "", qty: "", unitPrice: "" }]);
-  const removeItem = (id: number) => setItems(items.filter((i) => i.id !== id));
-
-  const updateItem = (id: number, field: keyof LineItem, value: string) => {
-    setItems(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+  const addItem = () => setItems(prev => [...prev, { description: "", qty: "1", unitPrice: "" }]);
+  const removeItem = (idx: number) => setItems(prev => prev.filter((_, i) => i !== idx));
+  const updateItem = (idx: number, field: keyof LineItem, value: string) => {
+    setItems(prev => prev.map((item, i) => i === idx ? { ...item, [field]: value } : item));
   };
 
-  const subtotal = items.reduce((sum, item) => {
-    const qty = parseFloat(item.qty) || 0;
-    const price = parseFloat(item.unitPrice) || 0;
-    return sum + qty * price;
-  }, 0);
-
-  const tax = (subtotal * (parseFloat(taxRate) || 0)) / 100;
+  const lineAmounts = items.map(i => (parseFloat(i.qty) || 0) * (parseFloat(i.unitPrice) || 0));
+  const subtotal = lineAmounts.reduce((s, a) => s + a, 0);
+  const tax = subtotal * (parseFloat(taxRate) || 0) / 100;
   const total = subtotal + tax;
 
   return (
-    <Card className="w-full border-t-4 border-t-violet-600">
+    <Card className="w-full border-t-4 border-t-sky-600" data-testid="invoice-calculator">
       <CardHeader>
         <CardTitle>Invoice Calculator</CardTitle>
-        <CardDescription>Create line items with quantities and prices to calculate invoice totals with tax.</CardDescription>
+        <CardDescription>Create line items and calculate subtotal, tax, and total for invoices.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <Label className="text-base font-semibold">Line Items</Label>
-            <Button data-testid="button-add-item" variant="outline" size="sm" onClick={addItem}>+ Add Item</Button>
-          </div>
-          {items.map((item) => (
-            <div key={item.id} className="flex gap-2 items-end">
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          {items.map((item, i) => (
+            <div key={i} className="flex gap-2 items-end">
               <div className="flex-1">
-                <Input
-                  data-testid={`input-item-desc-${item.id}`}
-                  placeholder="Description"
-                  value={item.description}
-                  onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                />
+                {i === 0 && <Label className="text-xs">Description</Label>}
+                <Input placeholder="Item description" value={item.description} onChange={(e) => updateItem(i, "description", e.target.value)} data-testid={`input-desc-${i}`} />
               </div>
               <div className="w-20">
-                <Input
-                  data-testid={`input-item-qty-${item.id}`}
-                  type="number"
-                  placeholder="Qty"
-                  value={item.qty}
-                  onChange={(e) => updateItem(item.id, "qty", e.target.value)}
-                />
+                {i === 0 && <Label className="text-xs">Qty</Label>}
+                <Input type="number" placeholder="1" value={item.qty} onChange={(e) => updateItem(i, "qty", e.target.value)} data-testid={`input-qty-${i}`} />
               </div>
               <div className="w-28">
-                <Input
-                  data-testid={`input-item-price-${item.id}`}
-                  type="number"
-                  placeholder="Unit Price"
-                  value={item.unitPrice}
-                  onChange={(e) => updateItem(item.id, "unitPrice", e.target.value)}
-                />
+                {i === 0 && <Label className="text-xs">Unit Price</Label>}
+                <Input type="number" placeholder="0.00" value={item.unitPrice} onChange={(e) => updateItem(i, "unitPrice", e.target.value)} data-testid={`input-price-${i}`} />
               </div>
-              <div className="w-24 text-right font-medium text-sm pt-2">
-                ${((parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)).toFixed(2)}
-              </div>
-              {items.length > 1 && (
-                <Button data-testid={`button-remove-item-${item.id}`} variant="ghost" size="sm" onClick={() => removeItem(item.id)} className="text-red-500">✕</Button>
-              )}
+              <div className="w-24 text-right font-medium text-sm pt-2">${lineAmounts[i].toFixed(2)}</div>
+              {items.length > 1 && <Button variant="ghost" size="icon" onClick={() => removeItem(i)} className="text-red-500 shrink-0"><Trash2 className="h-4 w-4" /></Button>}
             </div>
           ))}
         </div>
-
-        <div className="grid sm:grid-cols-4 gap-4 items-end">
-          <div className="space-y-2">
-            <Label>Tax Rate (%)</Label>
-            <Input
-              data-testid="input-tax-rate"
-              type="number"
-              value={taxRate}
-              onChange={(e) => setTaxRate(e.target.value)}
-              placeholder="10"
-            />
-          </div>
+        <Button variant="outline" size="sm" onClick={addItem} data-testid="button-add-item"><Plus className="h-3 w-3 mr-1" />Add Line Item</Button>
+        <div className="space-y-2">
+          <Label>Tax Rate (%)</Label>
+          <Input type="number" placeholder="10" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="w-32" data-testid="input-tax-rate" />
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-          <div className="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-lg border text-center">
-            <p className="text-xs text-muted-foreground uppercase font-medium">Subtotal</p>
-            <p data-testid="text-subtotal" className="text-2xl font-bold text-foreground">
-              ${subtotal.toFixed(2)}
-            </p>
-          </div>
-          <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 text-center">
-            <p className="text-xs text-muted-foreground uppercase font-medium">Tax</p>
-            <p data-testid="text-tax" className="text-2xl font-bold text-orange-700 dark:text-orange-400">
-              ${tax.toFixed(2)}
-            </p>
-          </div>
-          <div className="p-4 bg-violet-50 dark:bg-violet-900/20 rounded-lg border border-violet-200 text-center">
-            <p className="text-xs text-muted-foreground uppercase font-medium">Total</p>
-            <p data-testid="text-total" className="text-2xl font-bold text-violet-700 dark:text-violet-400">
-              ${total.toFixed(2)}
-            </p>
-          </div>
+        <div className="border-t pt-4 space-y-2 text-right" data-testid="result-section">
+          <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span className="font-medium" data-testid="text-subtotal">${subtotal.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">Tax ({taxRate}%)</span><span className="font-medium" data-testid="text-tax">${tax.toFixed(2)}</span></div>
+          <div className="flex justify-between text-lg border-t pt-2"><span className="font-semibold">Total</span><span className="font-bold text-sky-600" data-testid="text-total">${total.toFixed(2)}</span></div>
         </div>
       </CardContent>
     </Card>

@@ -3,91 +3,49 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function PlywoodCalculator() {
   const [area, setArea] = useState("");
-  const [sheetSize, setSheetSize] = useState("32");
   const [wastage, setWastage] = useState("10");
-  const [result, setResult] = useState<{
-    areaSqFt: number;
-    sheetArea: number;
-    sheetsNeeded: number;
-    sheetsWithWastage: number;
-    wastageSheets: number;
-  } | null>(null);
+  const [result, setResult] = useState<{ sheets: number; sheetsWithWastage: number; totalArea: number } | null>(null);
 
   const calculate = () => {
     const a = parseFloat(area);
-    const sSize = parseFloat(sheetSize);
-    const wPct = parseFloat(wastage);
-
-    if (a > 0 && sSize > 0 && wPct >= 0) {
-      const sheetsNeeded = Math.ceil(a / sSize);
-      const wastageSheets = Math.ceil(sheetsNeeded * (wPct / 100));
-      const sheetsWithWastage = sheetsNeeded + wastageSheets;
-
-      setResult({
-        areaSqFt: a,
-        sheetArea: sSize,
-        sheetsNeeded,
-        sheetsWithWastage,
-        wastageSheets,
-      });
+    if (a > 0) {
+      const sheetArea = 32;
+      const sheets = Math.ceil(a / sheetArea);
+      const w = parseFloat(wastage) || 10;
+      const sheetsWithWastage = Math.ceil(sheets * (1 + w / 100));
+      setResult({ sheets, sheetsWithWastage, totalArea: a });
     }
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-yellow-600" data-testid="plywood-calculator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Plywood Calculator</CardTitle>
-        <CardDescription>Calculate the number of plywood sheets needed to cover an area, with wastage factor.</CardDescription>
+        <CardTitle>Plywood Sheet Calculator</CardTitle>
+        <CardDescription>Calculate how many plywood sheets (8×4 ft) you need for your project.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <Label>Area to Cover (sq ft)</Label>
-          <Input data-testid="input-area" type="number" value={area} onChange={(e) => setArea(e.target.value)} placeholder="500" />
-        </div>
+      <CardContent className="space-y-4">
         <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Sheet Size</Label>
-            <Select value={sheetSize} onValueChange={setSheetSize}>
-              <SelectTrigger data-testid="select-sheet-size">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="32">8 × 4 ft (32 sq ft)</SelectItem>
-                <SelectItem value="24">6 × 4 ft (24 sq ft)</SelectItem>
-                <SelectItem value="16">4 × 4 ft (16 sq ft)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>Wastage Factor (%)</Label>
-            <Input data-testid="input-wastage" type="number" value={wastage} onChange={(e) => setWastage(e.target.value)} placeholder="10" min="0" />
-          </div>
+          <div className="space-y-2"><Label>Area to Cover (sq ft)</Label><Input type="number" placeholder="200" value={area} onChange={(e) => setArea(e.target.value)} data-testid="input-area" /></div>
+          <div className="space-y-2"><Label>Wastage Factor (%)</Label><Input type="number" placeholder="10" value={wastage} onChange={(e) => setWastage(e.target.value)} data-testid="input-wastage" /></div>
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full">Calculate Sheets</Button>
-
+        <Button onClick={calculate} className="w-full bg-yellow-600 hover:bg-yellow-700" data-testid="button-calculate">Calculate</Button>
         {result && (
-          <div className="space-y-4 pt-4 animate-in fade-in-50">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Area</p>
-                <p data-testid="text-area" className="text-xl font-bold">{result.areaSqFt} ft²</p>
-              </div>
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Sheets Needed</p>
-                <p data-testid="text-sheets-needed" className="text-2xl font-bold text-primary">{result.sheetsNeeded}</p>
-              </div>
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase">With Wastage</p>
-                <p data-testid="text-sheets-with-wastage" className="text-2xl font-bold text-green-700 dark:text-green-400">{result.sheetsWithWastage}</p>
-                <p className="text-xs text-muted-foreground">+{result.wastageSheets} extra</p>
-              </div>
+          <div className="grid grid-cols-3 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Total Area</p>
+              <p className="text-xl font-bold text-slate-600" data-testid="text-area">{result.totalArea} sqft</p>
             </div>
-            <p className="text-xs text-muted-foreground text-center">Sheet size: {result.sheetArea} ft² per sheet</p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Sheets (Exact)</p>
+              <p className="text-xl font-bold text-yellow-600" data-testid="text-sheets">{result.sheets}</p>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">With Wastage</p>
+              <p className="text-xl font-bold text-orange-600" data-testid="text-with-wastage">{result.sheetsWithWastage}</p>
+            </div>
           </div>
         )}
       </CardContent>

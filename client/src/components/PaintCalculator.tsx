@@ -5,111 +5,66 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function PaintCalculator() {
-  const [roomLength, setRoomLength] = useState("");
-  const [roomWidth, setRoomWidth] = useState("");
-  const [roomHeight, setRoomHeight] = useState("9");
-  const [numDoors, setNumDoors] = useState("1");
-  const [numWindows, setNumWindows] = useState("2");
+  const [length, setLength] = useState("");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
+  const [doors, setDoors] = useState("1");
+  const [windows, setWindows] = useState("2");
   const [coats, setCoats] = useState("2");
-  const [result, setResult] = useState<{
-    totalWallArea: number;
-    doorArea: number;
-    windowArea: number;
-    paintableArea: number;
-    litersNeeded: number;
-    gallonsNeeded: number;
-  } | null>(null);
+  const [result, setResult] = useState<{ totalArea: number; paintableArea: number; liters: number; gallons: number } | null>(null);
 
   const calculate = () => {
-    const l = parseFloat(roomLength);
-    const w = parseFloat(roomWidth);
-    const h = parseFloat(roomHeight);
-    const doors = parseInt(numDoors) || 0;
-    const windows = parseInt(numWindows) || 0;
-    const numCoats = parseInt(coats) || 1;
-
+    const l = parseFloat(length);
+    const w = parseFloat(width);
+    const h = parseFloat(height);
     if (l > 0 && w > 0 && h > 0) {
-      const perimeter = 2 * (l + w);
-      const totalWallArea = perimeter * h;
-      const doorArea = doors * 21;
-      const windowArea = windows * 15;
-      const paintableArea = totalWallArea - doorArea - windowArea;
-      const coveragePerLiter = 110;
-      const litersNeeded = (paintableArea / coveragePerLiter) * numCoats;
-      const gallonsNeeded = litersNeeded / 3.785;
-
-      setResult({
-        totalWallArea,
-        doorArea,
-        windowArea,
-        paintableArea: Math.max(paintableArea, 0),
-        litersNeeded: Math.max(litersNeeded, 0),
-        gallonsNeeded: Math.max(gallonsNeeded, 0),
-      });
+      const wallArea = 2 * (l + w) * h;
+      const doorArea = (parseFloat(doors) || 0) * 21;
+      const windowArea = (parseFloat(windows) || 0) * 15;
+      const paintableArea = wallArea - doorArea - windowArea;
+      const c = parseFloat(coats) || 2;
+      const liters = (paintableArea * c) / 350;
+      const gallons = liters / 3.785;
+      setResult({ totalArea: wallArea, paintableArea: Math.max(0, paintableArea), liters, gallons });
     }
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-purple-600" data-testid="paint-calculator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Paint Calculator</CardTitle>
-        <CardDescription>Estimate how much paint you need for your room based on dimensions and openings.</CardDescription>
+        <CardTitle>Paint Calculator</CardTitle>
+        <CardDescription>Calculate how much paint you need for your room walls.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid sm:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label>Room Length (feet)</Label>
-            <Input data-testid="input-room-length" type="number" value={roomLength} onChange={(e) => setRoomLength(e.target.value)} placeholder="15" />
-          </div>
-          <div className="space-y-2">
-            <Label>Room Width (feet)</Label>
-            <Input data-testid="input-room-width" type="number" value={roomWidth} onChange={(e) => setRoomWidth(e.target.value)} placeholder="12" />
-          </div>
-          <div className="space-y-2">
-            <Label>Room Height (feet)</Label>
-            <Input data-testid="input-room-height" type="number" value={roomHeight} onChange={(e) => setRoomHeight(e.target.value)} placeholder="9" />
-          </div>
+          <div className="space-y-2"><Label>Room Length (ft)</Label><Input type="number" placeholder="15" value={length} onChange={(e) => setLength(e.target.value)} data-testid="input-length" /></div>
+          <div className="space-y-2"><Label>Room Width (ft)</Label><Input type="number" placeholder="12" value={width} onChange={(e) => setWidth(e.target.value)} data-testid="input-width" /></div>
+          <div className="space-y-2"><Label>Wall Height (ft)</Label><Input type="number" placeholder="10" value={height} onChange={(e) => setHeight(e.target.value)} data-testid="input-height" /></div>
         </div>
         <div className="grid sm:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label>Number of Doors</Label>
-            <Input data-testid="input-doors" type="number" value={numDoors} onChange={(e) => setNumDoors(e.target.value)} placeholder="1" min="0" />
-          </div>
-          <div className="space-y-2">
-            <Label>Number of Windows</Label>
-            <Input data-testid="input-windows" type="number" value={numWindows} onChange={(e) => setNumWindows(e.target.value)} placeholder="2" min="0" />
-          </div>
-          <div className="space-y-2">
-            <Label>Number of Coats</Label>
-            <Input data-testid="input-coats" type="number" value={coats} onChange={(e) => setCoats(e.target.value)} placeholder="2" min="1" />
-          </div>
+          <div className="space-y-2"><Label>Number of Doors</Label><Input type="number" placeholder="1" value={doors} onChange={(e) => setDoors(e.target.value)} data-testid="input-doors" /></div>
+          <div className="space-y-2"><Label>Number of Windows</Label><Input type="number" placeholder="2" value={windows} onChange={(e) => setWindows(e.target.value)} data-testid="input-windows" /></div>
+          <div className="space-y-2"><Label>Number of Coats</Label><Input type="number" placeholder="2" value={coats} onChange={(e) => setCoats(e.target.value)} data-testid="input-coats" /></div>
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full">Calculate Paint</Button>
-
+        <Button onClick={calculate} className="w-full bg-purple-600 hover:bg-purple-700" data-testid="button-calculate">Calculate Paint</Button>
         {result && (
-          <div className="space-y-4 pt-4 animate-in fade-in-50">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Total Wall Area</p>
-                <p data-testid="text-total-wall-area" className="text-xl font-bold">{result.totalWallArea.toFixed(1)} ft²</p>
-              </div>
-              <div className="p-4 bg-muted rounded-lg text-center">
-                <p className="text-xs text-muted-foreground uppercase">Paintable Area</p>
-                <p data-testid="text-paintable-area" className="text-xl font-bold text-primary">{result.paintableArea.toFixed(1)} ft²</p>
-              </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Total Wall Area</p>
+              <p className="text-xl font-bold text-slate-600" data-testid="text-total-area">{result.totalArea.toFixed(0)} sqft</p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase">Paint Needed</p>
-                <p data-testid="text-liters" className="text-2xl font-bold text-green-700 dark:text-green-400">{result.litersNeeded.toFixed(1)} L</p>
-              </div>
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase">Gallons Needed</p>
-                <p data-testid="text-gallons" className="text-2xl font-bold text-blue-700 dark:text-blue-400">{result.gallonsNeeded.toFixed(1)} gal</p>
-              </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Paintable Area</p>
+              <p className="text-xl font-bold text-purple-600" data-testid="text-paintable">{result.paintableArea.toFixed(0)} sqft</p>
             </div>
-            <p className="text-xs text-muted-foreground text-center">Door area: ~21 ft² each | Window area: ~15 ft² each | Coverage: ~110 ft²/liter</p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Paint Needed</p>
+              <p className="text-xl font-bold text-blue-600" data-testid="text-liters">{result.liters.toFixed(1)} L</p>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Gallons</p>
+              <p className="text-xl font-bold text-green-600" data-testid="text-gallons">{result.gallons.toFixed(1)} gal</p>
+            </div>
           </div>
         )}
       </CardContent>

@@ -6,203 +6,89 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function SteelWeightCalculator() {
-  const [steelType, setSteelType] = useState("bar");
+  const [steelType, setSteelType] = useState("round-bar");
   const [diameter, setDiameter] = useState("");
   const [length, setLength] = useState("");
   const [width, setWidth] = useState("");
   const [thickness, setThickness] = useState("");
-  const [outerDiameter, setOuterDiameter] = useState("");
-  const [wallThickness, setWallThickness] = useState("");
   const [quantity, setQuantity] = useState("1");
-
-  const [result, setResult] = useState<{
-    weightKg: number;
-    weightTons: number;
-    totalWeightKg: number;
-    totalWeightTons: number;
-  } | null>(null);
+  const [result, setResult] = useState<{ weightKg: number; weightTons: number; totalKg: number } | null>(null);
 
   const calculate = () => {
-    const qty = parseInt(quantity) || 1;
-    const steelDensity = 7850;
+    const qty = parseFloat(quantity) || 1;
     let weightKg = 0;
-
-    if (steelType === "bar") {
-      const d = parseFloat(diameter) || 0;
-      const l = parseFloat(length) || 0;
-      if (d <= 0 || l <= 0) return;
-      weightKg = (d * d / 162.2) * l;
-    } else if (steelType === "plate") {
-      const l = parseFloat(length) || 0;
-      const w = parseFloat(width) || 0;
-      const t = parseFloat(thickness) || 0;
-      if (l <= 0 || w <= 0 || t <= 0) return;
-      const volumeM3 = (l / 1000) * (w / 1000) * (t / 1000);
-      weightKg = volumeM3 * steelDensity;
+    if (steelType === "round-bar") {
+      const d = parseFloat(diameter);
+      const l = parseFloat(length);
+      if (d > 0 && l > 0) weightKg = (d * d / 162.2) * l;
+    } else if (steelType === "plate" || steelType === "flat-bar") {
+      const w = parseFloat(width);
+      const t = parseFloat(thickness);
+      const l = parseFloat(length);
+      if (w > 0 && t > 0 && l > 0) weightKg = (w / 1000) * (t / 1000) * l * 7850;
     } else if (steelType === "pipe") {
-      const od = parseFloat(outerDiameter) || 0;
-      const wt = parseFloat(wallThickness) || 0;
-      const l = parseFloat(length) || 0;
-      if (od <= 0 || wt <= 0 || l <= 0) return;
-      const id = od - 2 * wt;
-      const volumeM3 = (Math.PI / 4) * ((od / 1000) ** 2 - (id / 1000) ** 2) * (l / 1000);
-      weightKg = volumeM3 * steelDensity;
-    } else if (steelType === "angle") {
-      return;
+      const od = parseFloat(diameter);
+      const t = parseFloat(thickness);
+      const l = parseFloat(length);
+      if (od > 0 && t > 0 && l > 0) weightKg = ((od - t) * t * 0.02466) * l;
     }
-
-    setResult({
-      weightKg,
-      weightTons: weightKg / 1000,
-      totalWeightKg: weightKg * qty,
-      totalWeightTons: (weightKg * qty) / 1000,
-    });
-  };
-
-  const calculateAngle = () => {
-    const legA = parseFloat(length) || 0;
-    const legB = parseFloat(width) || 0;
-    const thk = parseFloat(thickness) || 0;
-    const barLen = parseFloat(outerDiameter) || 0;
-    const qty = parseInt(quantity) || 1;
-    if (legA <= 0 || legB <= 0 || thk <= 0 || barLen <= 0) return;
-    const areaMm2 = (legA + legB - thk) * thk;
-    const volumeMm3 = areaMm2 * barLen * 1000;
-    const volumeM3 = volumeMm3 / 1e9;
-    const weightKg = volumeM3 * 7850;
-
-    setResult({
-      weightKg,
-      weightTons: weightKg / 1000,
-      totalWeightKg: weightKg * qty,
-      totalWeightTons: (weightKg * qty) / 1000,
-    });
-  };
-
-  const handleCalculate = () => {
-    if (steelType === "angle") {
-      calculateAngle();
-    } else {
-      calculate();
+    if (weightKg > 0) {
+      setResult({ weightKg, weightTons: weightKg / 1000, totalKg: weightKg * qty });
     }
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full border-t-4 border-t-zinc-700" data-testid="steel-weight-calculator">
       <CardHeader>
-        <CardTitle data-testid="text-title">Steel Weight Calculator</CardTitle>
-        <CardDescription>Calculate the weight of steel bars, plates, pipes, and angles.</CardDescription>
+        <CardTitle>Steel Weight Calculator</CardTitle>
+        <CardDescription>Calculate the weight of steel bars, plates, and pipes.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <Label>Steel Type</Label>
-          <Select value={steelType} onValueChange={(v) => { setSteelType(v); setResult(null); }}>
-            <SelectTrigger data-testid="select-steel-type">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="bar">Round Bar / Rebar</SelectItem>
-              <SelectItem value="plate">Steel Plate / Sheet</SelectItem>
-              <SelectItem value="pipe">Steel Pipe / Tube</SelectItem>
-              <SelectItem value="angle">Angle Iron</SelectItem>
-            </SelectContent>
-          </Select>
+      <CardContent className="space-y-4">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label>Steel Type</Label>
+            <Select value={steelType} onValueChange={setSteelType}>
+              <SelectTrigger data-testid="select-steel-type"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="round-bar">Round Bar / Rebar</SelectItem>
+                <SelectItem value="plate">Plate / Sheet</SelectItem>
+                <SelectItem value="flat-bar">Flat Bar</SelectItem>
+                <SelectItem value="pipe">Pipe / Tube</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Quantity</Label>
+            <Input type="number" placeholder="1" value={quantity} onChange={(e) => setQuantity(e.target.value)} data-testid="input-quantity" />
+          </div>
         </div>
-
-        {steelType === "bar" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Diameter (mm)</Label>
-              <Input data-testid="input-diameter" type="number" value={diameter} onChange={(e) => setDiameter(e.target.value)} placeholder="e.g. 12" />
-            </div>
-            <div className="space-y-2">
-              <Label>Length (meters)</Label>
-              <Input data-testid="input-length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="e.g. 12" />
-            </div>
-          </div>
-        )}
-
-        {steelType === "plate" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label>Length (mm)</Label>
-              <Input data-testid="input-length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="e.g. 2000" />
-            </div>
-            <div className="space-y-2">
-              <Label>Width (mm)</Label>
-              <Input data-testid="input-width" type="number" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="e.g. 1000" />
-            </div>
-            <div className="space-y-2">
-              <Label>Thickness (mm)</Label>
-              <Input data-testid="input-thickness" type="number" value={thickness} onChange={(e) => setThickness(e.target.value)} placeholder="e.g. 10" />
-            </div>
-          </div>
-        )}
-
-        {steelType === "pipe" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label>Outer Diameter (mm)</Label>
-              <Input data-testid="input-outer-diameter" type="number" value={outerDiameter} onChange={(e) => setOuterDiameter(e.target.value)} placeholder="e.g. 60" />
-            </div>
-            <div className="space-y-2">
-              <Label>Wall Thickness (mm)</Label>
-              <Input data-testid="input-wall-thickness" type="number" value={wallThickness} onChange={(e) => setWallThickness(e.target.value)} placeholder="e.g. 3" />
-            </div>
-            <div className="space-y-2">
-              <Label>Length (mm)</Label>
-              <Input data-testid="input-length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="e.g. 6000" />
-            </div>
-          </div>
-        )}
-
-        {steelType === "angle" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Leg A (mm)</Label>
-              <Input data-testid="input-leg-a" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="e.g. 50" />
-            </div>
-            <div className="space-y-2">
-              <Label>Leg B (mm)</Label>
-              <Input data-testid="input-leg-b" type="number" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="e.g. 50" />
-            </div>
-            <div className="space-y-2">
-              <Label>Thickness (mm)</Label>
-              <Input data-testid="input-thickness" type="number" value={thickness} onChange={(e) => setThickness(e.target.value)} placeholder="e.g. 5" />
-            </div>
-            <div className="space-y-2">
-              <Label>Length (meters)</Label>
-              <Input data-testid="input-angle-length" type="number" value={outerDiameter} onChange={(e) => setOuterDiameter(e.target.value)} placeholder="e.g. 6" />
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-2">
-          <Label>Quantity</Label>
-          <Input data-testid="input-quantity" type="number" min="1" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="1" />
+        <div className="grid sm:grid-cols-3 gap-4">
+          {(steelType === "round-bar" || steelType === "pipe") && (
+            <div className="space-y-2"><Label>Diameter (mm)</Label><Input type="number" placeholder="12" value={diameter} onChange={(e) => setDiameter(e.target.value)} data-testid="input-diameter" /></div>
+          )}
+          {(steelType === "plate" || steelType === "flat-bar") && (
+            <div className="space-y-2"><Label>Width (mm)</Label><Input type="number" placeholder="200" value={width} onChange={(e) => setWidth(e.target.value)} data-testid="input-width" /></div>
+          )}
+          {(steelType === "plate" || steelType === "flat-bar" || steelType === "pipe") && (
+            <div className="space-y-2"><Label>Thickness (mm)</Label><Input type="number" placeholder="10" value={thickness} onChange={(e) => setThickness(e.target.value)} data-testid="input-thickness" /></div>
+          )}
+          <div className="space-y-2"><Label>Length (meters)</Label><Input type="number" placeholder="6" value={length} onChange={(e) => setLength(e.target.value)} data-testid="input-length" /></div>
         </div>
-
-        <Button data-testid="button-calculate" className="w-full" onClick={handleCalculate}>
-          Calculate Weight
-        </Button>
-
+        <Button onClick={calculate} className="w-full bg-zinc-700 hover:bg-zinc-800" data-testid="button-calculate">Calculate Weight</Button>
         {result && (
-          <div className="mt-6 space-y-4 animate-in fade-in-50">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-muted p-4 rounded-lg text-center">
-                <p className="text-sm text-muted-foreground">Weight per Piece</p>
-                <p data-testid="text-weight-kg" className="text-2xl font-bold text-primary">{result.weightKg.toFixed(2)} kg</p>
-                <p className="text-xs text-muted-foreground">({result.weightTons.toFixed(4)} tons)</p>
-              </div>
-              <div className="bg-muted p-4 rounded-lg text-center">
-                <p className="text-sm text-muted-foreground">Total Weight</p>
-                <p data-testid="text-total-weight-kg" className="text-2xl font-bold text-primary">{result.totalWeightKg.toFixed(2)} kg</p>
-                <p className="text-xs text-muted-foreground">({result.totalWeightTons.toFixed(4)} tons)</p>
-              </div>
+          <div className="grid grid-cols-3 gap-4 mt-4 animate-in fade-in" data-testid="result-section">
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Per Piece</p>
+              <p className="text-2xl font-bold text-zinc-700 dark:text-zinc-300" data-testid="text-weight-kg">{result.weightKg.toFixed(2)} kg</p>
             </div>
-            <p className="text-xs text-muted-foreground text-center">
-              *Steel density: 7,850 kg/m³. For bars, formula: D²/162.2 × Length (m).
-            </p>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Per Piece</p>
+              <p className="text-2xl font-bold text-blue-600" data-testid="text-weight-tons">{result.weightTons.toFixed(4)} t</p>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 text-center">
+              <p className="text-xs text-muted-foreground uppercase font-medium mb-1">Total ({quantity})</p>
+              <p className="text-2xl font-bold text-green-600" data-testid="text-total-kg">{result.totalKg.toFixed(2)} kg</p>
+            </div>
           </div>
         )}
       </CardContent>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import CopyShareButtons from "@/components/CopyShareButtons";
 
 export default function BMICalculator() {
   const [unit, setUnit] = useState<"metric" | "us">("us");
@@ -146,28 +147,50 @@ export default function BMICalculator() {
             </div>
 
             {bmi !== null && (
-              <div className="mt-6 p-4 bg-muted/50 rounded-lg border animate-in fade-in slide-in-from-top-4">
-                <div className="text-center space-y-1">
+              <div className="mt-6 p-5 bg-muted/50 rounded-xl border animate-in fade-in slide-in-from-top-4" data-testid="bmi-result">
+                <div className="text-center space-y-1 mb-5">
                   <p className="text-sm text-muted-foreground uppercase tracking-wide font-semibold">Your BMI Result</p>
-                  <p className="text-4xl font-bold text-primary">{bmi.toFixed(1)}</p>
+                  <p className="text-5xl font-bold" style={{ color: category === "Underweight" ? "#3b82f6" : category === "Normal weight" ? "#22c55e" : category === "Overweight" ? "#f59e0b" : "#ef4444" }}>{bmi.toFixed(1)}</p>
                   <p className={cn(
-                    "text-lg font-medium",
-                    category === "Normal weight" ? "text-green-600" : "text-orange-500"
+                    "text-lg font-semibold",
+                    category === "Normal weight" ? "text-green-600" : category === "Overweight" ? "text-amber-500" : category === "Obese" ? "text-red-500" : "text-blue-500"
                   )}>
                     {category}
                   </p>
                 </div>
-                <div className="mt-4 h-2 w-full bg-slate-200 rounded-full overflow-hidden relative">
-                  <div 
-                    className="h-full bg-primary transition-all duration-500 ease-out"
-                    style={{ width: `${Math.min(Math.max((bmi / 40) * 100, 0), 100)}%` }}
-                  />
+                <div className="relative mt-4">
+                  <div className="h-4 w-full rounded-full overflow-hidden flex">
+                    <div className="h-full bg-blue-400" style={{ width: "18.5%" }} />
+                    <div className="h-full bg-green-400" style={{ width: "31.5%" }} />
+                    <div className="h-full bg-amber-400" style={{ width: "25%" }} />
+                    <div className="h-full bg-red-400" style={{ width: "25%" }} />
+                  </div>
+                  <div
+                    className="absolute top-[-6px] transition-all duration-700 ease-out"
+                    style={{ left: `${Math.min(Math.max((bmi / 40) * 100, 2), 98)}%`, transform: "translateX(-50%)" }}
+                  >
+                    <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[8px] border-l-transparent border-r-transparent border-t-foreground" />
+                  </div>
+                  <div
+                    className="absolute bottom-[-6px] transition-all duration-700 ease-out"
+                    style={{ left: `${Math.min(Math.max((bmi / 40) * 100, 2), 98)}%`, transform: "translateX(-50%)" }}
+                  >
+                    <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-foreground" />
+                  </div>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Underweight</span>
-                  <span>Normal</span>
-                  <span>Over</span>
-                  <span>Obese</span>
+                <div className="flex justify-between text-[10px] font-medium mt-2">
+                  <span className="text-blue-500">Underweight<br/>&lt;18.5</span>
+                  <span className="text-green-500">Normal<br/>18.5–24.9</span>
+                  <span className="text-amber-500">Overweight<br/>25–29.9</span>
+                  <span className="text-red-500">Obese<br/>≥30</span>
+                </div>
+                <div className="mt-4 flex justify-center">
+                  <CopyShareButtons
+                    textToCopy={`My BMI is ${bmi.toFixed(1)} (${category})`}
+                    shareTitle="BMI Result"
+                    shareText={`I just calculated my BMI: ${bmi.toFixed(1)} (${category})`}
+                    compact
+                  />
                 </div>
               </div>
             )}

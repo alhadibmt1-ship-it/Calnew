@@ -7,121 +7,55 @@ import { Button } from "@/components/ui/button";
 export default function NetProfitCalculator() {
   const [revenue, setRevenue] = useState("");
   const [cogs, setCogs] = useState("");
-  const [operatingExpenses, setOperatingExpenses] = useState("");
+  const [opex, setOpex] = useState("");
   const [taxes, setTaxes] = useState("");
-  const [result, setResult] = useState<{
-    grossProfit: number;
-    grossMargin: number;
-    operatingProfit: number;
-    operatingMargin: number;
-    netProfit: number;
-    netMargin: number;
-  } | null>(null);
+  const [result, setResult] = useState<{ grossProfit: number; operatingProfit: number; netProfit: number; grossMargin: number; operatingMargin: number; netMargin: number } | null>(null);
 
   const calculate = () => {
     const r = parseFloat(revenue);
-    const c = parseFloat(cogs);
-    const op = parseFloat(operatingExpenses) || 0;
+    const c = parseFloat(cogs) || 0;
+    const o = parseFloat(opex) || 0;
     const t = parseFloat(taxes) || 0;
-
-    if (!isNaN(r) && !isNaN(c) && r >= 0 && c >= 0) {
-      const grossProfit = r - c;
-      const grossMargin = r > 0 ? (grossProfit / r) * 100 : 0;
-      const operatingProfit = grossProfit - op;
-      const operatingMargin = r > 0 ? (operatingProfit / r) * 100 : 0;
-      const netProfit = operatingProfit - t;
-      const netMargin = r > 0 ? (netProfit / r) * 100 : 0;
-
+    if (r > 0) {
+      const gp = r - c;
+      const op = gp - o;
+      const np = op - t;
       setResult({
-        grossProfit,
-        grossMargin,
-        operatingProfit,
-        operatingMargin,
-        netProfit,
-        netMargin,
+        grossProfit: gp, operatingProfit: op, netProfit: np,
+        grossMargin: (gp / r) * 100, operatingMargin: (op / r) * 100, netMargin: (np / r) * 100
       });
     }
   };
 
   return (
-    <Card className="w-full border-t-4 border-t-green-600">
+    <Card className="w-full border-t-4 border-t-emerald-600" data-testid="net-profit-calculator">
       <CardHeader>
         <CardTitle>Net Profit Calculator</CardTitle>
-        <CardDescription>Calculate gross profit, operating profit, net profit, and all margin percentages.</CardDescription>
+        <CardDescription>Calculate gross, operating, and net profit with all margin percentages.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label>Revenue ($)</Label>
-            <Input
-              data-testid="input-revenue"
-              type="number"
-              value={revenue}
-              onChange={(e) => setRevenue(e.target.value)}
-              placeholder="500000"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Cost of Goods Sold ($)</Label>
-            <Input
-              data-testid="input-cogs"
-              type="number"
-              value={cogs}
-              onChange={(e) => setCogs(e.target.value)}
-              placeholder="200000"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Operating Expenses ($)</Label>
-            <Input
-              data-testid="input-operating-expenses"
-              type="number"
-              value={operatingExpenses}
-              onChange={(e) => setOperatingExpenses(e.target.value)}
-              placeholder="100000"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Taxes ($)</Label>
-            <Input
-              data-testid="input-taxes"
-              type="number"
-              value={taxes}
-              onChange={(e) => setTaxes(e.target.value)}
-              placeholder="50000"
-            />
-          </div>
+          <div className="space-y-2"><Label>Revenue ($)</Label><Input type="number" placeholder="200000" value={revenue} onChange={(e) => setRevenue(e.target.value)} data-testid="input-revenue" /></div>
+          <div className="space-y-2"><Label>Cost of Goods Sold ($)</Label><Input type="number" placeholder="80000" value={cogs} onChange={(e) => setCogs(e.target.value)} data-testid="input-cogs" /></div>
+          <div className="space-y-2"><Label>Operating Expenses ($)</Label><Input type="number" placeholder="40000" value={opex} onChange={(e) => setOpex(e.target.value)} data-testid="input-opex" /></div>
+          <div className="space-y-2"><Label>Taxes ($)</Label><Input type="number" placeholder="15000" value={taxes} onChange={(e) => setTaxes(e.target.value)} data-testid="input-taxes" /></div>
         </div>
-
-        <Button data-testid="button-calculate" onClick={calculate} className="w-full bg-green-600 hover:bg-green-700">
-          Calculate Net Profit
-        </Button>
-
+        <Button onClick={calculate} className="w-full bg-emerald-600 hover:bg-emerald-700" data-testid="button-calculate">Calculate</Button>
         {result && (
-          <div className="space-y-4 pt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase font-medium">Gross Profit</p>
-                <p data-testid="text-gross-profit" className="text-2xl font-bold text-green-700 dark:text-green-400">
-                  ${result.grossProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">Margin: {result.grossMargin.toFixed(2)}%</p>
+          <div className="space-y-3 mt-4 animate-in fade-in" data-testid="result-section">
+            {[
+              { label: "Gross Profit", value: result.grossProfit, margin: result.grossMargin, color: "text-green-600" },
+              { label: "Operating Profit", value: result.operatingProfit, margin: result.operatingMargin, color: "text-blue-600" },
+              { label: "Net Profit", value: result.netProfit, margin: result.netMargin, color: "text-emerald-600" },
+            ].map(row => (
+              <div key={row.label} className="flex items-center justify-between bg-muted/50 rounded-lg p-4">
+                <span className="text-sm font-medium">{row.label}</span>
+                <div className="flex items-center gap-4">
+                  <span className={`text-xl font-bold ${row.color}`}>${row.value.toLocaleString()}</span>
+                  <span className={`text-sm font-medium px-2 py-0.5 rounded ${row.margin >= 0 ? "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"}`}>{row.margin.toFixed(1)}%</span>
+                </div>
               </div>
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase font-medium">Operating Profit</p>
-                <p data-testid="text-operating-profit" className="text-2xl font-bold text-blue-700 dark:text-blue-400">
-                  ${result.operatingProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">Margin: {result.operatingMargin.toFixed(2)}%</p>
-              </div>
-              <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 text-center">
-                <p className="text-xs text-muted-foreground uppercase font-medium">Net Profit</p>
-                <p data-testid="text-net-profit" className="text-2xl font-bold text-purple-700 dark:text-purple-400">
-                  ${result.netProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">Margin: {result.netMargin.toFixed(2)}%</p>
-              </div>
-            </div>
+            ))}
           </div>
         )}
       </CardContent>
