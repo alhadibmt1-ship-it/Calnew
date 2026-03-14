@@ -3,6 +3,7 @@ import { type Server } from "node:http";
 import express, { type Express, type Request, Response, NextFunction } from "express";
 import compression from "compression";
 import { registerRoutes } from "./routes";
+import { generateSitemapXml, generateCalculatorsSitemap, generateConvertersSitemap, generatePagesSitemap, generateBlogSitemap, generateRobotsTxt } from "./seo";
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -63,6 +64,28 @@ app.use((req, res, next) => {
 export default async function runApp(
   setup: (app: Express, server: Server) => Promise<void>,
 ) {
+  app.get("/robots.txt", (_req, res) => {
+    res.type("text/plain").send(generateRobotsTxt());
+  });
+  app.get("/sitemap.xml", (_req, res) => {
+    res.type("application/xml").send(generateSitemapXml());
+  });
+  app.get("/sitemap_index.xml", (_req, res) => {
+    res.type("application/xml").send(generateSitemapXml());
+  });
+  app.get("/sitemaps/calculators.xml", (_req, res) => {
+    res.type("application/xml").send(generateCalculatorsSitemap());
+  });
+  app.get("/sitemaps/converters.xml", (_req, res) => {
+    res.type("application/xml").send(generateConvertersSitemap());
+  });
+  app.get("/sitemaps/pages.xml", (_req, res) => {
+    res.type("application/xml").send(generatePagesSitemap());
+  });
+  app.get("/sitemaps/blog.xml", (_req, res) => {
+    res.type("application/xml").send(generateBlogSitemap());
+  });
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

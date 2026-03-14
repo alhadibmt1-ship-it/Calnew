@@ -7,12 +7,6 @@ import express, { type Express } from "express";
 import runApp from "./app";
 import {
   getAllToolsServer,
-  generateSitemapXml,
-  generateCalculatorsSitemap,
-  generateConvertersSitemap,
-  generatePagesSitemap,
-  generateBlogSitemap,
-  generateRobotsTxt,
   injectSeoIntoHtml,
   injectCategorySeoIntoHtml,
   injectHomeSeoIntoHtml,
@@ -45,34 +39,6 @@ export async function serveStatic(app: Express, server: Server) {
   const toolMap = new Map(tools.map((t) => [t.slug, t]));
   const categorySlugs = new Set(calculatorCategorySlugs.map((c) => c.slug));
   const blogPostMap = new Map(blogPostsSeo.map((p) => [p.slug, p]));
-
-  app.get("/robots.txt", (_req, res) => {
-    res.type("text/plain").send(generateRobotsTxt());
-  });
-
-  app.get("/sitemap.xml", (_req, res) => {
-    res.type("application/xml").send(generateSitemapXml());
-  });
-
-  app.get("/sitemap_index.xml", (_req, res) => {
-    res.type("application/xml").send(generateSitemapXml());
-  });
-
-  app.get("/sitemaps/calculators.xml", (_req, res) => {
-    res.type("application/xml").send(generateCalculatorsSitemap());
-  });
-
-  app.get("/sitemaps/converters.xml", (_req, res) => {
-    res.type("application/xml").send(generateConvertersSitemap());
-  });
-
-  app.get("/sitemaps/pages.xml", (_req, res) => {
-    res.type("application/xml").send(generatePagesSitemap());
-  });
-
-  app.get("/sitemaps/blog.xml", (_req, res) => {
-    res.type("application/xml").send(generateBlogSitemap());
-  });
 
   app.use(
     express.static(distPath, {
