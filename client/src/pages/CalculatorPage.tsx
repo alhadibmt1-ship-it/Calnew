@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2, BookOpen, Lightbulb, ListChecks, FlaskConical } from "lucide-react";
+import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2, BookOpen, Lightbulb, ListChecks, FlaskConical, Table2, AlertTriangle, CheckCircle2, Link2 } from "lucide-react";
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 import { useEffect, lazy, Suspense } from "react";
 import { getSEOContent, getGenericSEOContent } from "@/lib/seo-content";
@@ -220,6 +220,9 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
           What is {title}
         </h2>
         <p>{seoContent.whatIs}</p>
+        {seoContent.whatIsExtra?.map((paragraph, i) => (
+          <p key={i}>{paragraph}</p>
+        ))}
       </div>
 
       <div>
@@ -230,6 +233,13 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
         <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary text-sm">
           {seoContent.howFormulaWorks}
         </blockquote>
+        {seoContent.formulaBreakdown && (
+          <ul className="list-disc pl-6 space-y-1 mt-3 text-sm">
+            {seoContent.formulaBreakdown.map((item, i) => (
+              <li key={i} className="font-mono">{item}</li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {toolData?.formula && (
@@ -262,6 +272,84 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
           <p className="font-mono text-sm">{seoContent.exampleContent}</p>
         </div>
       </div>
+
+      {seoContent.tables?.map((table, i) => (
+        <div key={i}>
+          <h3 className="flex items-center gap-2">
+            <Table2 className="h-5 w-5 text-primary" />
+            {table.title}
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse not-prose">
+              <thead>
+                <tr className="bg-primary/10">
+                  {table.headers.map((header, j) => (
+                    <th key={j} className="border border-border px-3 py-2 text-left font-semibold">{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {table.rows.map((row, j) => (
+                  <tr key={j} className={j % 2 === 0 ? "bg-background" : "bg-muted/50"}>
+                    {row.map((cell, k) => (
+                      <td key={k} className="border border-border px-3 py-2">{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+
+      {seoContent.additionalSections?.map((section, i) => (
+        <div key={i}>
+          <h3>{section.title}</h3>
+          <p>{section.content}</p>
+        </div>
+      ))}
+
+      {seoContent.tips && seoContent.tips.length > 0 && (
+        <div>
+          <h3 className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-600" />
+            Tips & Best Practices
+          </h3>
+          <ul className="list-disc pl-6 space-y-1">
+            {seoContent.tips.map((tip, i) => (
+              <li key={i}>{tip}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {seoContent.limitations && seoContent.limitations.length > 0 && (
+        <div>
+          <h3 className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-amber-500" />
+            Limitations to Keep in Mind
+          </h3>
+          <ul className="list-disc pl-6 space-y-1">
+            {seoContent.limitations.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {seoContent.relatedConcepts && seoContent.relatedConcepts.length > 0 && (
+        <div>
+          <h3 className="flex items-center gap-2">
+            <Link2 className="h-5 w-5 text-primary" />
+            Related Concepts
+          </h3>
+          <div className="flex flex-wrap gap-2 not-prose">
+            {seoContent.relatedConcepts.map((concept, i) => (
+              <span key={i} className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">{concept}</span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {toolData?.faq && toolData.faq.length > 0 && (
         <div>
