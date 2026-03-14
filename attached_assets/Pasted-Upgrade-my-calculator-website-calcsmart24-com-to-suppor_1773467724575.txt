@@ -1,0 +1,154 @@
+Upgrade my calculator website calcsmart24.com to support programmatic SEO and multi-language pages similar to large calculator websites.
+
+GOAL
+Automatically generate hundreds or thousands of calculator pages targeting long-tail search queries while maintaining fast performance and good SEO.
+
+MAIN STRUCTURE
+
+Create structured calculator categories:
+
+/finance/
+/health/
+/math/
+/construction/
+/unit-converter/
+/date-time/
+
+Example pages:
+
+/loan-calculator
+/mortgage-calculator
+/bmi-calculator
+/age-calculator
+/percentage-calculator
+/salary-calculator
+/vat-calculator
+/gpa-calculator
+
+PROGRAMMATIC SEO
+
+Create a dynamic page generator so the site automatically creates long-tail calculator pages.
+
+Example URLs:
+
+/calculators/loan-payment-calculator
+/calculators/mortgage-affordability-calculator
+/calculators/simple-interest-calculator
+/calculators/compound-interest-calculator
+
+/calculators/vat-calculator-uae
+/calculators/vat-calculator-uk
+/calculators/vat-calculator-india
+
+/calculators/percentage-increase-calculator
+/calculators/percentage-decrease-calculator
+/calculators/discount-calculator
+
+/calculators/days-between-dates
+/calculators/business-days-calculator
+/calculators/working-days-calculator
+
+PAGE TEMPLATE
+
+Each calculator page must include:
+
+SEO title
+Example:
+Loan Payment Calculator | CalcSmart24
+
+Meta description
+Example:
+Calculate your monthly loan payments instantly using our free online loan calculator. Fast and accurate results.
+
+H1 heading
+Example:
+Loan Payment Calculator
+
+Calculator interface
+
+Explanation content (200–400 words)
+
+Sections:
+• What is this calculator
+• How the formula works
+• How to use the calculator
+• Example calculation
+
+Internal links to related calculators
+
+Example:
+mortgage calculator
+interest calculator
+emi calculator
+
+MULTI-LANGUAGE SYSTEM
+
+Add support for multiple languages.
+
+Languages to implement first:
+
+English (default)
+Spanish (es)
+Arabic (ar)
+Hindi (hi)
+French (fr)
+Portuguese (pt)
+
+URL structure:
+
+/loan-calculator
+/es/loan-calculator
+/ar/loan-calculator
+/hi/loan-calculator
+/fr/loan-calculator
+/pt/loan-calculator
+
+Add hreflang tags automatically for every page.
+
+Example:
+
+<link rel="alternate" hreflang="en" href="https://calcsmart24.com/loan-calculator">
+<link rel="alternate" hreflang="es" href="https://calcsmart24.com/es/loan-calculator">
+<link rel="alternate" hreflang="ar" href="https://calcsmart24.com/ar/loan-calculator">
+<link rel="alternate" hreflang="x-default" href="https://calcsmart24.com/loan-calculator">
+
+SITEMAP
+
+Create sitemap index structure.
+
+Example:
+
+/sitemap_index.xml
+
+Include:
+
+/sitemaps/calculators.xml
+/sitemaps/blog.xml
+/sitemaps/pages.xml
+
+Automatically update sitemap when new calculator pages are generated.
+
+BLOG SEO
+
+Add blog section for SEO traffic.
+
+Examples:
+
+/blog/how-to-calculate-loan-interest
+/blog/how-to-calculate-percentage
+/blog/how-to-calculate-vat
+/blog/how-to-calculate-bmi
+
+SCALABILITY
+
+The system must support generating:
+
+100 calculators
+500 calculators
+1000+ calculators
+
+without manual coding.
+
+END RESULT
+
+CalcSmart24 becomes a large calculator platform capable of ranking for thousands of search queries and expanding globally with multi-language support.

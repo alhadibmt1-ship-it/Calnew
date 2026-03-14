@@ -489,49 +489,169 @@ export function getAllToolsServer(): CalculatorToolData[] {
   return tools;
 }
 
-export function generateSitemapXml(): string {
+const SUPPORTED_LANGS = ["en", "es", "ar", "hi", "fr", "pt"];
+const BASE_URL = "https://calcsmart24.com";
+
+export interface BlogPostSeo {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+export const blogPostsSeo: BlogPostSeo[] = [
+  { slug: "how-to-calculate-loan-interest", title: "How to Calculate Loan Interest: A Complete Guide", description: "Learn how to calculate loan interest, understand EMI formulas, and compare different loan types with practical examples." },
+  { slug: "how-to-calculate-percentage", title: "How to Calculate Percentage: Formulas, Examples & Tips", description: "Master percentage calculations with easy formulas for increase, decrease, discount, and more." },
+  { slug: "how-to-calculate-vat", title: "How to Calculate VAT: Guide for UAE, UK, India & More", description: "Learn how to calculate VAT for different countries including UAE, UK, and India." },
+  { slug: "how-to-calculate-bmi", title: "How to Calculate BMI: Formula, Chart & Health Ranges", description: "Learn how to calculate your Body Mass Index (BMI), understand health ranges." },
+  { slug: "how-to-calculate-concrete", title: "How to Calculate Concrete Needed: Volume, Bags & Cost", description: "Learn how to calculate concrete volume for slabs, footings, and columns." },
+  { slug: "how-to-calculate-mortgage-payments", title: "How to Calculate Mortgage Payments: Complete Guide", description: "Learn the mortgage payment formula, understand amortization, and compare fixed vs adjustable rate mortgages." },
+  { slug: "how-to-calculate-roi", title: "How to Calculate ROI: Return on Investment Formula & Examples", description: "Learn how to calculate ROI for business decisions, real estate, and stock investments." },
+  { slug: "how-to-calculate-gpa", title: "How to Calculate GPA: Step-by-Step Guide with Examples", description: "Learn how to calculate your GPA on a 4.0 scale, understand weighted vs unweighted GPA." },
+];
+
+function generateHreflangTags(path: string): string {
+  const tags = SUPPORTED_LANGS.map(lang => {
+    const href = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}/${lang}${path}`;
+    return `<link rel="alternate" hreflang="${lang}" href="${href}" />`;
+  });
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
+  return tags.join("\n  ");
+}
+
+export function injectHreflangIntoHtml(html: string, path: string): string {
+  const hreflangTags = generateHreflangTags(path);
+  return html.replace("</head>", `  ${hreflangTags}\n  </head>`);
+}
+
+export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): string {
+  const title = `${post.title} | CalcSmart24`;
+  const description = post.description;
+  const canonicalUrl = `${BASE_URL}/blog/${post.slug}`;
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  return html;
+}
+
+export function injectBlogHubSeoIntoHtml(html: string): string {
+  const title = "Blog - Calculator Guides & How-To Articles | CalcSmart24";
+  const description = "Learn how to use calculators effectively with our guides, formulas, and practical examples for finance, math, health, and construction.";
+  const canonicalUrl = `${BASE_URL}/blog`;
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  return html;
+}
+
+function sitemapUrl(loc: string, lastmod: string, freq: string, priority: string, langs: boolean = true): string {
+  let entry = `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n`;
+  if (langs) {
+    const path = loc.replace(BASE_URL, "");
+    for (const lang of SUPPORTED_LANGS) {
+      const href = lang === "en" ? loc : `${BASE_URL}/${lang}${path}`;
+      entry += `    <xhtml:link rel="alternate" hreflang="${lang}" href="${href}" />\n`;
+    }
+    entry += `    <xhtml:link rel="alternate" hreflang="x-default" href="${loc}" />\n`;
+  }
+  entry += `  </url>\n`;
+  return entry;
+}
+
+export function generateSitemapIndex(): string {
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  const today = new Date().toISOString().split("T")[0];
+  const sitemaps = ["calculators", "converters", "pages", "blog"];
+  for (const name of sitemaps) {
+    xml += `  <sitemap>\n    <loc>${BASE_URL}/sitemaps/${name}.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>\n`;
+  }
+  xml += `</sitemapindex>`;
+  return xml;
+}
+
+export function generateCalculatorsSitemap(): string {
   const tools = getAllToolsServer();
   const today = new Date().toISOString().split("T")[0];
-
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
-  const fixedPages = [
-    { url: "https://calcsmart24.com/", priority: "1.0", freq: "daily" },
-    { url: "https://calcsmart24.com/about", priority: "0.8", freq: "monthly" },
-    { url: "https://calcsmart24.com/contact", priority: "0.8", freq: "monthly" },
-    { url: "https://calcsmart24.com/terms", priority: "0.5", freq: "monthly" },
-    { url: "https://calcsmart24.com/privacy-policy", priority: "0.5", freq: "monthly" },
-  ];
-
-  for (const page of fixedPages) {
-    xml += `  <url>\n    <loc>${page.url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${page.freq}</changefreq>\n    <priority>${page.priority}</priority>\n  </url>\n`;
-  }
-
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
   for (const cat of calculatorCategorySlugs) {
-    xml += `  <url>\n    <loc>https://calcsmart24.com/${cat.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+    xml += sitemapUrl(`${BASE_URL}/${cat.slug}`, today, "weekly", "0.9");
   }
-
   for (const tool of tools) {
-    xml += `  <url>\n    <loc>https://calcsmart24.com/calculator/${tool.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
+    xml += sitemapUrl(`${BASE_URL}/calculator/${tool.slug}`, today, "weekly", "0.8");
   }
-
-  xml += `  <url>\n    <loc>https://calcsmart24.com/convert</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
-
-  for (const convCat of converterCategorySlugs) {
-    xml += `  <url>\n    <loc>https://calcsmart24.com/convert/${convCat}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
-  }
-
-  for (const conv of converterPages) {
-    xml += `  <url>\n    <loc>https://calcsmart24.com/convert/${conv.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
-  }
-
   xml += `</urlset>`;
   return xml;
 }
 
+export function generateConvertersSitemap(): string {
+  const today = new Date().toISOString().split("T")[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += sitemapUrl(`${BASE_URL}/convert`, today, "weekly", "0.9");
+  for (const convCat of converterCategorySlugs) {
+    xml += sitemapUrl(`${BASE_URL}/convert/${convCat}`, today, "weekly", "0.8");
+  }
+  for (const conv of converterPages) {
+    xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+  }
+  xml += `</urlset>`;
+  return xml;
+}
+
+export function generatePagesSitemap(): string {
+  const today = new Date().toISOString().split("T")[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += sitemapUrl(`${BASE_URL}/`, today, "daily", "1.0");
+  xml += sitemapUrl(`${BASE_URL}/about`, today, "monthly", "0.8", false);
+  xml += sitemapUrl(`${BASE_URL}/contact`, today, "monthly", "0.8", false);
+  xml += sitemapUrl(`${BASE_URL}/terms`, today, "monthly", "0.5", false);
+  xml += sitemapUrl(`${BASE_URL}/privacy-policy`, today, "monthly", "0.5", false);
+  xml += `</urlset>`;
+  return xml;
+}
+
+export function generateBlogSitemap(): string {
+  const today = new Date().toISOString().split("T")[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += sitemapUrl(`${BASE_URL}/blog`, today, "weekly", "0.9");
+  for (const post of blogPostsSeo) {
+    xml += sitemapUrl(`${BASE_URL}/blog/${post.slug}`, today, "monthly", "0.7");
+  }
+  xml += `</urlset>`;
+  return xml;
+}
+
+export function generateSitemapXml(): string {
+  return generateSitemapIndex();
+}
+
 export function generateRobotsTxt(): string {
-  return `User-agent: *\nAllow: /\n\nSitemap: https://calcsmart24.com/sitemap.xml\n`;
+  return `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\nSitemap: ${BASE_URL}/sitemaps/calculators.xml\nSitemap: ${BASE_URL}/sitemaps/converters.xml\nSitemap: ${BASE_URL}/sitemaps/pages.xml\nSitemap: ${BASE_URL}/sitemaps/blog.xml\n`;
 }
 
 export function injectSeoIntoHtml(

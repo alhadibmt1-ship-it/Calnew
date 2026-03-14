@@ -2,9 +2,11 @@ import Layout from "@/components/Layout";
 import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2, BookOpen, Lightbulb, ListChecks, FlaskConical } from "lucide-react";
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 import { useEffect, lazy, Suspense } from "react";
+import { getSEOContent, getGenericSEOContent } from "@/lib/seo-content";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Lazy load calculator components to reduce initial bundle size
 const BMICalculator = lazy(() => import("@/components/BMICalculator"));
@@ -206,6 +208,88 @@ const HorizontalTankCapacityCalculator = lazy(() => import("@/components/Horizon
 const PumpHeadCalculator = lazy(() => import("@/components/PumpHeadCalculator"));
 const SolarPanelArrayCalculator = lazy(() => import("@/components/SolarPanelArrayCalculator"));
 const InsulationRValueCalculator = lazy(() => import("@/components/InsulationRValueCalculator"));
+
+function SEOContentSection({ slug, title, toolData }: { slug: string; title: string; toolData: any }) {
+  const { t } = useLanguage();
+  const seoContent = getSEOContent(slug) || getGenericSEOContent(title, toolData?.description || "");
+
+  return (
+    <section className="prose dark:prose-invert max-w-none bg-muted/30 p-8 rounded-xl border space-y-8" data-testid="seo-content-section">
+      <div>
+        <h2 className="flex items-center gap-2">
+          <BookOpen className="h-5 w-5 text-primary" />
+          {t("whatIs", { name: title })}
+        </h2>
+        <p>{seoContent.whatIs}</p>
+      </div>
+
+      <div>
+        <h3 className="flex items-center gap-2">
+          <FlaskConical className="h-5 w-5 text-primary" />
+          {t("howFormulaWorks")}
+        </h3>
+        <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary text-sm">
+          {seoContent.howFormulaWorks}
+        </blockquote>
+      </div>
+
+      {toolData?.formula && (
+        <div>
+          <h3>{t("formula")}</h3>
+          <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary">
+            {toolData.formula}
+          </blockquote>
+        </div>
+      )}
+
+      <div>
+        <h3 className="flex items-center gap-2">
+          <ListChecks className="h-5 w-5 text-primary" />
+          {t("howToUse")}
+        </h3>
+        <ol className="list-decimal pl-6 space-y-1">
+          {seoContent.howToUse.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
+        </ol>
+      </div>
+
+      <div>
+        <h3 className="flex items-center gap-2">
+          <Lightbulb className="h-5 w-5 text-primary" />
+          {seoContent.exampleTitle}
+        </h3>
+        <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r">
+          <p className="font-mono text-sm">{seoContent.exampleContent}</p>
+        </div>
+      </div>
+
+      {toolData?.faq && toolData.faq.length > 0 && (
+        <div>
+          <h3>{t("faq")}</h3>
+          <div className="space-y-4">
+            {toolData.faq.map((item: any, i: number) => (
+              <div key={i} className="border-b pb-4 last:border-0">
+                <h4 className="font-semibold text-lg mb-2">{item.question}</h4>
+                <p className="text-muted-foreground">{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h3>{t("whyUseCalcSmart")}</h3>
+        <ul>
+          <li><strong>{t("free").split("—")[0]}:</strong>{t("free").split("—")[1]}</li>
+          <li><strong>{t("fast").split("—")[0]}:</strong>{t("fast").split("—")[1]}</li>
+          <li><strong>{t("private").split("—")[0]}:</strong>{t("private").split("—")[1]}</li>
+          <li><strong>{t("mobileFriendly").split("—")[0]}:</strong>{t("mobileFriendly").split("—")[1]}</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
 
 export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
@@ -826,77 +910,7 @@ export default function CalculatorPage() {
           </div>
 
           {/* Rich SEO Content */}
-          <section className="prose dark:prose-invert max-w-none bg-muted/30 p-8 rounded-xl border space-y-8">
-            
-            {/* Intro / Description */}
-            <div>
-              <h2>About {title}</h2>
-              <p>
-                This <strong>{title}</strong> is a free online tool designed to help you calculate {title.toLowerCase().replace('calculator', '')} quickly and accurately. 
-                Whether you're a student, professional, or just need to make a quick calculation, our tool provides instant results without any complex setup.
-              </p>
-            </div>
-
-            {/* Formula Section (Conditional) */}
-            {toolData?.formula && (
-              <div>
-                <h3>Formula</h3>
-                <p>The {title} uses the following formula:</p>
-                <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary">
-                  {toolData.formula}
-                </blockquote>
-              </div>
-            )}
-
-            {/* Example Section (Conditional) */}
-            {toolData?.example && (
-              <div>
-                <h3>Example Calculation</h3>
-                <p>{toolData.example}</p>
-              </div>
-            )}
-
-            {/* How To Use */}
-            <div>
-              <h3>How to use this calculator</h3>
-              <ul>
-                <li>Enter the required values in the input fields above.</li>
-                <li>Check that the units are correct (if applicable).</li>
-                <li>Click the "Calculate" or "Convert" button to see your result.</li>
-                <li>Use the "Reset" or "Clear" button to start a new calculation.</li>
-              </ul>
-            </div>
-
-            {/* FAQ Section (Conditional) */}
-            {toolData?.faq && toolData.faq.length > 0 && (
-              <div>
-                <h3>Frequently Asked Questions (FAQ)</h3>
-                <div className="space-y-4">
-                  {toolData.faq.map((item, i) => (
-                    <div key={i} className="border-b pb-4 last:border-0">
-                      <h4 className="font-semibold text-lg mb-2">{item.question}</h4>
-                      <p className="text-muted-foreground">{item.answer}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* General Info */}
-            <div>
-              <h3>Why use CalcSmart24?</h3>
-              <p>
-                CalcSmart24 provides a suite of over 50 free online calculators covering finance, health, math, and daily life utilities. 
-                Our tools are:
-              </p>
-              <ul>
-                <li><strong>Free:</strong> No registration or payment required.</li>
-                <li><strong>Fast:</strong> Instant results right in your browser.</li>
-                <li><strong>Private:</strong> Calculations happen on your device; we don't store your personal data.</li>
-                <li><strong>Mobile-Friendly:</strong> Works perfectly on phones, tablets, and desktops.</li>
-              </ul>
-            </div>
-          </section>
+          <SEOContentSection slug={slug} title={title} toolData={toolData} />
 
           {/* Related Tools Section */}
           <section className="pt-8 border-t">
