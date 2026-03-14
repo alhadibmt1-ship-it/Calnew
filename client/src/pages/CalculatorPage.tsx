@@ -6,6 +6,7 @@ import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2, BookO
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 import { useEffect, lazy, Suspense } from "react";
 import { getSEOContent, getGenericSEOContent } from "@/lib/seo-content";
+import { getRelatedCalculators } from "@/lib/internal-links";
 
 
 // Lazy load calculator components to reduce initial bundle size
@@ -344,9 +345,20 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
             Related Concepts
           </h3>
           <div className="flex flex-wrap gap-2 not-prose">
-            {seoContent.relatedConcepts.map((concept, i) => (
-              <span key={i} className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">{concept}</span>
-            ))}
+            {seoContent.relatedConcepts.map((concept, i) => {
+              const conceptSlug = concept.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+              const calcSlug = conceptSlug.endsWith('-calculator') ? conceptSlug : conceptSlug + '-calculator';
+              const allTools = getAllTools();
+              const matchedTool = allTools.find(t => t.slug === calcSlug || t.slug === conceptSlug);
+              if (matchedTool) {
+                return (
+                  <Link key={i} href={matchedTool.href}>
+                    <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium hover:bg-primary/20 cursor-pointer transition-colors">{concept}</span>
+                  </Link>
+                );
+              }
+              return <span key={i} className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">{concept}</span>;
+            })}
           </div>
         </div>
       )}
@@ -998,6 +1010,34 @@ export default function CalculatorPage() {
 
           {/* Rich SEO Content */}
           <SEOContentSection slug={slug} title={title} toolData={toolData} />
+
+          {/* Cross-Category Internal Links */}
+          {(() => {
+            const crossLinks = getRelatedCalculators(slug);
+            if (crossLinks.length === 0) return null;
+            return (
+              <section className="pt-8 border-t" data-testid="cross-category-links">
+                <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-2">
+                  <Link2 className="h-6 w-6 text-primary" />
+                  You May Also Like
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {crossLinks.map((link) => (
+                    <Link key={link.slug} href={link.href}>
+                      <a className="block group" data-testid={`cross-link-${link.slug}`}>
+                        <div className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:border-primary/50 hover:shadow-sm transition-all">
+                          <div className="bg-primary/10 p-2 rounded-full text-primary shrink-0">
+                            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                          </div>
+                          <span className="font-medium text-sm group-hover:text-primary transition-colors">{link.name}</span>
+                        </div>
+                      </a>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
 
           {/* Related Tools Section */}
           <section className="pt-8 border-t">
