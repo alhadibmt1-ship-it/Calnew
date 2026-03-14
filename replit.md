@@ -29,10 +29,10 @@ Preferred communication style: Simple, everyday language.
 - Categories: financial, business, health, math, education, other, seo-tools, converters, construction
 
 ### Programmatic SEO Content
-- **SEO content module**: `client/src/lib/seo-content.ts` — rich content templates for key calculators
-- Each calculator page auto-generates sections: "What is [Calculator]", "How the Formula Works", "How to Use", "Example Calculation"
+- **SEO content module**: `client/src/lib/seo-content.ts` — rich content templates for 50 key calculators
+- Each enriched calculator page includes: "What is [Calculator]" (multi-paragraph), "How the Formula Works" (with formula breakdown), "How to Use", "Example Calculation", reference tables, additional educational sections, tips & best practices, limitations, and related concepts
 - Falls back to generic content for calculators without specific templates
-- Content rendered via `SEOContentSection` component in `CalculatorPage.tsx`
+- Content rendered via `SEOContentSection` component in `CalculatorPage.tsx` with table rendering, icon-enhanced sections, and alternating row colors
 
 ### Blog Section
 - **Blog data**: `client/src/lib/blog-data.ts` — 8 articles with full markdown content
