@@ -622,11 +622,43 @@ export function generateBlogSitemap(): string {
 }
 
 export function generateSitemapXml(): string {
-  return generateSitemapIndex();
+  const tools = getAllToolsServer();
+  const today = new Date().toISOString().split("T")[0];
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+  xml += sitemapUrl(`${BASE_URL}/`, today, "daily", "1.0");
+  xml += sitemapUrl(`${BASE_URL}/about`, today, "monthly", "0.8");
+  xml += sitemapUrl(`${BASE_URL}/contact`, today, "monthly", "0.8");
+  xml += sitemapUrl(`${BASE_URL}/terms`, today, "monthly", "0.5");
+  xml += sitemapUrl(`${BASE_URL}/privacy-policy`, today, "monthly", "0.5");
+
+  for (const cat of calculatorCategorySlugs) {
+    xml += sitemapUrl(`${BASE_URL}/${cat.slug}`, today, "weekly", "0.9");
+  }
+  for (const tool of tools) {
+    xml += sitemapUrl(`${BASE_URL}/calculator/${tool.slug}`, today, "weekly", "0.8");
+  }
+
+  xml += sitemapUrl(`${BASE_URL}/convert`, today, "weekly", "0.9");
+  for (const convCat of converterCategorySlugs) {
+    xml += sitemapUrl(`${BASE_URL}/convert/${convCat}`, today, "weekly", "0.8");
+  }
+  for (const conv of converterPages) {
+    xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+  }
+
+  xml += sitemapUrl(`${BASE_URL}/blog`, today, "weekly", "0.9");
+  for (const post of blogPostsSeo) {
+    xml += sitemapUrl(`${BASE_URL}/blog/${post.slug}`, today, "monthly", "0.7");
+  }
+
+  xml += `</urlset>`;
+  return xml;
 }
 
 export function generateRobotsTxt(): string {
-  return `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\nSitemap: ${BASE_URL}/sitemaps/calculators.xml\nSitemap: ${BASE_URL}/sitemaps/converters.xml\nSitemap: ${BASE_URL}/sitemaps/pages.xml\nSitemap: ${BASE_URL}/sitemaps/blog.xml\n`;
+  return `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
 }
 
 export function injectSeoIntoHtml(
