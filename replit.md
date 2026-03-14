@@ -2,7 +2,7 @@
 
 ## Overview
 
-CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 240+ calculators organized into nine categories: Financial (51), Business (22), Fitness & Health (13), Math (27), Education (8), Daily Life (12), SEO & Text Tools (7), Unit Converters (13), and Construction (61+). Additionally, it features a dynamic unit converter engine generating 400+ individual converter pages across 14 categories. The site supports 6 languages (English, Spanish, Arabic, Hindi, French, Portuguese) with a full i18n system, RTL support for Arabic, and hreflang tags for SEO. It includes a blog section with 8 SEO-optimized articles, programmatic SEO content generation for calculator pages, and a sitemap index structure with separate sitemaps for calculators, converters, pages, and blog.
+CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 240+ calculators organized into nine categories: Financial (51), Business (22), Fitness & Health (13), Math (27), Education (8), Daily Life (12), SEO & Text Tools (7), Unit Converters (13), and Construction (61+). Additionally, it features a dynamic unit converter engine generating 400+ individual converter pages across 14 categories. The site is English-only. It includes a blog section with 8 SEO-optimized articles, programmatic SEO content generation for calculator pages, and a sitemap index structure with separate sitemaps for calculators, converters, pages, and blog.
 
 ## User Preferences
 
@@ -12,22 +12,13 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend
 - **Framework**: React 18 with TypeScript, bundled by Vite
-- **Routing**: Wouter with routes for home, categories, calculators (`/calculator/:slug`), converters (`/convert/*`), blog (`/blog`, `/blog/:slug`), and static pages. Supports language-prefixed routes (`/:lang/calculator/:slug`, etc.) for 6 languages.
+- **Routing**: Wouter with routes for home, categories, calculators (`/calculator/:slug`), converters (`/convert/*`), blog (`/blog`, `/blog/:slug`), and static pages
 - **UI Components**: shadcn/ui (New York style) built on Radix UI primitives with Tailwind CSS v4
 - **State Management**: Local component state (useState) for calculators; TanStack React Query available for API calls
 - **Charts**: Recharts for data visualization in financial calculators
 - **Fonts**: Inter (sans) loaded from Google Fonts with deferred loading; system monospace stack for mono
 - **Performance**: Code-split with manual chunks (react-dom, radix, recharts, icons, query, router, utils); lazy-loaded routes via React.lazy/Suspense; Google Analytics deferred to window.load; optimized images (logo 4KB, favicon 2KB); immutable asset caching
 - **Path aliases**: `@/` maps to `client/src/`, `@shared/` maps to `shared/`, `@assets/` maps to `attached_assets/`
-
-### Multi-Language System (i18n)
-- **Languages**: English (default), Spanish, Arabic (RTL), Hindi, French, Portuguese
-- **Translation files**: `client/src/lib/i18n/` — per-language modules (en.ts, es.ts, ar.ts, hi.ts, fr.ts, pt.ts)
-- **Context**: `client/src/contexts/LanguageContext.tsx` — provides `useLanguage()` hook with `t()`, `getCalcName()`, `getCalcDesc()` functions
-- **URL structure**: English uses root (`/calculator/bmi-calculator`), other languages use prefix (`/es/calculator/bmi-calculator`)
-- **Language switcher**: `client/src/components/LanguageSwitcher.tsx` — globe icon dropdown in header
-- **RTL support**: Arabic pages automatically set `dir="rtl"` on the document
-- **Hreflang tags**: Injected server-side in production for all pages across all 6 languages
 
 ### Calculator Architecture
 - Each calculator is a standalone React component in `client/src/components/`
@@ -46,7 +37,7 @@ Preferred communication style: Simple, everyday language.
 ### Blog Section
 - **Blog data**: `client/src/lib/blog-data.ts` — 8 articles with full markdown content
 - **Pages**: `BlogHub.tsx` (listing), `BlogPost.tsx` (individual article with markdown rendering)
-- **Routes**: `/blog` (hub), `/blog/:slug` (article), language-prefixed variants
+- **Routes**: `/blog` (hub), `/blog/:slug` (article)
 - **SEO**: Server-side meta injection for blog pages in production
 - Topics: loan interest, percentages, VAT, BMI, concrete, mortgage, ROI, GPA
 
@@ -59,22 +50,21 @@ Preferred communication style: Simple, everyday language.
 ### Backend
 - **Runtime**: Node.js with Express
 - **Dev server**: `server/index-dev.ts` — uses Vite middleware for HMR
-- **Prod server**: `server/index-prod.ts` — serves pre-built static files with SSR HTML manipulation for SEO, hreflang injection, and language-prefixed route handling
+- **Prod server**: `server/index-prod.ts` — serves pre-built static files with SSR HTML manipulation for SEO
 - **Build**: Vite builds client to `dist/public/`; esbuild bundles server to `dist/index.cjs`
 - **Compression**: Express compression middleware enabled
 
 ### SEO Strategy
 - **Server-side meta injection**: Title, description, OG tags, canonical URLs for all page types
-- **Hreflang tags**: Auto-injected for all 6 languages on every page in production
 - **Sitemap index**: `/sitemap.xml` (index) pointing to:
-  - `/sitemaps/calculators.xml` — all calculator and category pages with xhtml:link alternates
-  - `/sitemaps/converters.xml` — all converter pages with alternates
+  - `/sitemaps/calculators.xml` — all calculator and category pages
+  - `/sitemaps/converters.xml` — all converter pages
   - `/sitemaps/pages.xml` — static pages (home, about, contact, etc.)
-  - `/sitemaps/blog.xml` — blog articles with alternates
+  - `/sitemaps/blog.xml` — blog articles
 - **Robots.txt**: Lists all sitemap URLs
 - **Pre-rendering script**: `scripts/prerender.js` for crawler support
 - **Schema.org**: JSON-LD structured data in `index.html`
-- **Analytics**: Google Analytics (G-9XYN8467QD)
+- **Analytics**: Google Analytics (G-9XYN8467QD), deferred loading
 
 ### Data Storage
 - **Schema**: Drizzle ORM in `shared/schema.ts` using PostgreSQL dialect
@@ -94,7 +84,7 @@ Preferred communication style: Simple, everyday language.
 ### Third-Party Services
 - **PostgreSQL Database**: Via `DATABASE_URL`, using `@neondatabase/serverless` driver
 - **Google Analytics**: Tracking ID `G-9XYN8467QD`
-- **Google Fonts**: Inter and JetBrains Mono
+- **Google Fonts**: Inter
 
 ### Key NPM Packages
 - **UI**: Full shadcn/ui component suite (Radix UI primitives, class-variance-authority, clsx, cmdk, tailwind-merge)

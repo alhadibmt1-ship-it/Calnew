@@ -5,7 +5,6 @@ import { Calendar, Clock, ArrowLeft, ArrowRight, Calculator } from "lucide-react
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/contexts/LanguageContext";
 import NotFound from "./not-found";
 
 function renderMarkdown(content: string) {
@@ -93,7 +92,6 @@ function renderMarkdown(content: string) {
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const post = getBlogPostBySlug(slug || "");
-  const { t } = useLanguage();
 
   if (!post) return <NotFound />;
 
@@ -132,7 +130,7 @@ export default function BlogPost() {
           <div className="mt-10 p-6 bg-primary/5 rounded-lg border border-primary/10">
             <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
               <Calculator className="h-5 w-5 text-primary" />
-              {t("relatedCalculators")}
+              Related Calculators
             </h3>
             <div className="flex flex-wrap gap-2">
               {post.relatedCalculators.map((calcSlug) => (
@@ -148,7 +146,7 @@ export default function BlogPost() {
 
         {relatedPosts.length > 0 && (
           <div className="mt-10">
-            <h3 className="font-semibold text-lg mb-4">{t("readMore")}</h3>
+            <h3 className="font-semibold text-lg mb-4">Read More</h3>
             <div className="grid gap-3">
               {relatedPosts.map((rp) => (
                 <Link key={rp.slug} href={`/blog/${rp.slug}`}>

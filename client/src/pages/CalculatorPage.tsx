@@ -6,7 +6,7 @@ import { ArrowRight, Construction, Home, ChevronRight, ArrowLeft, Loader2, BookO
 import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 import { useEffect, lazy, Suspense } from "react";
 import { getSEOContent, getGenericSEOContent } from "@/lib/seo-content";
-import { useLanguage } from "@/contexts/LanguageContext";
+
 
 // Lazy load calculator components to reduce initial bundle size
 const BMICalculator = lazy(() => import("@/components/BMICalculator"));
@@ -210,7 +210,6 @@ const SolarPanelArrayCalculator = lazy(() => import("@/components/SolarPanelArra
 const InsulationRValueCalculator = lazy(() => import("@/components/InsulationRValueCalculator"));
 
 function SEOContentSection({ slug, title, toolData }: { slug: string; title: string; toolData: any }) {
-  const { t } = useLanguage();
   const seoContent = getSEOContent(slug) || getGenericSEOContent(title, toolData?.description || "");
 
   return (
@@ -218,7 +217,7 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
       <div>
         <h2 className="flex items-center gap-2">
           <BookOpen className="h-5 w-5 text-primary" />
-          {t("whatIs", { name: title })}
+          What is {title}
         </h2>
         <p>{seoContent.whatIs}</p>
       </div>
@@ -226,7 +225,7 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
       <div>
         <h3 className="flex items-center gap-2">
           <FlaskConical className="h-5 w-5 text-primary" />
-          {t("howFormulaWorks")}
+          How the Formula Works
         </h3>
         <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary text-sm">
           {seoContent.howFormulaWorks}
@@ -235,7 +234,7 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
 
       {toolData?.formula && (
         <div>
-          <h3>{t("formula")}</h3>
+          <h3>Formula</h3>
           <blockquote className="not-italic font-mono bg-slate-100 dark:bg-slate-900 p-4 rounded-lg border-l-4 border-primary">
             {toolData.formula}
           </blockquote>
@@ -245,7 +244,7 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
       <div>
         <h3 className="flex items-center gap-2">
           <ListChecks className="h-5 w-5 text-primary" />
-          {t("howToUse")}
+          How to Use This Calculator
         </h3>
         <ol className="list-decimal pl-6 space-y-1">
           {seoContent.howToUse.map((step, i) => (
@@ -266,7 +265,7 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
 
       {toolData?.faq && toolData.faq.length > 0 && (
         <div>
-          <h3>{t("faq")}</h3>
+          <h3>Frequently Asked Questions</h3>
           <div className="space-y-4">
             {toolData.faq.map((item: any, i: number) => (
               <div key={i} className="border-b pb-4 last:border-0">
@@ -279,12 +278,12 @@ function SEOContentSection({ slug, title, toolData }: { slug: string; title: str
       )}
 
       <div>
-        <h3>{t("whyUseCalcSmart")}</h3>
+        <h3>Why Use CalcSmart24?</h3>
         <ul>
-          <li><strong>{t("free").split("—")[0]}:</strong>{t("free").split("—")[1]}</li>
-          <li><strong>{t("fast").split("—")[0]}:</strong>{t("fast").split("—")[1]}</li>
-          <li><strong>{t("private").split("—")[0]}:</strong>{t("private").split("—")[1]}</li>
-          <li><strong>{t("mobileFriendly").split("—")[0]}:</strong>{t("mobileFriendly").split("—")[1]}</li>
+          <li><strong>Free:</strong> No registration or payment required.</li>
+          <li><strong>Fast:</strong> Instant results right in your browser.</li>
+          <li><strong>Private:</strong> Calculations happen on your device.</li>
+          <li><strong>Mobile-Friendly:</strong> Works perfectly on any device.</li>
         </ul>
       </div>
     </section>

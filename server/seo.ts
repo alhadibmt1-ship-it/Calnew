@@ -489,7 +489,6 @@ export function getAllToolsServer(): CalculatorToolData[] {
   return tools;
 }
 
-const SUPPORTED_LANGS = ["en", "es", "ar", "hi", "fr", "pt"];
 const BASE_URL = "https://calcsmart24.com";
 
 export interface BlogPostSeo {
@@ -508,20 +507,6 @@ export const blogPostsSeo: BlogPostSeo[] = [
   { slug: "how-to-calculate-roi", title: "How to Calculate ROI: Return on Investment Formula & Examples", description: "Learn how to calculate ROI for business decisions, real estate, and stock investments." },
   { slug: "how-to-calculate-gpa", title: "How to Calculate GPA: Step-by-Step Guide with Examples", description: "Learn how to calculate your GPA on a 4.0 scale, understand weighted vs unweighted GPA." },
 ];
-
-function generateHreflangTags(path: string): string {
-  const tags = SUPPORTED_LANGS.map(lang => {
-    const href = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}/${lang}${path}`;
-    return `<link rel="alternate" hreflang="${lang}" href="${href}" />`;
-  });
-  tags.push(`<link rel="alternate" hreflang="x-default" href="${BASE_URL}${path}" />`);
-  return tags.join("\n  ");
-}
-
-export function injectHreflangIntoHtml(html: string, path: string): string {
-  const hreflangTags = generateHreflangTags(path);
-  return html.replace("</head>", `  ${hreflangTags}\n  </head>`);
-}
 
 export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): string {
   const title = `${post.title} | CalcSmart24`;
@@ -565,18 +550,8 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
   return html;
 }
 
-function sitemapUrl(loc: string, lastmod: string, freq: string, priority: string, langs: boolean = true): string {
-  let entry = `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n`;
-  if (langs) {
-    const path = loc.replace(BASE_URL, "");
-    for (const lang of SUPPORTED_LANGS) {
-      const href = lang === "en" ? loc : `${BASE_URL}/${lang}${path}`;
-      entry += `    <xhtml:link rel="alternate" hreflang="${lang}" href="${href}" />\n`;
-    }
-    entry += `    <xhtml:link rel="alternate" hreflang="x-default" href="${loc}" />\n`;
-  }
-  entry += `  </url>\n`;
-  return entry;
+function sitemapUrl(loc: string, lastmod: string, freq: string, priority: string): string {
+  return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
 }
 
 export function generateSitemapIndex(): string {
@@ -595,7 +570,7 @@ export function generateCalculatorsSitemap(): string {
   const tools = getAllToolsServer();
   const today = new Date().toISOString().split("T")[0];
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   for (const cat of calculatorCategorySlugs) {
     xml += sitemapUrl(`${BASE_URL}/${cat.slug}`, today, "weekly", "0.9");
   }
@@ -609,7 +584,7 @@ export function generateCalculatorsSitemap(): string {
 export function generateConvertersSitemap(): string {
   const today = new Date().toISOString().split("T")[0];
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   xml += sitemapUrl(`${BASE_URL}/convert`, today, "weekly", "0.9");
   for (const convCat of converterCategorySlugs) {
     xml += sitemapUrl(`${BASE_URL}/convert/${convCat}`, today, "weekly", "0.8");
@@ -624,12 +599,12 @@ export function generateConvertersSitemap(): string {
 export function generatePagesSitemap(): string {
   const today = new Date().toISOString().split("T")[0];
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   xml += sitemapUrl(`${BASE_URL}/`, today, "daily", "1.0");
-  xml += sitemapUrl(`${BASE_URL}/about`, today, "monthly", "0.8", false);
-  xml += sitemapUrl(`${BASE_URL}/contact`, today, "monthly", "0.8", false);
-  xml += sitemapUrl(`${BASE_URL}/terms`, today, "monthly", "0.5", false);
-  xml += sitemapUrl(`${BASE_URL}/privacy-policy`, today, "monthly", "0.5", false);
+  xml += sitemapUrl(`${BASE_URL}/about`, today, "monthly", "0.8");
+  xml += sitemapUrl(`${BASE_URL}/contact`, today, "monthly", "0.8");
+  xml += sitemapUrl(`${BASE_URL}/terms`, today, "monthly", "0.5");
+  xml += sitemapUrl(`${BASE_URL}/privacy-policy`, today, "monthly", "0.5");
   xml += `</urlset>`;
   return xml;
 }
@@ -637,7 +612,7 @@ export function generatePagesSitemap(): string {
 export function generateBlogSitemap(): string {
   const today = new Date().toISOString().split("T")[0];
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   xml += sitemapUrl(`${BASE_URL}/blog`, today, "weekly", "0.9");
   for (const post of blogPostsSeo) {
     xml += sitemapUrl(`${BASE_URL}/blog/${post.slug}`, today, "monthly", "0.7");

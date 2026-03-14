@@ -19,7 +19,6 @@ import {
   injectConverterSeoIntoHtml,
   injectConverterCategorySeoIntoHtml,
   injectConverterHubSeoIntoHtml,
-  injectHreflangIntoHtml,
   injectBlogPostSeoIntoHtml,
   injectBlogHubSeoIntoHtml,
   calculatorCategorySlugs,
@@ -27,8 +26,6 @@ import {
   getConverterPageBySlug,
   blogPostsSeo,
 } from "./seo";
-
-const SUPPORTED_LANGS = ["es", "ar", "hi", "fr", "pt"];
 
 export async function serveStatic(app: Express, server: Server) {
   const distPath = path.resolve(__dirname, "public");
@@ -96,16 +93,14 @@ export async function serveStatic(app: Express, server: Server) {
   );
 
   app.get("/", (_req, res) => {
-    let html = injectHomeSeoIntoHtml(indexHtml);
-    html = injectHreflangIntoHtml(html, "/");
+    const html = injectHomeSeoIntoHtml(indexHtml);
     res.type("html").send(html);
   });
 
   app.get("/calculator/:slug", (req, res) => {
     const tool = toolMap.get(req.params.slug);
     if (tool) {
-      let html = injectSeoIntoHtml(indexHtml, tool);
-      html = injectHreflangIntoHtml(html, `/calculator/${req.params.slug}`);
+      const html = injectSeoIntoHtml(indexHtml, tool);
       res.type("html").send(html);
     } else {
       res.type("html").send(indexHtml);
@@ -113,8 +108,7 @@ export async function serveStatic(app: Express, server: Server) {
   });
 
   app.get("/convert", (_req, res) => {
-    let html = injectConverterHubSeoIntoHtml(indexHtml);
-    html = injectHreflangIntoHtml(html, "/convert");
+    const html = injectConverterHubSeoIntoHtml(indexHtml);
     res.type("html").send(html);
   });
 
@@ -122,14 +116,12 @@ export async function serveStatic(app: Express, server: Server) {
   app.get("/convert/:slug", (req, res) => {
     const slug = req.params.slug;
     if (convCatSet.has(slug)) {
-      let html = injectConverterCategorySeoIntoHtml(indexHtml, slug);
-      html = injectHreflangIntoHtml(html, `/convert/${slug}`);
+      const html = injectConverterCategorySeoIntoHtml(indexHtml, slug);
       res.type("html").send(html);
     } else {
       const conv = getConverterPageBySlug(slug);
       if (conv) {
-        let html = injectConverterSeoIntoHtml(indexHtml, conv);
-        html = injectHreflangIntoHtml(html, `/convert/${slug}`);
+        const html = injectConverterSeoIntoHtml(indexHtml, conv);
         res.type("html").send(html);
       } else {
         res.type("html").send(indexHtml);
@@ -138,16 +130,14 @@ export async function serveStatic(app: Express, server: Server) {
   });
 
   app.get("/blog", (_req, res) => {
-    let html = injectBlogHubSeoIntoHtml(indexHtml);
-    html = injectHreflangIntoHtml(html, "/blog");
+    const html = injectBlogHubSeoIntoHtml(indexHtml);
     res.type("html").send(html);
   });
 
   app.get("/blog/:slug", (req, res) => {
     const post = blogPostMap.get(req.params.slug);
     if (post) {
-      let html = injectBlogPostSeoIntoHtml(indexHtml, post);
-      html = injectHreflangIntoHtml(html, `/blog/${req.params.slug}`);
+      const html = injectBlogPostSeoIntoHtml(indexHtml, post);
       res.type("html").send(html);
     } else {
       res.type("html").send(indexHtml);
@@ -157,77 +147,8 @@ export async function serveStatic(app: Express, server: Server) {
   const categoryRoutes = Array.from(categorySlugs);
   for (const slug of categoryRoutes) {
     app.get(`/${slug}`, (_req, res) => {
-      let html = injectCategorySeoIntoHtml(indexHtml, slug);
-      html = injectHreflangIntoHtml(html, `/${slug}`);
+      const html = injectCategorySeoIntoHtml(indexHtml, slug);
       res.type("html").send(html);
-    });
-  }
-
-  for (const langCode of SUPPORTED_LANGS) {
-    app.get(`/${langCode}`, (_req, res) => {
-      let html = injectHomeSeoIntoHtml(indexHtml);
-      html = injectHreflangIntoHtml(html, "/");
-      res.type("html").send(html);
-    });
-
-    app.get(`/${langCode}/calculator/:slug`, (req, res) => {
-      const tool = toolMap.get(req.params.slug);
-      if (tool) {
-        let html = injectSeoIntoHtml(indexHtml, tool);
-        html = injectHreflangIntoHtml(html, `/calculator/${req.params.slug}`);
-        res.type("html").send(html);
-      } else {
-        res.type("html").send(indexHtml);
-      }
-    });
-
-    for (const catSlug of categoryRoutes) {
-      app.get(`/${langCode}/${catSlug}`, (_req, res) => {
-        let html = injectCategorySeoIntoHtml(indexHtml, catSlug);
-        html = injectHreflangIntoHtml(html, `/${catSlug}`);
-        res.type("html").send(html);
-      });
-    }
-
-    app.get(`/${langCode}/convert`, (_req, res) => {
-      let html = injectConverterHubSeoIntoHtml(indexHtml);
-      html = injectHreflangIntoHtml(html, "/convert");
-      res.type("html").send(html);
-    });
-
-    app.get(`/${langCode}/convert/:slug`, (req, res) => {
-      const slug = req.params.slug;
-      if (convCatSet.has(slug)) {
-        let html = injectConverterCategorySeoIntoHtml(indexHtml, slug);
-        html = injectHreflangIntoHtml(html, `/convert/${slug}`);
-        res.type("html").send(html);
-      } else {
-        const conv = getConverterPageBySlug(slug);
-        if (conv) {
-          let html = injectConverterSeoIntoHtml(indexHtml, conv);
-          html = injectHreflangIntoHtml(html, `/convert/${slug}`);
-          res.type("html").send(html);
-        } else {
-          res.type("html").send(indexHtml);
-        }
-      }
-    });
-
-    app.get(`/${langCode}/blog`, (_req, res) => {
-      let html = injectBlogHubSeoIntoHtml(indexHtml);
-      html = injectHreflangIntoHtml(html, "/blog");
-      res.type("html").send(html);
-    });
-
-    app.get(`/${langCode}/blog/:slug`, (req, res) => {
-      const post = blogPostMap.get(req.params.slug);
-      if (post) {
-        let html = injectBlogPostSeoIntoHtml(indexHtml, post);
-        html = injectHreflangIntoHtml(html, `/blog/${req.params.slug}`);
-        res.type("html").send(html);
-      } else {
-        res.type("html").send(indexHtml);
-      }
     });
   }
 
