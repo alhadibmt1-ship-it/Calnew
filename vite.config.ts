@@ -39,6 +39,24 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    target: "es2020",
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/react-dom")) return "vendor-react-dom";
+          if (id.includes("node_modules/react/") || id.includes("node_modules/react-is")) return "vendor-react";
+          if (id.includes("node_modules/wouter")) return "vendor-router";
+          if (id.includes("node_modules/@radix-ui")) return "vendor-radix";
+          if (id.includes("node_modules/recharts") || id.includes("node_modules/d3-")) return "vendor-recharts";
+          if (id.includes("node_modules/@tanstack")) return "vendor-query";
+          if (id.includes("node_modules/lucide-react")) return "vendor-icons";
+          if (id.includes("node_modules/class-variance-authority") || id.includes("node_modules/clsx") || id.includes("node_modules/tailwind-merge")) return "vendor-style-utils";
+          if (id.includes("node_modules/date-fns")) return "vendor-date";
+          if (id.includes("node_modules/zod")) return "vendor-zod";
+        },
+      },
+    },
   },
   server: {
     host: "0.0.0.0",

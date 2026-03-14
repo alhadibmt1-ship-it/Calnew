@@ -81,10 +81,15 @@ export async function serveStatic(app: Express, server: Server) {
     express.static(distPath, {
       redirect: false,
       index: false,
-      maxAge: "1d",
+      maxAge: "1y",
+      immutable: true,
       setHeaders: (res, filePath) => {
         if (filePath.endsWith(".html")) {
           res.setHeader("Cache-Control", "no-cache");
+        } else if (filePath.includes("/assets/")) {
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        } else if (filePath.endsWith(".png") || filePath.endsWith(".jpg") || filePath.endsWith(".ico")) {
+          res.setHeader("Cache-Control", "public, max-age=86400");
         }
       },
     })

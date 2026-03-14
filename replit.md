@@ -16,7 +16,8 @@ Preferred communication style: Simple, everyday language.
 - **UI Components**: shadcn/ui (New York style) built on Radix UI primitives with Tailwind CSS v4
 - **State Management**: Local component state (useState) for calculators; TanStack React Query available for API calls
 - **Charts**: Recharts for data visualization in financial calculators
-- **Fonts**: Inter (sans) and JetBrains Mono (mono), loaded from Google Fonts
+- **Fonts**: Inter (sans) loaded from Google Fonts with deferred loading; system monospace stack for mono
+- **Performance**: Code-split with manual chunks (react-dom, radix, recharts, icons, query, router, utils); lazy-loaded routes via React.lazy/Suspense; Google Analytics deferred to window.load; optimized images (logo 4KB, favicon 2KB); immutable asset caching
 - **Path aliases**: `@/` maps to `client/src/`, `@shared/` maps to `shared/`, `@assets/` maps to `attached_assets/`
 
 ### Multi-Language System (i18n)

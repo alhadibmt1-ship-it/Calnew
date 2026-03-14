@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-6">
             <Link href={lp("/")} className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-90 transition-opacity">
-              <img src="/logo.png" alt="CalcSmart24 Logo" className="h-8 w-8 rounded-lg object-contain" />
+              <img src="/logo.png" alt="CalcSmart24 Logo" width="32" height="32" className="h-8 w-8 rounded-lg object-contain" />
               <span>CalcSmart24</span>
             </Link>
 
@@ -127,7 +127,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-border">
             <div>
               <Link href={lp("/")} className="flex items-center gap-2 font-bold text-2xl text-primary mb-4 hover:opacity-90 transition-opacity">
-                <img src="/logo.png" alt="CalcSmart24 Logo" className="h-8 w-8 rounded-lg object-contain" />
+                <img src="/logo.png" alt="CalcSmart24 Logo" width="32" height="32" className="h-8 w-8 rounded-lg object-contain" />
                 <span>CalcSmart24</span>
               </Link>
               <p className="text-muted-foreground text-sm max-w-sm leading-relaxed">
