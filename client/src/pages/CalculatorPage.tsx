@@ -913,7 +913,7 @@ export default function CalculatorPage() {
   const toolData = getToolData(slug);
 
   useEffect(() => {
-    document.title = `${title} - Free Online Tool | CalcSmart24`;
+    document.title = `${title} | CalcSmart24`;
 
     // Update Meta Description
     let metaDescription = document.querySelector('meta[name="description"]');

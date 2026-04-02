@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { useEffect } from "react";
 import { ArrowRightLeft, Calculator } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
@@ -11,6 +12,16 @@ import {
 export default function ConverterHub() {
   const popular = getPopularConverters(10);
   const total = converterDefinitions.length;
+
+  useEffect(() => {
+    document.title = "Unit Converters | CalcSmart24";
+    const setMeta = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+      if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); }
+      el.content = content;
+    };
+    setMeta("description", `${total}+ free online unit converters. Convert length, weight, temperature, volume, area, speed, pressure, energy, and more instantly.`);
+  }, [total]);
 
   return (
     <Layout>

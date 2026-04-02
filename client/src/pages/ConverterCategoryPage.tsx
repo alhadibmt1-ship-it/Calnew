@@ -1,5 +1,5 @@
 import { useRoute, Link } from "wouter";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { ArrowRightLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Layout from "@/components/Layout";
@@ -14,6 +14,17 @@ export default function ConverterCategoryPage() {
   const category = params?.category || "";
   const catInfo = converterCategories.find(c => c.slug === category);
   const converters = useMemo(() => getConvertersByCategory(category), [category]);
+
+  useEffect(() => {
+    if (!catInfo) return;
+    document.title = `${catInfo.name} Converters | CalcSmart24`;
+    const setMeta = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+      if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); }
+      el.content = content;
+    };
+    setMeta("description", `Free online ${catInfo.name.toLowerCase()} converters. ${catInfo.description} Convert instantly with ${converters.length} tools.`);
+  }, [catInfo, converters.length]);
 
   if (!catInfo || converters.length === 0) return null;
 

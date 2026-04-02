@@ -665,7 +665,7 @@ export function injectSeoIntoHtml(
   html: string,
   tool: CalculatorToolData
 ): string {
-  const title = `${tool.name} - Free Online Tool | CalcSmart24`;
+  const title = `${tool.name} | CalcSmart24`;
   const description = tool.description;
   const canonicalUrl = `https://calcsmart24.com/calculator/${tool.slug}`;
 

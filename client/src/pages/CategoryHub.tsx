@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { calculatorCategories } from "@/lib/calculator-data";
 import { ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 
 export default function CategoryHub() {
   const [location] = useLocation();
@@ -25,6 +26,19 @@ export default function CategoryHub() {
   }
 
   const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  useEffect(() => {
+    document.title = `${currentCategory.title} Calculators | CalcSmart24`;
+    const setMeta = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+      if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); }
+      el.content = content;
+    };
+    setMeta("description", `Free online ${currentCategory.title.toLowerCase()} calculators. ${currentCategory.description}`);
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = `https://calcsmart24.com/${currentCategory.slug}`;
+  }, [currentCategory]);
 
   return (
     <Layout>

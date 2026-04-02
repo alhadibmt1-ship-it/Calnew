@@ -112,6 +112,21 @@ export default function ConverterPage() {
   const popular = getPopularConverters(5);
   const catInfo = converterCategories.find(c => c.slug === def.category);
 
+  useEffect(() => {
+    if (!def) return;
+    document.title = `${def.name} | CalcSmart24`;
+    const setMeta = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+      if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); }
+      el.content = content;
+    };
+    const fmtUnit = (u: string) => u.replace(/_/g, " ");
+    setMeta("description", def.description || `Free online ${fmtUnit(def.fromUnit)} to ${fmtUnit(def.toUnit)} converter. Instantly convert ${def.fromSymbol} to ${def.toSymbol} with formula and examples.`);
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = `https://calcsmart24.com/convert/${def.slug}`;
+  }, [def]);
+
   return (
     <Layout>
       <main className="container mx-auto px-4 py-8 max-w-4xl">

@@ -3,7 +3,7 @@ import { type Server } from "node:http";
 import express, { type Express, type Request, Response, NextFunction } from "express";
 import compression from "compression";
 import { registerRoutes } from "./routes";
-import { generateSitemapXml, generateCalculatorsSitemap, generateConvertersSitemap, generatePagesSitemap, generateBlogSitemap, generateRobotsTxt } from "./seo";
+import { generateSitemapXml, generateRobotsTxt } from "./seo";
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -71,19 +71,19 @@ export default async function runApp(
     res.type("application/xml").send(generateSitemapXml());
   });
   app.get("/sitemap_index.xml", (_req, res) => {
-    res.type("application/xml").send(generateSitemapXml());
+    res.redirect(301, "/sitemap.xml");
   });
   app.get("/sitemaps/calculators.xml", (_req, res) => {
-    res.type("application/xml").send(generateCalculatorsSitemap());
+    res.redirect(301, "/sitemap.xml");
   });
   app.get("/sitemaps/converters.xml", (_req, res) => {
-    res.type("application/xml").send(generateConvertersSitemap());
+    res.redirect(301, "/sitemap.xml");
   });
   app.get("/sitemaps/pages.xml", (_req, res) => {
-    res.type("application/xml").send(generatePagesSitemap());
+    res.redirect(301, "/sitemap.xml");
   });
   app.get("/sitemaps/blog.xml", (_req, res) => {
-    res.type("application/xml").send(generateBlogSitemap());
+    res.redirect(301, "/sitemap.xml");
   });
 
   const server = await registerRoutes(app);
