@@ -24,6 +24,18 @@ declare module 'http' {
   }
 }
 app.use(compression());
+
+// Redirect www to non-www
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const host = req.headers.host || "";
+  if (host.startsWith("www.")) {
+    const nonWwwHost = host.slice(4);
+    const redirectUrl = `${req.protocol}://${nonWwwHost}${req.originalUrl}`;
+    return res.redirect(301, redirectUrl);
+  }
+  next();
+});
+
 app.use(express.json({
   verify: (req, _res, buf) => {
     req.rawBody = buf;
