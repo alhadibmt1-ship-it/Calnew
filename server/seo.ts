@@ -368,7 +368,7 @@ export function getConverterPageBySlug(slug: string) {
 }
 
 export function injectConverterSeoIntoHtml(html: string, converter: { slug: string; name: string; description: string; category: string }): string {
-  const title = `${converter.name} - Free Online Unit Converter | CalcSmart24`;
+  const title = `${converter.name} | CalcSmart24`;
   const description = converter.description;
   const canonicalUrl = `https://calcsmart24.com/convert/${converter.slug}`;
 
@@ -406,7 +406,7 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
   if (!catName) return html;
 
   const catConverters = converterPages.filter(c => c.category === categorySlug);
-  const title = `${catName} Converters - Free Online Unit Converters | CalcSmart24`;
+  const title = `${catName} Converters | CalcSmart24`;
   const description = `${catConverters.length}+ free online ${catName.toLowerCase()} converters. Convert instantly with accurate results.`;
   const canonicalUrl = `https://calcsmart24.com/convert/${categorySlug}`;
 
@@ -440,7 +440,7 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
 }
 
 export function injectConverterHubSeoIntoHtml(html: string): string {
-  const title = "Unit Converters - Free Online Conversion Tools | CalcSmart24";
+  const title = "Unit Converters | CalcSmart24";
   const description = `${converterPages.length}+ free online unit converters. Convert length, weight, temperature, volume, and more instantly.`;
   const canonicalUrl = "https://calcsmart24.com/convert";
 
@@ -526,11 +526,32 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
 
+  const otherPostLinks = blogPostsSeo
+    .filter(p => p.slug !== post.slug)
+    .map(p => `<a href="/blog/${p.slug}">${p.title}</a>`)
+    .join("\n        ");
+
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>${post.title}</h1>
+      <p>${description}</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/financial">Financial Calculators</a>
+        <a href="/health">Health Calculators</a>
+        <a href="/math">Math Calculators</a>
+        <a href="/convert">Unit Converters</a>
+        ${otherPostLinks}
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
   return html;
 }
 
 export function injectBlogHubSeoIntoHtml(html: string): string {
-  const title = "Blog - Calculator Guides & How-To Articles | CalcSmart24";
+  const title = "Calculator Blog — Guides & How-To Articles | CalcSmart24";
   const description = "Learn how to use calculators effectively with our guides, formulas, and practical examples for finance, math, health, and construction.";
   const canonicalUrl = `${BASE_URL}/blog`;
 
@@ -547,6 +568,25 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
 
+  const postLinks = blogPostsSeo
+    .map(p => `<a href="/blog/${p.slug}">${p.title}</a>`)
+    .join("\n        ");
+
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>Calculator Blog — Guides & Articles</h1>
+      <p>${description}</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/financial">Financial Calculators</a>
+        <a href="/health">Health Calculators</a>
+        <a href="/math">Math Calculators</a>
+        <a href="/convert">Unit Converters</a>
+        ${postLinks}
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -733,7 +773,7 @@ export function injectCategorySeoIntoHtml(
   if (!cat) return html;
 
   const tools = getAllToolsServer().filter((t) => t.categorySlug === categorySlug);
-  const title = `${cat.title} Calculators - Free Online Tools | CalcSmart24`;
+  const title = `${cat.title} Calculators | CalcSmart24`;
   const description = `Free online ${cat.title.toLowerCase()} calculators and tools. ${tools.length}+ accurate, fast tools for everyday use.`;
   const canonicalUrl = `https://calcsmart24.com/${cat.slug}`;
 
@@ -792,6 +832,48 @@ export function injectCategorySeoIntoHtml(
     `${seoContent}\n    <div id="root"></div>`
   );
 
+  return html;
+}
+
+export function injectStaticPageSeoIntoHtml(
+  html: string,
+  page: { title: string; description: string; slug: string; h1: string }
+): string {
+  const fullTitle = `${page.title} | CalcSmart24`;
+  const canonicalUrl = `https://calcsmart24.com/${page.slug}`;
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${fullTitle}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${page.description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${fullTitle}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${page.description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${fullTitle}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${page.description}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  const seoContent = `
+    <div id="seo-content" style="display:none" aria-hidden="true">
+      <h1>${page.h1}</h1>
+      <p>${page.description}</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/financial">Financial Calculators</a>
+        <a href="/health">Health Calculators</a>
+        <a href="/math">Math Calculators</a>
+        <a href="/convert">Unit Converters</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </nav>
+    </div>`;
+
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
   return html;
 }
 

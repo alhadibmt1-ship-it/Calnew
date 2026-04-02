@@ -15,6 +15,7 @@ import {
   injectConverterHubSeoIntoHtml,
   injectBlogPostSeoIntoHtml,
   injectBlogHubSeoIntoHtml,
+  injectStaticPageSeoIntoHtml,
   calculatorCategorySlugs,
   converterCategorySlugs as convCatSlugs,
   getConverterPageBySlug,
@@ -117,6 +118,46 @@ export async function serveStatic(app: Express, server: Server) {
       res.type("html").send(html);
     });
   }
+
+  app.get("/about", (_req, res) => {
+    const html = injectStaticPageSeoIntoHtml(indexHtml, {
+      title: "About Us",
+      h1: "About CalcSmart24",
+      description: "CalcSmart24 is a free online calculator hub with 240+ tools for finance, health, math, business, construction, and more. Fast, accurate, and mobile-friendly.",
+      slug: "about",
+    });
+    res.type("html").send(html);
+  });
+
+  app.get("/contact", (_req, res) => {
+    const html = injectStaticPageSeoIntoHtml(indexHtml, {
+      title: "Contact Us",
+      h1: "Contact CalcSmart24",
+      description: "Get in touch with the CalcSmart24 team. We welcome feedback, suggestions, and partnership inquiries.",
+      slug: "contact",
+    });
+    res.type("html").send(html);
+  });
+
+  app.get("/terms", (_req, res) => {
+    const html = injectStaticPageSeoIntoHtml(indexHtml, {
+      title: "Terms of Service",
+      h1: "Terms of Service",
+      description: "Read the CalcSmart24 Terms of Service. Learn about the rules and guidelines for using our free online calculators.",
+      slug: "terms",
+    });
+    res.type("html").send(html);
+  });
+
+  app.get("/privacy-policy", (_req, res) => {
+    const html = injectStaticPageSeoIntoHtml(indexHtml, {
+      title: "Privacy Policy",
+      h1: "Privacy Policy",
+      description: "CalcSmart24 Privacy Policy. Learn how we collect, use, and protect your data when using our free online calculators.",
+      slug: "privacy-policy",
+    });
+    res.type("html").send(html);
+  });
 
   app.use("*", (_req, res) => {
     res.type("html").send(indexHtml);
