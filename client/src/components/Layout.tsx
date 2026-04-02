@@ -1,14 +1,23 @@
 import { Link, useLocation } from "wouter";
 import { Calculator, Search, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { calculatorCategories } from "@/lib/calculator-data";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [headerSearch, setHeaderSearch] = useState("");
+
+  const handleHeaderSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const trimmed = headerSearch.trim();
+      if (trimmed) setLocation(`/?search=${encodeURIComponent(trimmed)}`);
+      setHeaderSearch("");
+    }
+  };
 
   const navLinks = [
     { id: "home", name: "Home", href: "/" },
@@ -55,6 +64,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 placeholder="Search calculators..."
                 className="w-32 lg:w-64 pl-9 h-9 bg-muted/50 border-transparent focus:bg-background focus:border-input transition-all"
                 aria-label="Search calculators"
+                value={headerSearch}
+                onChange={(e) => setHeaderSearch(e.target.value)}
+                onKeyDown={handleHeaderSearchKeyDown}
               />
             </div>
 

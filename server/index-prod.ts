@@ -59,9 +59,19 @@ export async function serveStatic(app: Express, server: Server) {
     })
   );
 
-  app.get("/", (_req, res) => {
-    const html = injectHomeSeoIntoHtml(indexHtml);
-    res.type("html").send(html);
+  app.get("/", (req, res) => {
+    const searchTerm = req.query.search as string | undefined;
+    if (searchTerm) {
+      const escaped = searchTerm.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      let html = injectHomeSeoIntoHtml(indexHtml);
+      html = html
+        .replace(/<title>.*?<\/title>/, `<title>Search: ${escaped} | CalcSmart24</title>`)
+        .replace("</head>", `<meta name="robots" content="noindex, follow">\n</head>`);
+      res.type("html").send(html);
+    } else {
+      const html = injectHomeSeoIntoHtml(indexHtml);
+      res.type("html").send(html);
+    }
   });
 
   app.get("/calculator/:slug", (req, res) => {

@@ -2,9 +2,9 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation } from "wouter";
-import { useState, lazy, Suspense } from "react";
-import { calculatorCategories } from "@/lib/calculator-data";
+import { Link, useLocation, useSearch } from "wouter";
+import { useState, lazy, Suspense, useEffect, useRef, KeyboardEvent } from "react";
+import { calculatorCategories, getAllTools } from "@/lib/calculator-data";
 import { 
   Calculator, 
   TrendingUp, 
@@ -24,8 +24,47 @@ const StandardCalculator = lazy(() => import("@/components/StandardCalculator"))
 const BMICalculator = lazy(() => import("@/components/BMICalculator"));
 
 export default function Home() {
-  const [search, setSearch] = useState("");
+  const queryString = useSearch();
   const [, setLocation] = useLocation();
+  const initialSearch = new URLSearchParams(queryString).get("search") ?? "";
+  const [search, setSearch] = useState(initialSearch);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const term = new URLSearchParams(queryString).get("search") ?? "";
+    setSearch(term);
+    if (term && searchRef.current) {
+      searchRef.current.focus();
+    }
+    if (term) {
+      document.title = `Search: ${term} | CalcSmart24`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", `Search results for "${term}" — free online calculators at CalcSmart24.`);
+      let noindex = document.querySelector('meta[name="robots"][content*="noindex"]') as HTMLMetaElement | null;
+      if (!noindex) {
+        noindex = document.createElement("meta") as HTMLMetaElement;
+        noindex.name = "robots";
+        document.head.appendChild(noindex);
+      }
+      noindex.setAttribute("content", "noindex, follow");
+    } else {
+      const noindex = document.querySelector('meta[name="robots"][content*="noindex"]');
+      if (noindex) noindex.remove();
+    }
+  }, [queryString]);
+
+  const handleSearchSubmit = () => {
+    const trimmed = search.trim();
+    if (trimmed) {
+      setLocation(`/?search=${encodeURIComponent(trimmed)}`);
+    } else {
+      setLocation("/");
+    }
+  };
+
+  const handleSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleSearchSubmit();
+  };
 
   // Local categories for the cards (using specific icons and subset if needed, 
   // but mapped to match the structure if we want consistent icons)
@@ -87,15 +126,11 @@ export default function Home() {
     }
   ];
 
-  // Flatten items for search
-  const allTools = featuredCategories.flatMap(cat => cat.items.map(item => ({
-    name: typeof item === 'string' ? item : item.name,
-    category: cat.title,
-    href: `/calculator/${(typeof item === 'string' ? item : item.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
-  })));
+  // All 240+ calculators for search
+  const allTools = getAllTools();
 
   const filteredTools = search 
-    ? allTools.filter(t => t.name.toLowerCase().includes(search.toLowerCase())).slice(0, 5)
+    ? allTools.filter(t => t.name.toLowerCase().includes(search.toLowerCase())).slice(0, 8)
     : [];
 
   return (
@@ -122,13 +157,15 @@ export default function Home() {
                 <div className="relative flex items-center bg-background shadow-xl rounded-full border border-slate-200 dark:border-slate-800 p-2 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
                   <Search className="ml-4 h-6 w-6 text-muted-foreground" aria-hidden="true" />
                   <Input 
+                    ref={searchRef}
                     className="flex-1 border-0 shadow-none focus-visible:ring-0 bg-transparent h-12 text-lg px-4 placeholder:text-muted-foreground/70 relative z-10 text-foreground" 
                     placeholder="What would you like to calculate today?" 
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onKeyDown={handleSearchKeyDown}
                     aria-label="Search for a calculator"
                   />
-                  <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 hidden sm:flex">
+                  <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 hidden sm:flex" onClick={handleSearchSubmit}>
                     Search
                   </Button>
                 </div>
