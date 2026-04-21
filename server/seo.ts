@@ -1,3 +1,5 @@
+import { getSEOContent, getGenericSEOContent } from "../client/src/lib/seo-content";
+
 export interface CalculatorToolData {
   name: string;
   slug: string;
@@ -21,6 +23,46 @@ export const calculatorCategorySlugs = [
 
 const slugify = (text: string) =>
   text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+// ─── SEO Pre-render ────────────────────────────────────────────────────────
+// Injected as visible HTML before #root so Google indexes rich content
+// without needing JavaScript. A MutationObserver hides it once React mounts.
+const SEO_HIDE_SCRIPT = `<script>(function(){var r=document.getElementById('root');if(!r)return;var o=new MutationObserver(function(){var e=document.getElementById('seo-content');if(e&&r.childElementCount>0){e.style.display='none';o.disconnect();}});o.observe(r,{childList:true});})();</script>`;
+
+function buildRichSeoBlock(tool: CalculatorToolData): string {
+  const c = getSEOContent(tool.slug) || getGenericSEOContent(tool.name, tool.description);
+  const h2 = (t: string) => `<h2 style="font-size:1.25rem;font-weight:600;margin:1.25rem 0 .5rem;color:#111827">${t}</h2>`;
+  const para = (t: string) => `<p style="margin-bottom:.875rem;line-height:1.7">${t}</p>`;
+  const li = (t: string) => `<li style="margin-bottom:.375rem;line-height:1.7">${t}</li>`;
+
+  let html = `<section id="seo-content" style="font-family:system-ui,-apple-system,sans-serif;max-width:56rem;margin:0 auto;padding:1.5rem 1rem;color:#374151">`;
+  html += `<h1 style="font-size:1.875rem;font-weight:700;margin-bottom:.75rem;color:#111827">${tool.name}</h1>`;
+  html += para(c.whatIs);
+  if (c.whatIsExtra?.length) html += c.whatIsExtra.map(para).join('');
+  html += h2('How the Formula Works');
+  html += para(c.howFormulaWorks);
+  if (c.formulaBreakdown?.length) {
+    html += `<ul style="padding-left:1.5rem;margin-bottom:.875rem">${c.formulaBreakdown.map(li).join('')}</ul>`;
+  }
+  html += h2('How to Use This Calculator');
+  html += `<ol style="padding-left:1.5rem;margin-bottom:.875rem">${c.howToUse.map(li).join('')}</ol>`;
+  if (c.tips?.length) {
+    html += h2('Tips &amp; Best Practices');
+    html += `<ul style="padding-left:1.5rem;margin-bottom:.875rem">${c.tips.map(li).join('')}</ul>`;
+  }
+  if (c.limitations?.length) {
+    html += h2('Important Limitations');
+    html += `<ul style="padding-left:1.5rem;margin-bottom:.875rem">${c.limitations.map(li).join('')}</ul>`;
+  }
+  html += `<nav style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e5e7eb;font-size:.875rem">`;
+  html += `<a href="/" style="color:#6b7280;margin-right:1rem">Home</a>`;
+  html += `<a href="/${tool.categorySlug}" style="color:#6b7280;margin-right:1rem">${tool.category}</a>`;
+  html += `<a href="/blog" style="color:#6b7280;margin-right:1rem">Blog</a>`;
+  html += `<a href="/convert" style="color:#6b7280">Unit Converters</a>`;
+  html += `</nav></section>`;
+  return html;
+}
+// ──────────────────────────────────────────────────────────────────────────
 
 const toolsByCategory: Record<string, { name: string; description: string }[]> = {
   financial: [
@@ -378,6 +420,8 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
@@ -387,7 +431,7 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
 
   const catName = converterCategoryNames[converter.category] || converter.category;
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>${converter.name}</h1>
       <p>${description}</p>
       <nav>
@@ -397,7 +441,7 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -416,6 +460,8 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
@@ -425,7 +471,7 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
 
   const convLinks = catConverters.map(c => `<a href="/convert/${c.slug}">${c.name}</a>`).join("\n        ");
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>${catName} Converters</h1>
       <p>${description}</p>
       <nav>
@@ -435,7 +481,7 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -450,6 +496,8 @@ export function injectConverterHubSeoIntoHtml(html: string): string {
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
@@ -459,7 +507,7 @@ export function injectConverterHubSeoIntoHtml(html: string): string {
 
   const catLinks = converterCategorySlugs.map(s => `<a href="/convert/${s}">${converterCategoryNames[s]} Converters</a>`).join("\n        ");
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>Free Online Unit Converters</h1>
       <p>${description}</p>
       <nav>
@@ -468,7 +516,7 @@ export function injectConverterHubSeoIntoHtml(html: string): string {
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -519,6 +567,8 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
@@ -532,7 +582,7 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>${post.title}</h1>
       <p>${description}</p>
       <nav>
@@ -546,7 +596,7 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -561,6 +611,8 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
@@ -573,7 +625,7 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>Calculator Blog — Guides & Articles</h1>
       <p>${description}</p>
       <nav>
@@ -586,7 +638,7 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -734,7 +786,9 @@ export function injectSeoIntoHtml(
     .replace(
       /<meta name="twitter:description" content="[^"]*"/,
       `<meta name="twitter:description" content="${description}"`
-    );
+    )
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"');
 
   if (!html.includes('rel="canonical"')) {
     html = html.replace(
@@ -743,25 +797,8 @@ export function injectSeoIntoHtml(
     );
   }
 
-  const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
-      <h1>${tool.name}</h1>
-      <p>${description}</p>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/${tool.categorySlug}">${tool.category}</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <a href="/privacy-policy">Privacy Policy</a>
-        <a href="/terms">Terms</a>
-      </nav>
-    </div>`;
-
-  html = html.replace(
-    '<div id="root"></div>',
-    `${seoContent}\n    <div id="root"></div>`
-  );
-
+  const seoHtml = buildRichSeoBlock(tool);
+  html = html.replace('<div id="root"></div>', `${seoHtml}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -816,7 +853,7 @@ export function injectCategorySeoIntoHtml(
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>${cat.title} Calculators</h1>
       <p>${description}</p>
       <nav>
@@ -848,6 +885,8 @@ export function injectStaticPageSeoIntoHtml(
     .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${fullTitle}"`)
     .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${page.description}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
     .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${fullTitle}"`)
     .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${page.description}"`);
 
@@ -856,7 +895,7 @@ export function injectStaticPageSeoIntoHtml(
   }
 
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>${page.h1}</h1>
       <p>${page.description}</p>
       <nav>
@@ -873,7 +912,7 @@ export function injectStaticPageSeoIntoHtml(
       </nav>
     </div>`;
 
-  html = html.replace('<div id="root"></div>', `${seoContent}\n    <div id="root"></div>`);
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -892,7 +931,7 @@ export function injectHomeSeoIntoHtml(html: string): string {
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" style="display:none" aria-hidden="true">
+    <div id="seo-content" >
       <h1>CalcSmart24 - Free Online Calculators</h1>
       <p>Free online calculators for math, fitness, finance, and more. ${tools.length}+ accurate, fast tools for everyday calculations. ${converterPages.length}+ unit converters.</p>
       <nav>
