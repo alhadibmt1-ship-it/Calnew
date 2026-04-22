@@ -29,6 +29,11 @@ const slugify = (text: string) =>
 // without needing JavaScript. A MutationObserver hides it once React mounts.
 const SEO_HIDE_SCRIPT = `<script>(function(){var r=document.getElementById('root');if(!r)return;var o=new MutationObserver(function(){var e=document.getElementById('seo-content');if(e&&r.childElementCount>0){e.style.display='none';o.disconnect();}});o.observe(r,{childList:true});})();</script>`;
 
+function injectSchema(html: string, schemaObj: object): string {
+  const tag = `\n  <script type="application/ld+json">\n  ${JSON.stringify(schemaObj, null, 2)}\n  </script>`;
+  return html.replace("</head>", `${tag}\n</head>`);
+}
+
 function buildRichSeoBlock(tool: CalculatorToolData): string {
   const c = getSEOContent(tool.slug) || getGenericSEOContent(tool.name, tool.description);
   const h2 = (t: string) => `<h2 style="font-size:1.25rem;font-weight:600;margin:1.25rem 0 .5rem;color:#111827">${t}</h2>`;
@@ -429,7 +434,33 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
 
+  // Schema.org: SoftwareApplication + BreadcrumbList
   const catName = converterCategoryNames[converter.category] || converter.category;
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": converter.name,
+        "description": description,
+        "url": canonicalUrl,
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calcsmart24.com/convert" },
+          { "@type": "ListItem", "position": 3, "name": `${catName} Converters`, "item": `https://calcsmart24.com/convert/${converter.category}` },
+          { "@type": "ListItem", "position": 4, "name": converter.name, "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
+
   const seoContent = `
     <div id="seo-content" >
       <h1>${converter.name}</h1>
@@ -469,6 +500,28 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
 
+  // Schema.org: CollectionPage + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": canonicalUrl,
+        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calcsmart24.com/convert" },
+          { "@type": "ListItem", "position": 3, "name": `${catName} Converters`, "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
+
   const convLinks = catConverters.map(c => `<a href="/convert/${c.slug}">${c.name}</a>`).join("\n        ");
   const seoContent = `
     <div id="seo-content" >
@@ -504,6 +557,27 @@ export function injectConverterHubSeoIntoHtml(html: string): string {
   if (!html.includes('rel="canonical"')) {
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
+
+  // Schema.org: CollectionPage + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": canonicalUrl,
+        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
 
   const catLinks = converterCategorySlugs.map(s => `<a href="/convert/${s}">${converterCategoryNames[s]} Converters</a>`).join("\n        ");
   const seoContent = `
@@ -576,6 +650,29 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
 
+  // Schema.org: Article + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": post.title,
+        "description": description,
+        "url": canonicalUrl,
+        "publisher": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com", "logo": { "@type": "ImageObject", "url": "https://calcsmart24.com/logo.png" } },
+        "author": { "@type": "Organization", "name": "CalcSmart24" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://calcsmart24.com/blog" },
+          { "@type": "ListItem", "position": 3, "name": post.title, "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
+
   const otherPostLinks = blogPostsSeo
     .filter(p => p.slug !== post.slug)
     .map(p => `<a href="/blog/${p.slug}">${p.title}</a>`)
@@ -619,6 +716,27 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
   if (!html.includes('rel="canonical"')) {
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
+
+  // Schema.org: Blog + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "name": title,
+        "description": description,
+        "url": canonicalUrl,
+        "publisher": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
 
   const postLinks = blogPostsSeo
     .map(p => `<a href="/blog/${p.slug}">${p.title}</a>`)
@@ -681,8 +799,12 @@ export function generateConvertersSitemap(): string {
   for (const convCat of converterCategorySlugs) {
     xml += sitemapUrl(`${BASE_URL}/convert/${convCat}`, today, "weekly", "0.8");
   }
+  const seenSlugs = new Set<string>();
   for (const conv of converterPages) {
-    xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+    if (!seenSlugs.has(conv.slug)) {
+      seenSlugs.add(conv.slug);
+      xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+    }
   }
   xml += `</urlset>`;
   return xml;
@@ -736,8 +858,12 @@ export function generateSitemapXml(): string {
   for (const convCat of converterCategorySlugs) {
     xml += sitemapUrl(`${BASE_URL}/convert/${convCat}`, today, "weekly", "0.8");
   }
+  const seen = new Set<string>();
   for (const conv of converterPages) {
-    xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+    if (!seen.has(conv.slug)) {
+      seen.add(conv.slug);
+      xml += sitemapUrl(`${BASE_URL}/convert/${conv.slug}`, today, "weekly", "0.7");
+    }
   }
 
   xml += sitemapUrl(`${BASE_URL}/blog`, today, "weekly", "0.9");
@@ -750,7 +876,15 @@ export function generateSitemapXml(): string {
 }
 
 export function generateRobotsTxt(): string {
-  return `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "Disallow: /?search=",
+    "Disallow: /api/",
+    "",
+    `Sitemap: ${BASE_URL}/sitemap.xml`,
+    "",
+  ].join("\n");
 }
 
 export function injectSeoIntoHtml(
@@ -797,6 +931,32 @@ export function injectSeoIntoHtml(
     );
   }
 
+  // Schema.org: SoftwareApplication + BreadcrumbList
+  const catTitle = calculatorCategorySlugs.find(c => c.slug === tool.categorySlug)?.title ?? tool.category;
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": tool.name,
+        "description": tool.description,
+        "url": `https://calcsmart24.com/calculator/${tool.slug}`,
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": `${catTitle} Calculators`, "item": `https://calcsmart24.com/${tool.categorySlug}` },
+          { "@type": "ListItem", "position": 3, "name": tool.name, "item": `https://calcsmart24.com/calculator/${tool.slug}` }
+        ]
+      }
+    ]
+  });
+
   const seoHtml = buildRichSeoBlock(tool);
   html = html.replace('<div id="root"></div>', `${seoHtml}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
@@ -816,37 +976,39 @@ export function injectCategorySeoIntoHtml(
 
   html = html
     .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
-    .replace(
-      /<meta name="description" content="[^"]*"/,
-      `<meta name="description" content="${description}"`
-    )
-    .replace(
-      /<meta property="og:title" content="[^"]*"/,
-      `<meta property="og:title" content="${title}"`
-    )
-    .replace(
-      /<meta property="og:description" content="[^"]*"/,
-      `<meta property="og:description" content="${description}"`
-    )
-    .replace(
-      /<meta property="og:url" content="[^"]*"/,
-      `<meta property="og:url" content="${canonicalUrl}"`
-    )
-    .replace(
-      /<meta name="twitter:title" content="[^"]*"/,
-      `<meta name="twitter:title" content="${title}"`
-    )
-    .replace(
-      /<meta name="twitter:description" content="[^"]*"/,
-      `<meta name="twitter:description" content="${description}"`
-    );
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${description}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${description}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${title}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${description}"`);
 
   if (!html.includes('rel="canonical"')) {
-    html = html.replace(
-      "</head>",
-      `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`
-    );
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
+
+  // Schema.org: CollectionPage + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": canonicalUrl,
+        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": title, "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
 
   const toolLinks = tools
     .map((t) => `<a href="/calculator/${t.slug}">${t.name}</a>`)
@@ -864,11 +1026,7 @@ export function injectCategorySeoIntoHtml(
       </nav>
     </div>`;
 
-  html = html.replace(
-    '<div id="root"></div>',
-    `${seoContent}\n    <div id="root"></div>`
-  );
-
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }
 
@@ -893,6 +1051,27 @@ export function injectStaticPageSeoIntoHtml(
   if (!html.includes('rel="canonical"')) {
     html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
   }
+
+  // Schema.org: WebPage + BreadcrumbList
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": fullTitle,
+        "description": page.description,
+        "url": canonicalUrl,
+        "isPartOf": { "@type": "WebSite", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calcsmart24.com" },
+          { "@type": "ListItem", "position": 2, "name": page.title, "item": canonicalUrl }
+        ]
+      }
+    ]
+  });
 
   const seoContent = `
     <div id="seo-content" >
@@ -919,6 +1098,48 @@ export function injectStaticPageSeoIntoHtml(
 export function injectHomeSeoIntoHtml(html: string): string {
   const tools = getAllToolsServer();
   const categories = calculatorCategorySlugs;
+  const homeTitle = "CalcSmart24 — Free Online Calculators & Unit Converters";
+  const homeDesc = `Free online calculators for math, finance, fitness, and more. ${tools.length}+ accurate tools and ${converterPages.length}+ unit converters.`;
+  const canonicalUrl = "https://calcsmart24.com/";
+
+  html = html
+    .replace(/<title>.*?<\/title>/, `<title>${homeTitle}</title>`)
+    .replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${homeDesc}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${homeTitle}"`)
+    .replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${homeDesc}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${canonicalUrl}"`)
+    .replace(/<meta property="og:image" content="[^"]*"/, '<meta property="og:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:image" content="[^"]*"/, '<meta name="twitter:image" content="https://calcsmart24.com/opengraph.jpg"')
+    .replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${homeTitle}"`)
+    .replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${homeDesc}"`);
+
+  if (!html.includes('rel="canonical"')) {
+    html = html.replace("</head>", `  <link rel="canonical" href="${canonicalUrl}" />\n  </head>`);
+  }
+
+  // Schema.org: WebSite + WebPage
+  html = injectSchema(html, {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "CalcSmart24",
+        "url": "https://calcsmart24.com/",
+        "description": homeDesc,
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://calcsmart24.com/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "name": "CalcSmart24",
+        "url": "https://calcsmart24.com/",
+        "logo": { "@type": "ImageObject", "url": "https://calcsmart24.com/logo.png" }
+      }
+    ]
+  });
 
   const catLinks = categories
     .map((c) => `<a href="/${c.slug}">${c.title}</a>`)
@@ -933,7 +1154,7 @@ export function injectHomeSeoIntoHtml(html: string): string {
   const seoContent = `
     <div id="seo-content" >
       <h1>CalcSmart24 - Free Online Calculators</h1>
-      <p>Free online calculators for math, fitness, finance, and more. ${tools.length}+ accurate, fast tools for everyday calculations. ${converterPages.length}+ unit converters.</p>
+      <p>${homeDesc}</p>
       <nav>
         ${catLinks}
         <a href="/convert">Unit Converters</a>
@@ -946,10 +1167,6 @@ export function injectHomeSeoIntoHtml(html: string): string {
       </nav>
     </div>`;
 
-  html = html.replace(
-    '<div id="root"></div>',
-    `${seoContent}\n    <div id="root"></div>`
-  );
-
+  html = html.replace('<div id="root"></div>', `${seoContent}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);
   return html;
 }

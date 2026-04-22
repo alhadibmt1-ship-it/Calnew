@@ -55,15 +55,19 @@ Preferred communication style: Simple, everyday language.
 - **Compression**: Express compression middleware enabled
 
 ### SEO Strategy
-- **Server-side meta injection**: Title, description, OG tags, canonical URLs for all page types
-- **Sitemap index**: `/sitemap.xml` (index) pointing to:
-  - `/sitemaps/calculators.xml` — all calculator and category pages
-  - `/sitemaps/converters.xml` — all converter pages
-  - `/sitemaps/pages.xml` — static pages (home, about, contact, etc.)
-  - `/sitemaps/blog.xml` — blog articles
-- **Robots.txt**: Lists all sitemap URLs
+- **Server-side meta injection**: Title, description, OG/Twitter tags, og:image (`calcsmart24.com/opengraph.jpg`), canonical URLs for all page types
+- **Visible pre-rendered content**: Rich HTML (h1, paragraphs, formula, tips, nav links) injected before `#root` — visible to Google without JS. MutationObserver hides it once React mounts. Uses `client/src/lib/seo-content.ts` for per-calculator content (50+ templates + generic fallback).
+- **Per-page Schema.org JSON-LD** injected server-side via `injectSchema()` helper:
+  - Calculator pages: `SoftwareApplication` + `BreadcrumbList`
+  - Converter pages: `SoftwareApplication` + `BreadcrumbList`
+  - Category / Converter hub / Converter category: `CollectionPage` + `BreadcrumbList`
+  - Blog posts: `Article` + `BreadcrumbList`
+  - Blog hub: `Blog` + `BreadcrumbList`
+  - Static pages: `WebPage` + `BreadcrumbList`
+  - Home: `WebSite` (with SearchAction) + `Organization`
+- **Sitemap**: Single `/sitemap.xml` with ~540 unique URLs (deduplicated); child paths (`/sitemaps/*.xml`) redirect 301
+- **Robots.txt**: `Disallow: /?search=`, `Disallow: /api/`, lists main sitemap
 - **Pre-rendering script**: `scripts/prerender.js` for crawler support
-- **Schema.org**: JSON-LD structured data in `index.html`
 - **Analytics**: Google Analytics (G-9XYN8467QD), deferred loading
 
 ### Data Storage
