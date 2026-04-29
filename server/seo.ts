@@ -935,6 +935,28 @@ export function generateRobotsTxt(): string {
   ].join("\n");
 }
 
+function buildFaqSchema(tool: CalculatorToolData): object | null {
+  const c = getSEOContent(tool.slug);
+  if (!c) return null;
+  const faqs: { q: string; a: string }[] = [
+    { q: `What is the ${tool.name}?`, a: c.whatIs },
+    { q: `How does the ${tool.name} formula work?`, a: c.howFormulaWorks },
+    { q: `How do I use the ${tool.name}?`, a: c.howToUse.join(" ") },
+  ];
+  if (c.exampleContent) {
+    faqs.push({ q: `Can you show me an example calculation for the ${tool.name}?`, a: c.exampleContent });
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(({ q, a }) => ({
+      "@type": "Question",
+      "name": q,
+      "acceptedAnswer": { "@type": "Answer", "text": a },
+    })),
+  };
+}
+
 export function injectSeoIntoHtml(
   html: string,
   tool: CalculatorToolData
@@ -1005,6 +1027,12 @@ export function injectSeoIntoHtml(
       }
     ]
   });
+
+  // FAQPage schema — only injected when we have specific content templates
+  const faqSchema = buildFaqSchema(tool);
+  if (faqSchema) {
+    html = injectSchema(html, faqSchema);
+  }
 
   const seoHtml = buildRichSeoBlock(tool);
   html = html.replace('<div id="root"></div>', `${seoHtml}\n    ${SEO_HIDE_SCRIPT}\n    <div id="root"></div>`);

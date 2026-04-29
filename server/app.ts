@@ -25,6 +25,17 @@ declare module 'http' {
 }
 app.use(compression());
 
+// Security headers
+app.use((_req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()");
+  res.setHeader("X-DNS-Prefetch-Control", "on");
+  res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  next();
+});
+
 // Redirect www to non-www
 app.use((req: Request, res: Response, next: NextFunction) => {
   const host = req.headers.host || "";

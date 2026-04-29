@@ -69,6 +69,9 @@ Preferred communication style: Simple, everyday language.
 - **Title pattern**: `Free [Tool Name] | CalcSmart24` — all 235 calculator pages; category pages: `Free [Category] Calculators | CalcSmart24`
 - **Meta descriptions**: Enhanced via `enhanceDescription()` in `server/seo.ts` — pads short descriptions to 140-160 chars using category-specific benefit phrases (e.g. "accurate financial insights for smarter money decisions")
 - **aggregateRating schema**: Added to all SoftwareApplication schemas (4.8/5, 2147 ratings) — enables star-rating rich snippets in SERPs
+- **FAQPage schema**: Injected server-side for every calculator that has a specific SEO content template (~50 tools). Generates 3-4 Q&A pairs per page (What is, Formula, How to use, Example) — eligible for Google FAQ rich results.
+- **Security headers**: Added globally in `server/app.ts` — `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-DNS-Prefetch-Control`, `Strict-Transport-Security`
+- **Core Web Vitals**: Added `preconnect` for `www.googletagmanager.com`, `dns-prefetch` for Google Analytics, and `theme-color` meta tag in `client/index.html`
 - **Category descriptions**: Each of the 10 categories has a unique keyword-rich description template in `injectCategorySeoIntoHtml()`
 - **Specific SEO content**: `client/src/lib/seo-content.ts` now includes detailed templates for 5 key astrology tools (birth-chart-calculator, rising-sign-calculator, synastry-calculator, big-three-calculator, venus-sign-calculator) with formula breakdowns, reference tables, tips, and limitations
 - **Homepage meta**: Title updated to "CalcSmart24 – 260+ Free Online Calculators | Finance, Health, Math & More"; description updated to 155 chars covering all major categories
