@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation, useSearch } from "wouter";
 import { useState, lazy, Suspense, useEffect, useRef, KeyboardEvent } from "react";
-import { getAllTools } from "@/lib/calculator-data";
+import { getAllTools, calculatorCategories } from "@/lib/calculator-data";
 import { 
   Calculator, 
   TrendingUp, 
@@ -295,30 +295,41 @@ export default function Home() {
                 <Link key={cat.title} href={cat.href} className="block h-full group">
                   <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer">
                     <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-3 text-lg group-hover:text-primary transition-colors">
-                        <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                          {cat.icon}
-                        </div>
-                        {cat.title}
-                      </CardTitle>
+                      <div className="flex items-start justify-between gap-2">
+                        <CardTitle className="flex items-center gap-3 text-lg group-hover:text-primary transition-colors">
+                          <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                            {cat.icon}
+                          </div>
+                          {cat.title}
+                        </CardTitle>
+                        {(() => {
+                          const hrefSlug = cat.href.replace(/^\//, "");
+                          const slugLookup: Record<string, string> = { convert: "converters" };
+                          const catSlug = slugLookup[hrefSlug] || hrefSlug;
+                          const realCat = calculatorCategories.find(c => c.slug === catSlug);
+                          return realCat ? (
+                            <span className="shrink-0 mt-1 text-xs font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                              {realCat.items.length} tools
+                            </span>
+                          ) : null;
+                        })()}
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {cat.items.slice(0, 5).map((item) => {
                           const itemName = typeof item === 'string' ? item : item.name;
                           return (
-                            <li key={itemName} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2">
-                              <span className="w-1 h-1 rounded-full bg-slate-300 group-hover:bg-primary" />
+                            <li key={itemName} className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2 transition-colors">
+                              <ArrowRight className="h-3 w-3 shrink-0 opacity-40 group-hover:opacity-70" />
                               {itemName}
                             </li>
                           );
                         })}
-                        {cat.items.length > 5 && (
-                          <li className="text-xs font-medium text-primary pt-1">
-                            + {cat.items.length - 5} more tools
-                          </li>
-                        )}
                       </ul>
+                      <p className="text-xs font-medium text-primary mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                        View all →
+                      </p>
                     </CardContent>
                   </Card>
                 </Link>

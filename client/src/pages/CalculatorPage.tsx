@@ -415,10 +415,15 @@ export default function CalculatorPage() {
   const [match, params] = useRoute("/calculator/:slug");
   const slug = params?.slug || "";
   
-  // Convert slug back to title (approximate)
-  const title = slug
+  // Prefer the actual tool name from data (preserves correct casing like "BMI", "GPA")
+  const allToolsData = getAllTools();
+  const matchedTool = allToolsData.find(t => t.slug === slug);
+  const title = matchedTool?.name || slug
     .split("-")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(word => {
+      const acronyms = new Set(["bmi", "gpa", "roi", "seo", "gst", "vat", "gcf", "lcm", "bmr", "tdee", "qr"]);
+      return acronyms.has(word) ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1);
+    })
     .join(" ");
 
   // Map slugs to actual components if they exist
