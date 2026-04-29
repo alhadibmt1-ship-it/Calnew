@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation, useSearch } from "wouter";
 import { useState, lazy, Suspense, useEffect, useRef, KeyboardEvent } from "react";
-import { calculatorCategories, getAllTools } from "@/lib/calculator-data";
+import { getAllTools } from "@/lib/calculator-data";
 import { 
   Calculator, 
   TrendingUp, 
@@ -389,46 +389,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Full Tools Sitemap / Footer Section */}
-        <section className="mt-12 pt-12 border-t border-border">
-          <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
-             <div className="h-2 w-2 rounded-full bg-primary"></div>
-             All Calculators & Tools
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
-            {calculatorCategories.map((cat) => (
-              <div key={cat.title} className="space-y-4">
-                <Link href={`/${cat.slug}`} className="block group">
-                  <h3 className="font-semibold text-lg flex items-center gap-2 group-hover:text-primary transition-colors">
-                    {/* We can use the icon component if we want, but let's keep it simple text for footer */}
-                    {cat.title}
-                    <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  </h3>
-                </Link>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  {cat.items.map((item) => {
-                    const slug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-                    return (
-                      <li key={item.name}>
-                        <Link href={`/calculator/${slug}`} className="hover:text-primary hover:underline block py-0.5">
-                          {item.name}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                  {/* Manually adding Currency Converter to Financial category if it's missing in the main loop */}
-                  {cat.title === "Financial" && !cat.items.some(i => i.name === "Currency Converter") && (
-                    <li>
-                      <Link href="/calculator/currency-converter" className="hover:text-primary hover:underline block py-0.5">
-                        Currency Converter
-                      </Link>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
     </Layout>
   );
