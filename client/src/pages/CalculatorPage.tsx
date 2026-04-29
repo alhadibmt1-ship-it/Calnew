@@ -210,6 +210,16 @@ const PumpHeadCalculator = lazy(() => import("@/components/PumpHeadCalculator"))
 const SolarPanelArrayCalculator = lazy(() => import("@/components/SolarPanelArrayCalculator"));
 const InsulationRValueCalculator = lazy(() => import("@/components/InsulationRValueCalculator"));
 const PalworldBreedingCalculator = lazy(() => import("@/components/PalworldBreedingCalculator"));
+const ZodiacSignCalculator = lazy(() => import("@/components/ZodiacSignCalculator"));
+const ChineseZodiacCalculator = lazy(() => import("@/components/ChineseZodiacCalculator"));
+const MoonSignCalculator = lazy(() => import("@/components/MoonSignCalculator"));
+const ZodiacCompatibilityCalculator = lazy(() => import("@/components/ZodiacCompatibilityCalculator"));
+const LifePathNumberCalculator = lazy(() => import("@/components/LifePathNumberCalculator"));
+const NameNumerologyCalculator = lazy(() => import("@/components/NameNumerologyCalculator"));
+const DestinyNumberCalculator = lazy(() => import("@/components/DestinyNumberCalculator"));
+const BiorhythmCalculator = lazy(() => import("@/components/BiorhythmCalculator"));
+const LuckyNumberCalculator = lazy(() => import("@/components/LuckyNumberCalculator"));
+const AngelNumberCalculator = lazy(() => import("@/components/AngelNumberCalculator"));
 
 function SEOContentSection({ slug, title, toolData }: { slug: string; title: string; toolData: any }) {
   const seoContent = getSEOContent(slug) || getGenericSEOContent(title, toolData?.description || "");
@@ -806,6 +816,28 @@ export default function CalculatorPage() {
         return <ShoeSizeConverter />;
       case "palworld-breeding-calculator":
         return <PalworldBreedingCalculator />;
+
+      // Astrology & Numerology
+      case "zodiac-sign-calculator":
+        return <ZodiacSignCalculator />;
+      case "chinese-zodiac-calculator":
+        return <ChineseZodiacCalculator />;
+      case "moon-sign-calculator":
+        return <MoonSignCalculator />;
+      case "zodiac-compatibility-calculator":
+        return <ZodiacCompatibilityCalculator />;
+      case "life-path-number-calculator":
+        return <LifePathNumberCalculator />;
+      case "name-numerology-calculator":
+        return <NameNumerologyCalculator />;
+      case "destiny-number-calculator":
+        return <DestinyNumberCalculator />;
+      case "biorhythm-calculator":
+        return <BiorhythmCalculator />;
+      case "lucky-number-calculator":
+        return <LuckyNumberCalculator />;
+      case "angel-number-calculator":
+        return <AngelNumberCalculator />;
 
       // Education
       case "gpa-calculator":

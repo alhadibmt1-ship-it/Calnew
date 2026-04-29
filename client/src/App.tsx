@@ -50,6 +50,7 @@ function Router() {
           <Route path="/business" component={CategoryHub} />
           <Route path="/education" component={CategoryHub} />
           <Route path="/construction" component={CategoryHub} />
+          <Route path="/astrology" component={CategoryHub} />
           <Route path="/terms" component={Terms} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />

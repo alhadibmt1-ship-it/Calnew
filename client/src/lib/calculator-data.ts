@@ -7,7 +7,8 @@ import {
   Type,
   Briefcase,
   HardHat,
-  GraduationCap
+  GraduationCap,
+  Star
 } from "lucide-react";
 
 export interface CalculatorItem {
@@ -322,6 +323,24 @@ export const calculatorCategories = [
       { name: "Pump Head Calculator", description: "Calculate total dynamic head for pump sizing." },
       { name: "Solar Panel Array Calculator", description: "Calculate solar panel array size and output." },
       { name: "Insulation R Value Calculator", description: "Calculate insulation R-value and thickness needed." }
+    ]
+  },
+  {
+    title: "Astrology & Numerology",
+    slug: "astrology",
+    icon: Star,
+    description: "Explore your cosmic identity with astrology, zodiac, and numerology tools.",
+    items: [
+      { name: "Zodiac Sign Calculator", description: "Enter your birth date to find your Sun sign, element, ruling planet, and personality traits." },
+      { name: "Chinese Zodiac Calculator", description: "Find your Chinese zodiac animal based on your birth year with traits and compatibility." },
+      { name: "Moon Sign Calculator", description: "Discover your Moon sign — the hidden emotional force behind your personality." },
+      { name: "Zodiac Compatibility Calculator", description: "Check love and friendship compatibility between any two zodiac signs." },
+      { name: "Life Path Number Calculator", description: "Calculate your numerology Life Path Number and uncover your life's core purpose." },
+      { name: "Name Numerology Calculator", description: "Find the hidden vibration of your name using the Pythagorean numerology system." },
+      { name: "Destiny Number Calculator", description: "Calculate your Destiny Number from your full birth name to reveal your life's ultimate purpose." },
+      { name: "Biorhythm Calculator", description: "Visualize your physical, emotional, and intellectual cycles with a 28-day biorhythm chart." },
+      { name: "Lucky Number Calculator", description: "Discover your personal lucky numbers, colors, gems, and lucky days using numerology." },
+      { name: "Angel Number Calculator", description: "Decode the spiritual message behind repeating numbers like 111, 444, or 1212." },
     ]
   }
 ];

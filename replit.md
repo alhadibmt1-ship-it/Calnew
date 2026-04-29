@@ -2,7 +2,7 @@
 
 ## Overview
 
-CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 240+ calculators organized into nine categories: Financial (51), Business (22), Fitness & Health (13), Math (27), Education (8), Daily Life (13), SEO & Text Tools (7), Unit Converters (13), and Construction (61+). Additionally, it features a dynamic unit converter engine generating 400+ individual converter pages across 14 categories. The site is English-only. It includes a blog section with 8 SEO-optimized articles, programmatic SEO content generation for calculator pages, and a sitemap index structure with separate sitemaps for calculators, converters, pages, and blog.
+CalcSmart24 is a free online calculator hub website hosted at calcsmart24.com. It provides 250+ calculators organized into ten categories: Financial (51), Business (22), Fitness & Health (13), Math (27), Education (8), Daily Life (13), SEO & Text Tools (7), Unit Converters (13), Construction (61+), and Astrology & Numerology (10). Additionally, it features a dynamic unit converter engine generating 400+ individual converter pages across 14 categories. The site is English-only. It includes a blog section with 8 SEO-optimized articles, programmatic SEO content generation for calculator pages, and a sitemap index structure with separate sitemaps for calculators, converters, pages, and blog.
 
 ## User Preferences
 

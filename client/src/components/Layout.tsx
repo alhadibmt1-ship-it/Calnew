@@ -28,6 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { id: "unit-converters", name: "Unit Converters", href: "/convert" },
     { id: "seo-tools", name: "SEO & Text Tools", href: "/seo-tools" },
     { id: "daily-life", name: "Daily Life", href: "/other" },
+    { id: "astrology", name: "Astrology", href: "/astrology" },
     { id: "blog", name: "Blog", href: "/blog" },
   ];
 
