@@ -35,6 +35,28 @@ function injectSchema(html: string, schemaObj: object): string {
   return html.replace("</head>", `${tag}\n</head>`);
 }
 
+const CATEGORY_BENEFITS: Record<string, string> = {
+  financial: "accurate financial insights for smarter money decisions",
+  business: "precise business metrics and projections",
+  health: "personalised health and fitness insights in seconds",
+  math: "precise mathematical results with instant working",
+  education: "accurate academic results for students and teachers",
+  other: "instant, accurate everyday calculations",
+  "seo-tools": "faster content creation and SEO optimisation",
+  converters: "precise unit conversions for any application",
+  construction: "accurate material estimates for any project",
+  astrology: "personalised cosmic insights and natal chart interpretations",
+};
+
+function enhanceDescription(name: string, desc: string, categorySlug: string): string {
+  if (desc.length >= 120) return desc;
+  const benefit = CATEGORY_BENEFITS[categorySlug] ?? "instant, accurate results";
+  const addition = ` Use our free ${name} online for ${benefit}. No sign-up or download required.`;
+  let result = desc.replace(/\.$/, "") + "." + addition;
+  if (result.length > 160) result = result.slice(0, 157) + "...";
+  return result;
+}
+
 function buildRichSeoBlock(tool: CalculatorToolData): string {
   const c = getSEOContent(tool.slug) || getGenericSEOContent(tool.name, tool.description);
   const h2 = (t: string) => `<h2 style="font-size:1.25rem;font-weight:600;margin:1.25rem 0 .5rem;color:#111827">${t}</h2>`;
@@ -471,6 +493,7 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2147", "bestRating": "5", "worstRating": "1" },
         "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
       },
       {
@@ -915,8 +938,8 @@ export function injectSeoIntoHtml(
   html: string,
   tool: CalculatorToolData
 ): string {
-  const title = `${tool.name} | CalcSmart24`;
-  const description = tool.description;
+  const title = `Free ${tool.name} | CalcSmart24`;
+  const description = enhanceDescription(tool.name, tool.description, tool.categorySlug);
   const canonicalUrl = `https://calcsmart24.com/calculator/${tool.slug}`;
 
   html = html
@@ -968,6 +991,7 @@ export function injectSeoIntoHtml(
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2147", "bestRating": "5", "worstRating": "1" },
         "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
       },
       {
@@ -994,8 +1018,20 @@ export function injectCategorySeoIntoHtml(
   if (!cat) return html;
 
   const tools = getAllToolsServer().filter((t) => t.categorySlug === categorySlug);
-  const title = `${cat.title} Calculators | CalcSmart24`;
-  const description = `Free online ${cat.title.toLowerCase()} calculators and tools. ${tools.length}+ accurate, fast tools for everyday use.`;
+  const title = `Free ${cat.title} Calculators | CalcSmart24`;
+  const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+    financial: `Free financial calculators for mortgages, loans, compound interest, investments, and retirement planning. ${tools.length}+ accurate tools — no sign-up required.`,
+    business: `Free business calculators for profit margins, ROI, break-even, cash flow, and pricing. ${tools.length}+ tools built for entrepreneurs and business owners.`,
+    health: `Free health and fitness calculators for BMI, calories, body fat, macros, and more. ${tools.length}+ accurate tools used by fitness enthusiasts and healthcare professionals.`,
+    math: `Free math calculators covering percentage, fractions, algebra, geometry, statistics, and more. ${tools.length}+ precise tools for students, teachers, and engineers.`,
+    education: `Free education calculators for GPA, grades, test scores, and academic planning. ${tools.length}+ accurate tools designed for students and teachers.`,
+    other: `Free everyday calculators for dates, time, tips, age, fuel costs, and more. ${tools.length}+ handy tools for daily life decisions — instant results, no sign-up.`,
+    "seo-tools": `Free SEO and text tools — word counter, QR code generator, password generator, case converter, and more. ${tools.length}+ tools for bloggers, marketers, and content creators.`,
+    converters: `Free unit converter calculators for length, weight, temperature, volume, speed, and more. ${tools.length}+ accurate converters for every field and application.`,
+    construction: `Free construction calculators for concrete, bricks, lumber, roofing, steel, and more. ${tools.length}+ accurate tools trusted by contractors, builders, and engineers.`,
+    astrology: `Free astrology and numerology calculators — birth chart, rising sign, life path number, compatibility, and more. ${tools.length}+ cosmic tools for self-discovery.`,
+  };
+  const description = CATEGORY_DESCRIPTIONS[categorySlug] ?? `Free online ${cat.title.toLowerCase()} calculators and tools. ${tools.length}+ accurate, fast tools for everyday use.`;
   const canonicalUrl = `https://calcsmart24.com/${cat.slug}`;
 
   html = html

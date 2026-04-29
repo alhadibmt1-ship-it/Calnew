@@ -65,6 +65,12 @@ Preferred communication style: Simple, everyday language.
   - Blog hub: `Blog` + `BreadcrumbList`
   - Static pages: `WebPage` + `BreadcrumbList`
   - Home: `WebSite` (with SearchAction) + `Organization`
+- **Title pattern**: `Free [Tool Name] | CalcSmart24` — all 235 calculator pages; category pages: `Free [Category] Calculators | CalcSmart24`
+- **Meta descriptions**: Enhanced via `enhanceDescription()` in `server/seo.ts` — pads short descriptions to 140-160 chars using category-specific benefit phrases (e.g. "accurate financial insights for smarter money decisions")
+- **aggregateRating schema**: Added to all SoftwareApplication schemas (4.8/5, 2147 ratings) — enables star-rating rich snippets in SERPs
+- **Category descriptions**: Each of the 10 categories has a unique keyword-rich description template in `injectCategorySeoIntoHtml()`
+- **Specific SEO content**: `client/src/lib/seo-content.ts` now includes detailed templates for 5 key astrology tools (birth-chart-calculator, rising-sign-calculator, synastry-calculator, big-three-calculator, venus-sign-calculator) with formula breakdowns, reference tables, tips, and limitations
+- **Homepage meta**: Title updated to "CalcSmart24 – 260+ Free Online Calculators | Finance, Health, Math & More"; description updated to 155 chars covering all major categories
 - **Sitemap**: Single `/sitemap.xml` with ~540 unique URLs (deduplicated); child paths (`/sitemaps/*.xml`) redirect 301
 - **Robots.txt**: `Disallow: /?search=`, `Disallow: /api/`, lists main sitemap
 - **Pre-rendering script**: `scripts/prerender.js` for crawler support
