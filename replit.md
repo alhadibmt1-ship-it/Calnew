@@ -13,6 +13,7 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 - **Framework**: React 18 with TypeScript, bundled by Vite
 - **Routing**: Wouter with routes for home, categories, calculators (`/calculator/:slug`), converters (`/convert/*`), blog (`/blog`, `/blog/:slug`), and static pages
+- **Nav structure**: Primary nav (Home, Financial, Business, Fitness & Health, Math, Construction) + "More ▾" dropdown (Unit Converters, SEO & Text Tools, Daily Life, Astrology, Blog); mobile uses a full Sheet drawer. Skip-to-main-content link for accessibility.
 - **UI Components**: shadcn/ui (New York style) built on Radix UI primitives with Tailwind CSS v4
 - **State Management**: Local component state (useState) for calculators; TanStack React Query available for API calls
 - **Charts**: Recharts for data visualization in financial calculators

@@ -1,0 +1,969 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          CALCSMART24.COM — MASTER AUDIT & FIX PROMPT FOR REPLIT            ║
+║     Navigation · Duplicates · UI/UX · SEO · Semantic · Code · A11y        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+You are a senior full-stack developer, UI/UX engineer, and SEO specialist.
+Perform a COMPLETE audit AND fix of the website calcsmart24.com.
+
+I am providing you with 7 real screenshots of the live website showing
+critical issues. Fix EVERY issue below. After all fixes, re-audit the site
+and confirm every check passes. Output code for every single fix.
+
+SITE: https://calcsmart24.com
+STACK: Identify the framework from the codebase (likely Next.js or React).
+       Apply all fixes in the correct framework pattern.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 1 — CRITICAL UI BUGS (VISIBLE IN SCREENSHOTS — FIX FIRST)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BUG 1.1 — NAVIGATION BAR OVERFLOW (CRITICAL)
+--------------------------------------------
+PROBLEM: The top navigation bar is cramming all category links into one line
+on both desktop and mobile. Items like "SEO & Text Tools", "Daily Life",
+"Astrology", "Unit Converters", "Blog", and the search icon are all
+overlapping and unreadable. Text is mixing into each other.
+
+SCREENSHOTS SHOW: Nav items "SEO & Text Tools" splits across 3 lines in
+the nav itself. "Daily Life" wraps. Logo + Home + Financial + Business +
+Fitness & Health + Math + Construction + Unit Converters + SEO & Text Tools
++ Daily Life + Astrology + Blog + Search — all on one row = broken.
+
+FIX REQUIRED:
+- On desktop (>1024px): Show only top 6-7 categories in nav. Add a
+  "More ▾" dropdown for the rest. Never overflow to a second line.
+- On tablet (768px–1024px): Collapse to hamburger menu.
+- On mobile (<768px): Full hamburger/drawer navigation.
+- The logo must never overlap with nav items.
+- Sticky header must have z-index high enough to not mix with page content.
+- Dropdown menus must close when clicking outside.
+- Each dropdown must have a visible border/shadow so it reads as a layer
+  above the page — not mixed into the content below it.
+
+CODE FIX EXAMPLE (React/Next.js):
+const NAV_PRIMARY = ['Financial', 'Business', 'Fitness & Health', 'Math', 'Construction'];
+const NAV_MORE = ['Unit Converters', 'SEO & Text Tools', 'Daily Life', 'Astrology', 'Blog'];
+// Show NAV_PRIMARY in the main bar, NAV_MORE in a "More ▾" dropdown
+// On mobile: combine all into a hamburger drawer
+
+CSS FIX:
+nav { display: flex; align-items: center; flex-wrap: nowrap; overflow: visible; }
+nav .nav-links { display: flex; gap: 4px; white-space: nowrap; overflow: hidden; }
+@media (max-width: 1024px) { nav .nav-links { display: none; } nav .hamburger { display: flex; } }
+
+
+BUG 1.2 — DUPLICATE "YOU MAY ALSO LIKE" + "RELATED TOOLS" SECTIONS (CRITICAL)
+-------------------------------------------------------------------------------
+PROBLEM: On every tool page (e.g. Loan EMI Calculator), there are TWO
+separate sections showing the SAME related tools:
+  Section A: "You May Also Like" — shows Mortgage, Auto Loan, Amortization,
+             Simple Interest, Compound Interest, Interest Rate Calculator
+  Section B: "Related Financial Tools" — shows the EXACT same tools
+             (Mortgage, Auto Loan, Simple Interest, Compound Interest,
+             Amortization, Payment Calculator)
+
+This is a duplicate content and UX issue. Google will penalise this.
+
+FIX REQUIRED:
+- Keep ONLY ONE related tools section per tool page.
+- Recommended: Keep "Related [Category] Tools" with card layout (Section B)
+  and remove the plain link list "You May Also Like" (Section A).
+- OR merge both into one section called "You May Also Like" with cards.
+- The merged section must show max 6 tools, no repeats.
+- Deduplicate the list programmatically:
+  const related = [...new Set([...youMayAlsoLike, ...relatedTools])].slice(0, 6);
+
+
+BUG 1.3 — DUPLICATE FOOTER LINKS (HIGH)
+-----------------------------------------
+PROBLEM: In the footer, "Privacy Policy", "Terms of Service", and "About"
+appear TWICE — once in the top-right footer link area and once again at
+the very bottom of the page below the copyright line.
+
+FIX REQUIRED:
+- Remove the second (bottom) row of Privacy Policy / Terms of Service / About.
+- Keep only the footer nav row. Copyright line should be:
+  © 2025 CalcSmart24. All rights reserved.
+  (with no repeated links after it)
+
+FOOTER STRUCTURE SHOULD BE:
+<footer>
+  <div class="footer-columns"> [category link columns] </div>
+  <div class="footer-bottom">
+    <span>CalcSmart24 — Free Online Calculators for Everyone</span>
+    <nav> Privacy Policy | Terms of Service | About | Contact | Blog </nav>
+    <p>© 2025 CalcSmart24. All rights reserved.</p>
+  </div>
+</footer>
+
+
+BUG 1.4 — DROPDOWN MENU BLEEDS INTO PAGE CONTENT (HIGH)
+---------------------------------------------------------
+PROBLEM: Screenshots show dropdown menus (e.g. the "Text Tools" dropdown)
+appearing without proper layering — the dropdown content mixes visually
+with the page content behind it instead of floating above it.
+
+FIX REQUIRED:
+- All dropdown menus must have:
+  position: absolute;
+  z-index: 1000;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+- Parent nav item must have: position: relative;
+- Add a small invisible bridge between nav item and dropdown to prevent
+  accidental hover-out closing:
+  .dropdown::before { content:''; position:absolute; top:-8px; left:0;
+                       right:0; height:8px; }
+
+
+BUG 1.5 — MOBILE NAV OVERCROWDING (CRITICAL)
+----------------------------------------------
+PROBLEM: On mobile screens (~375px), the nav is showing ALL items in a
+single cramped row: Logo + Home + Financial + Business + Fitness & Health
++ Math + Construction + Unit Converters + SEO & Text Tools + Daily Life +
+Astrology + Blog + Search. This is completely unusable.
+
+FIX REQUIRED:
+- Mobile nav must show: [Logo] on left, [Search icon] + [Hamburger] on right.
+- Hamburger opens a full-height slide-in drawer from the left or right.
+- Drawer shows: Search bar at top, then all categories as large tap targets
+  (min 48px height), then Popular Tools section, then footer links.
+- Backdrop overlay when drawer is open.
+- Body scroll must be locked when drawer is open:
+  document.body.style.overflow = 'hidden';
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 2 — DUPLICATE CONTENT AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2.1 DUPLICATE PAGE DETECTION
+  - Crawl all URLs. Find pages with >70% body text similarity.
+  - Flag any two tool pages using the same description template
+    without unique customisation.
+  - The "Why Use CalcSmart24?" section (Free, Fast, Private, Mobile-Friendly)
+    appears on EVERY tool page. This is near-duplicate boilerplate.
+    FIX: Move this to a shared component rendered via include/import.
+    Keep it on pages but make it visually distinct (e.g. collapsed by default
+    or in a grey info box) so Google treats it as supplementary content,
+    not the primary content of the page.
+
+2.2 DUPLICATE TITLE TAGS
+  - Audit every page title. Each must be unique.
+  - Pattern: "[Tool Name] — Free [Keyword] Calculator | CalcSmart24"
+  - No two pages may share the same title tag.
+  - Script to check:
+    const titles = {};
+    pages.forEach(p => {
+      if (titles[p.title]) console.error('DUPLICATE TITLE:', p.url, p.title);
+      titles[p.title] = p.url;
+    });
+
+2.3 DUPLICATE META DESCRIPTIONS
+  - Every page must have a unique meta description.
+  - Auto-generated descriptions using the same template are NOT acceptable.
+  - Each description must mention the specific tool name + a unique benefit.
+
+2.4 DUPLICATE H1 TAGS
+  - Audit: every page must have exactly one H1.
+  - H1 must be unique across the site.
+  - H1 must contain the primary keyword for that page.
+
+2.5 DUPLICATE INTERNAL LINKS
+  - On the Loan EMI Calculator page, "Mortgage Calculator" appears in:
+    (a) "You May Also Like" links
+    (b) "Related Financial Tools" cards
+    (c) "More Financial Tools" sidebar list
+    (d) Footer "Financial" column
+    That is 4 links to the same page on one page.
+  FIX: Max 2 links to the same destination URL per page.
+  In related tools: deduplicate and cap at 6 items.
+  In sidebar: show only tools NOT already in the related section.
+
+2.6 DUPLICATE FOOTER CATEGORY LISTS
+  - The footer shows all categories with 5-6 tool links each.
+  - Verify these exactly match the category pages — no outdated or
+    missing tools in footer vs actual category.
+
+2.7 CANONICAL TAGS
+  - Every page must have a self-referencing canonical:
+    <link rel="canonical" href="https://calcsmart24.com/[exact-path]" />
+  - Check: no www vs non-www conflicts, no HTTP vs HTTPS conflicts,
+    no trailing slash inconsistencies.
+  - Standardise all URLs to: https://calcsmart24.com/path (no trailing slash)
+    and 301 redirect the other variants.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 3 — COMPREHENSIVE ON-PAGE SEO AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3.1 TITLE TAG AUDIT
+  Rules:
+  - Length: 50–60 characters (hard limit).
+  - Format: "[Tool Name] — Free [Keyword] | CalcSmart24"
+  - Must contain exact match of primary keyword.
+  - Must be unique. Must not be auto-truncated by CMS.
+  Check all pages. Output: URL | Title | Length | Pass/Fail
+
+3.2 META DESCRIPTION AUDIT
+  Rules:
+  - Length: 150–160 characters.
+  - Must include: primary keyword + unique benefit + CTA.
+  - Must be unique per page.
+  - Must not be auto-generated from first paragraph (Google rewrites these).
+  Check all pages. Output: URL | Description | Length | Pass/Fail
+
+3.3 HEADING STRUCTURE AUDIT
+  Rules:
+  - One H1 per page. H1 = primary keyword.
+  - H2 = major content sections (What Is X, How To Use, How It Works,
+    FAQ, Related Tools, Tips & Best Practices).
+  - H3 = subsections within H2 blocks.
+  - No heading level skips (H1 → H3 without H2 is invalid).
+  - Headings must not be used for styling — use CSS classes for font size.
+  Check all pages. Output heading tree per page.
+
+3.4 KEYWORD OPTIMISATION
+  For every tool page, the primary keyword must appear in:
+  [ ] Title tag
+  [ ] Meta description
+  [ ] H1 (exact match)
+  [ ] First 100 words of body content
+  [ ] At least one H2
+  [ ] URL slug (e.g. /loan-emi-calculator for "loan emi calculator")
+  [ ] Alt text of at least one image
+  Density: 1–2%. Flag any page with >3% (keyword stuffing).
+
+3.5 URL STRUCTURE AUDIT
+  Rules:
+  - All lowercase, hyphens only (no underscores, no camelCase).
+  - Max 3 directory levels: /category/tool-name
+  - No stop words in URLs unless part of the keyword.
+  - No date-based URLs for tool pages.
+  - No parameter-based URLs for indexable pages.
+  Check all URLs. Flag any that deviate.
+
+3.6 IMAGE SEO AUDIT
+  For every image on every page:
+  [ ] alt attribute present and descriptive (not "image1" or "icon")
+  [ ] File name descriptive (loan-emi-calculator-formula.webp not img001.png)
+  [ ] Format: WebP preferred. PNG/JPG only if WebP unavailable.
+  [ ] width and height attributes set to prevent CLS.
+  [ ] Images above the fold: fetchpriority="high"
+  [ ] Images below the fold: loading="lazy"
+  [ ] No image larger than 150KB above the fold.
+
+3.7 INTERNAL LINKING AUDIT
+  Rules:
+  - Every tool page must link to 3–6 related tools (same category + cross).
+  - Every category page must link to all its tools.
+  - No orphan pages (pages with 0 internal links pointing to them).
+  - No broken internal links (404).
+  - Anchor text must be descriptive: "Mortgage Calculator" not "click here".
+  - Max 2 links to any single destination URL per page.
+  Audit: crawl all <a href> tags. Build link graph. Flag orphans, broken, and overdone.
+
+3.8 SITEMAP AUDIT
+  - /sitemap.xml must exist and be valid XML.
+  - Must include ALL public tool pages and category pages.
+  - Must NOT include: /404, admin pages, noindex pages, redirect URLs.
+  - lastmod must be accurate (date of last code/content change).
+  - Sitemap must be submitted to Google Search Console.
+  - Sitemap must be listed in robots.txt:
+    Sitemap: https://calcsmart24.com/sitemap.xml
+
+3.9 ROBOTS.TXT AUDIT
+  - Must exist at /robots.txt.
+  - Must NOT block: /calculator/, /astrology-numerology/, /financial/, etc.
+  - Must NOT block CSS, JS, or WebP image paths.
+  - Must allow Googlebot and all major crawlers.
+  - Must disallow: /admin/, /api/, /_next/static/ (if Next.js internals).
+  Correct robots.txt:
+    User-agent: *
+    Allow: /
+    Disallow: /admin/
+    Disallow: /api/private/
+    Sitemap: https://calcsmart24.com/sitemap.xml
+
+3.10 OPEN GRAPH & TWITTER CARD AUDIT
+  Every page must have:
+  <meta property="og:title" content="[Page Title]" />
+  <meta property="og:description" content="[150-char description]" />
+  <meta property="og:image" content="https://calcsmart24.com/og/[page].png" />
+  <meta property="og:url" content="https://calcsmart24.com/[exact-url]" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CalcSmart24" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="[Page Title]" />
+  <meta name="twitter:description" content="[Description]" />
+  <meta name="twitter:image" content="https://calcsmart24.com/og/[page].png" />
+  OG image size: minimum 1200×630px. Format: WebP or PNG.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 4 — SEMANTIC SEO AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.1 TOPICAL AUTHORITY MAPPING
+  CalcSmart24 must establish clear topical clusters. Each cluster =
+  one category with a hub page + all tool pages linking back to the hub.
+
+  Required cluster structure:
+  Hub:  /financial                 ← category overview page
+  Spokes: /financial/loan-emi-calculator
+          /financial/mortgage-calculator
+          /financial/compound-interest-calculator
+          ... (all financial tools)
+
+  Every spoke page must:
+  - Link back to the hub: "Browse All Financial Calculators →"
+  - Link to 3+ sibling spokes (related tools in same category)
+  - Hub page must link to ALL its spoke pages
+
+  Apply this cluster model to ALL categories:
+  Financial, Business, Fitness & Health, Math, Education, Daily Life,
+  SEO & Text Tools, Unit Converters, Construction, Astrology & Numerology
+
+4.2 ENTITY OPTIMISATION
+  - Every tool page must clearly define the main entity in the first paragraph.
+    Example for Loan EMI Calculator:
+    "The Loan EMI Calculator is a free online tool that computes your
+    Equated Monthly Installment (EMI) — the fixed monthly payment on
+    any loan — using the standard EMI formula."
+  - Use the exact entity name (Loan EMI Calculator) in:
+    Title, H1, first sentence, meta description, JSON-LD name field.
+  - Mention related entities naturally in body text:
+    principal, interest rate, loan tenure, amortization, EMI schedule.
+
+4.3 SEMANTIC KEYWORD COVERAGE (LSI)
+  For each tool page, include these types of semantic keywords:
+  - Synonyms: EMI = equated monthly installment = monthly loan payment
+  - Related concepts: amortization, principal, interest, tenure, repayment
+  - Question-form keywords: "how to calculate EMI", "what is EMI formula",
+    "how much EMI for 10 lakh loan"
+  - Comparison keywords: "EMI vs simple interest", "fixed vs floating rate"
+  These should appear naturally in body content, H2s, and FAQ answers.
+
+4.4 FAQ SEMANTIC OPTIMISATION
+  Every tool page must have a FAQ section with 6–10 questions formatted as:
+  - Questions must match actual Google "People Also Ask" phrasing.
+  - Questions must use question words: What, How, Why, Can, Is, Which.
+  - Answers must be 40–80 words, direct and complete.
+  - FAQ must be marked up with FAQPage JSON-LD schema.
+  - FAQ section H2 must be: "Frequently Asked Questions"
+  Example for Loan EMI:
+  Q: What is EMI in a loan?
+  Q: How is EMI calculated?
+  Q: Can I reduce my EMI?
+  Q: What happens if I miss an EMI payment?
+  Q: Is EMI calculated on reducing balance or flat rate?
+  Q: How does loan tenure affect EMI?
+
+4.5 CONTENT DEPTH & E-E-A-T
+  Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness):
+  - Every tool page must have: tool widget + explanation + formula +
+    how-to-use steps + worked example + comparison table + tips + FAQ.
+  - Loan EMI page already has good structure — ensure ALL tool pages
+    follow the same depth. No thin pages (<400 words).
+  - Add "Last Updated: [date]" to every tool page.
+  - Add breadcrumb navigation: Home > Financial > Loan EMI Calculator
+  - Cite any formulas with their mathematical source.
+
+4.6 SCHEMA MARKUP AUDIT
+  Required JSON-LD blocks for every tool page:
+
+  A) SoftwareApplication:
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Loan EMI Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "url": "https://calcsmart24.com/calculators/loan-emi-calculator",
+    "description": "Free Loan EMI Calculator...",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "215"
+    }
+  }
+
+  B) FAQPage: (see Section 4.4 above for structure)
+
+  C) BreadcrumbList:
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://calcsmart24.com"},
+      {"@type":"ListItem","position":2,"name":"Financial","item":"https://calcsmart24.com/financial"},
+      {"@type":"ListItem","position":3,"name":"Loan EMI Calculator","item":"https://calcsmart24.com/calculators/loan-emi-calculator"}
+    ]
+  }
+
+  D) Homepage must also have:
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "CalcSmart24",
+    "url": "https://calcsmart24.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://calcsmart24.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  Plus Organization schema with logo, contactPoint.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 5 — SEMANTIC HTML & ACCESSIBILITY AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5.1 SEMANTIC HTML STRUCTURE
+  Every page must use proper HTML5 landmark elements:
+  <html lang="en">
+  <head> ... </head>
+  <body>
+    <header role="banner">
+      <nav role="navigation" aria-label="Main navigation">...</nav>
+    </header>
+    <main role="main" id="main-content">
+      <nav aria-label="Breadcrumb">...</nav>
+      <article>              ← for tool pages with content
+        <h1>...</h1>
+        <section aria-label="Calculator Tool">...</section>
+        <section aria-label="How It Works">...</section>
+        <section aria-label="FAQ">...</section>
+      </article>
+      <aside aria-label="Related Tools">...</aside>
+    </main>
+    <footer role="contentinfo">...</footer>
+  </body>
+
+5.2 SKIP NAVIGATION LINK
+  Add as FIRST element inside <body>:
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  CSS: .skip-link { position:absolute; left:-9999px; }
+       .skip-link:focus { left:0; top:0; z-index:9999; padding:8px; background:#000; color:#fff; }
+
+5.3 FORM ACCESSIBILITY (CALCULATOR INPUTS)
+  Every calculator input must:
+  - Have a <label for="[id]"> linked by matching id.
+  - Have aria-required="true" if required.
+  - Show error messages with aria-describedby pointing to error element.
+  - Use aria-live="polite" on result output so screen readers announce it.
+  Example:
+  <label for="loanAmount">Loan Amount ($)</label>
+  <input type="number" id="loanAmount" name="loanAmount"
+         aria-required="true" aria-describedby="loanAmountError"
+         min="1" step="1" />
+  <span id="loanAmountError" role="alert" aria-live="assertive"></span>
+  <div id="calculatorResult" aria-live="polite" aria-atomic="true"></div>
+
+5.4 KEYBOARD NAVIGATION
+  - All buttons and inputs reachable by Tab key in logical order.
+  - Calculate button must be reachable and activatable by Enter/Space.
+  - No keyboard traps anywhere.
+  - Dropdown menus must close on Escape key.
+  - Focus must return to trigger element when modal/dropdown closes.
+  - Visible focus outline on all interactive elements:
+    *:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; }
+
+5.5 COLOUR CONTRAST (WCAG AA)
+  - All body text on white: minimum 4.5:1 ratio.
+  - Blue links (#2563EB on white): check ratio — must be 4.5:1+
+  - Grey helper text: common failure — check all grey-on-white text.
+  - CTA buttons: text on blue background must pass 4.5:1.
+  - Placeholder text in inputs: must be at least 3:1 (often fails).
+  Use tool: https://webaim.org/resources/contrastchecker/
+  Fix any failures by darkening text or lightening background.
+
+5.6 IMAGE ALT TEXT
+  - Every <img> must have alt attribute.
+  - Decorative icons: alt="" (empty string, NOT missing).
+  - Chart/result visuals: alt="[Descriptive text of what chart shows]"
+  - Logo: alt="CalcSmart24 logo"
+  - Category icons: alt="" (decorative)
+
+5.7 INTERACTIVE ELEMENTS
+  - All icon-only buttons must have aria-label:
+    <button aria-label="Search calculators"><SearchIcon /></button>
+    <button aria-label="Open navigation menu"><HamburgerIcon /></button>
+  - The search icon in nav currently has no visible label — add aria-label.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 6 — CORE WEB VITALS & PERFORMANCE AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6.1 LCP — TARGET < 2.5 SECONDS
+  - Identify the LCP element on homepage and 3 tool pages.
+  - If LCP is an image: add fetchpriority="high" and preload it:
+    <link rel="preload" as="image" href="/hero.webp" />
+  - If LCP is text: ensure font is preloaded or uses system font.
+  - Eliminate any render-blocking script above the fold.
+
+6.2 CLS — TARGET < 0.1
+  - Add explicit width + height to ALL images.
+  - Reserve space for the calculator widget container before JS loads:
+    .calculator-container { min-height: 350px; }
+  - Use font-display: swap for all custom fonts.
+  - Do not inject content above existing content after page load.
+
+6.3 INP — TARGET < 200ms
+  - Calculator "Calculate" button click must respond in < 200ms.
+  - Debounce any real-time calculation inputs (300ms delay).
+  - No heavy synchronous computation on the main thread.
+  - Use Web Workers for complex calculations (birth chart, amortization).
+
+6.4 ASSET OPTIMISATION
+  - Convert all PNG/JPG images to WebP.
+  - Lazy-load all images below the fold: loading="lazy"
+  - Minify all CSS and JavaScript.
+  - Enable Gzip or Brotli compression on the server.
+  - Total page weight target: < 1MB.
+  - HTTP requests target: < 40 per page.
+
+6.5 CACHING
+  - Static assets (JS, CSS, images): Cache-Control: max-age=31536000, immutable
+  - HTML pages: Cache-Control: no-cache (or s-maxage=300 for CDN)
+  - Use content-hash filenames for JS/CSS to enable long caching.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 7 — CODE QUALITY AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7.1 REMOVE ALL console.log() FROM PRODUCTION BUILD
+  Search entire codebase: grep -r "console.log" src/
+  Remove all. Use a logger utility if debugging is needed.
+
+7.2 ELIMINATE DUPLICATE COMPONENTS
+  Looking at the screenshots, the related tools logic appears duplicated
+  in at least 2 places. Refactor:
+  - Create ONE RelatedTools component that accepts: toolList, title, max.
+  - Use this single component everywhere. Delete duplicate implementations.
+
+7.3 UNUSED CSS
+  - Run PurgeCSS or use Next.js built-in CSS purging.
+  - Remove any Tailwind classes not used in the component tree.
+  - Remove any global CSS rules that match 0 elements.
+
+7.4 DEPENDENCY AUDIT
+  Run: npm audit
+  Fix all Critical and High severity vulnerabilities.
+  Run: npx depcheck
+  Remove unused dependencies from package.json.
+
+7.5 ENVIRONMENT VARIABLES
+  - No API keys in client-side code.
+  - All secrets in .env.local (not committed to git).
+  - .env* must be in .gitignore.
+
+7.6 ERROR BOUNDARIES
+  - Wrap each calculator widget in a React Error Boundary.
+  - If a calculator crashes, show a friendly fallback:
+    "Sorry, this calculator encountered an error. Please refresh the page."
+  - Never show stack traces to users.
+
+7.7 404 AND ERROR PAGES
+  - Custom /404 page must exist with: search bar, popular tools links,
+    link back to homepage. Not just "404 Not Found".
+  - Custom 500 page must exist.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 8 — SECURITY AUDIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8.1 HTTPS & SECURITY HEADERS
+  Verify these headers are present (check via curl -I https://calcsmart24.com):
+  - Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  - X-Frame-Options: SAMEORIGIN
+  - X-Content-Type-Options: nosniff
+  - Referrer-Policy: strict-origin-when-cross-origin
+  - Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+  For Next.js, add to next.config.js:
+  const securityHeaders = [
+    { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+    { key: 'X-Content-Type-Options', value: 'nosniff' },
+    { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+    { key: 'Strict-Transport-Security',
+      value: 'max-age=31536000; includeSubDomains; preload' },
+  ];
+
+8.2 INPUT SANITISATION
+  - All user inputs in calculator forms must be validated client-side AND
+    if sent to any API, validated server-side too.
+  - Numeric fields must only accept numbers: type="number" + regex validation.
+  - Text fields (name, city) must be sanitised before any rendering.
+  - Never use innerHTML with user input — use textContent instead.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 9 — FULL AUTOMATED AUDIT SCRIPT (RUN IN REPLIT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// File: full-site-audit.js
+// Install: npm install axios cheerio
+// Run:     node full-site-audit.js
+// Output:  audit-report.txt
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+const fs = require('fs');
+
+const BASE = 'https://calcsmart24.com';
+const ALL_PAGES = [
+  '/',
+  '/financial',
+  '/business',
+  '/fitness-health',
+  '/math',
+  '/education',
+  '/daily-life',
+  '/seo-text-tools',
+  '/unit-converters',
+  '/construction',
+  '/astrology-numerology',
+  '/calculators/loan-emi-calculator',
+  '/calculators/mortgage-calculator',
+  '/calculators/bmi-calculator',
+  '/calculators/age-calculator',
+  '/calculators/percentage-calculator',
+  '/astrology-numerology/birth-chart-calculator',
+  '/astrology-numerology/moon-sign-calculator',
+  '/astrology-numerology/rising-sign-calculator',
+  // Add ALL tool pages here
+];
+
+const titlesMap = {};
+const descsMap = {};
+const h1sMap = {};
+const report = [];
+
+function wordCount(text) {
+  return text.trim().split(/\s+/).filter(w => w.length > 1).length;
+}
+
+function severity(issues) {
+  const score = issues.reduce((acc, i) => {
+    if (i.includes('[CRITICAL]')) return acc - 20;
+    if (i.includes('[HIGH]')) return acc - 10;
+    if (i.includes('[MEDIUM]')) return acc - 5;
+    if (i.includes('[LOW]')) return acc - 2;
+    return acc;
+  }, 100);
+  return Math.max(0, score);
+}
+
+async function auditPage(path) {
+  const url = BASE + path;
+  let html, status;
+  try {
+    const res = await axios.get(url, {
+      timeout: 15000,
+      validateStatus: s => true,
+      headers: { 'User-Agent': 'CalcSmart24-Auditor/1.0' }
+    });
+    status = res.status;
+    html = res.data;
+  } catch (e) {
+    return { url, status: 'TIMEOUT/ERROR', issues: [`[CRITICAL] Page failed to load: ${e.message}`], score: 0 };
+  }
+
+  if (status !== 200) {
+    return { url, status, issues: [`[CRITICAL] HTTP ${status} — page not returning 200`], score: 0 };
+  }
+
+  const $ = cheerio.load(html);
+  const issues = [];
+
+  // ── TITLE ──
+  const titleEls = $('title');
+  const title = titleEls.first().text().trim();
+  if (titleEls.length === 0) issues.push('[CRITICAL] Missing <title> tag');
+  else if (titleEls.length > 1) issues.push('[HIGH] Multiple <title> tags found');
+  if (!title) issues.push('[CRITICAL] Empty title tag');
+  else {
+    if (title.length > 60) issues.push(`[HIGH] Title too long: ${title.length} chars (max 60)`);
+    if (title.length < 30) issues.push(`[MEDIUM] Title too short: ${title.length} chars (min 30)`);
+    if (titlesMap[title]) issues.push(`[CRITICAL] DUPLICATE TITLE — same as: ${titlesMap[title]}`);
+    else titlesMap[title] = url;
+  }
+
+  // ── META DESCRIPTION ──
+  const desc = $('meta[name="description"]').attr('content') || '';
+  if (!desc) issues.push('[CRITICAL] Missing meta description');
+  else {
+    if (desc.length > 165) issues.push(`[HIGH] Meta desc too long: ${desc.length} chars`);
+    if (desc.length < 120) issues.push(`[MEDIUM] Meta desc too short: ${desc.length} chars`);
+    if (descsMap[desc]) issues.push(`[HIGH] DUPLICATE META DESCRIPTION — same as: ${descsMap[desc]}`);
+    else descsMap[desc] = url;
+  }
+
+  // ── H1 ──
+  const h1s = $('h1').map((_, el) => $(el).text().trim()).get();
+  if (h1s.length === 0) issues.push('[CRITICAL] No H1 tag found');
+  if (h1s.length > 1) issues.push(`[HIGH] Multiple H1 tags: ${h1s.length} found — only 1 allowed`);
+  if (h1s[0]) {
+    if (h1sMap[h1s[0]]) issues.push(`[HIGH] DUPLICATE H1 — same as: ${h1sMap[h1s[0]]}`);
+    else h1sMap[h1s[0]] = url;
+  }
+
+  // ── HEADING HIERARCHY ──
+  const headings = [];
+  $('h1,h2,h3,h4,h5,h6').each((_, el) => headings.push(parseInt(el.tagName[1])));
+  for (let i = 1; i < headings.length; i++) {
+    if (headings[i] - headings[i-1] > 1) {
+      issues.push(`[MEDIUM] Heading level skip: h${headings[i-1]} → h${headings[i]}`);
+      break;
+    }
+  }
+
+  // ── CANONICAL ──
+  const canonical = $('link[rel="canonical"]').attr('href');
+  if (!canonical) issues.push('[HIGH] Missing canonical tag');
+  else if (canonical !== url && canonical !== url + '/')
+    issues.push(`[HIGH] Canonical mismatch: got "${canonical}", expected "${url}"`);
+
+  // ── VIEWPORT ──
+  if (!$('meta[name="viewport"]').attr('content'))
+    issues.push('[HIGH] Missing viewport meta tag — mobile indexing will fail');
+
+  // ── LANG ──
+  if (!$('html').attr('lang'))
+    issues.push('[HIGH] Missing lang attribute on <html lang="en">');
+
+  // ── SCHEMA ──
+  const schemaCount = $('script[type="application/ld+json"]').length;
+  if (schemaCount === 0) issues.push('[HIGH] No JSON-LD schema markup found');
+  if (schemaCount === 1 && path.includes('/calculators/'))
+    issues.push('[MEDIUM] Tool page should have 3 schema blocks: SoftwareApplication + FAQPage + BreadcrumbList');
+
+  // ── IMAGES ──
+  let imgNoAlt = 0, imgNoDims = 0, imgNoWebP = 0;
+  $('img').each((_, el) => {
+    const src = $(el).attr('src') || '';
+    if (!$(el).attr('alt') && $(el).attr('alt') !== '') imgNoAlt++;
+    if (!$(el).attr('width') || !$(el).attr('height')) imgNoDims++;
+    if (src && !src.endsWith('.webp') && !src.includes('data:')) imgNoWebP++;
+  });
+  if (imgNoAlt > 0) issues.push(`[HIGH] ${imgNoAlt} image(s) missing alt attribute`);
+  if (imgNoDims > 0) issues.push(`[MEDIUM] ${imgNoDims} image(s) missing width/height (causes CLS)`);
+  if (imgNoWebP > 0) issues.push(`[LOW] ${imgNoWebP} image(s) not in WebP format`);
+
+  // ── OPEN GRAPH ──
+  ['og:title','og:description','og:image','og:url'].forEach(prop => {
+    if (!$(`meta[property="${prop}"]`).attr('content'))
+      issues.push(`[MEDIUM] Missing <meta property="${prop}">`);
+  });
+
+  // ── TWITTER CARD ──
+  if (!$('meta[name="twitter:card"]').attr('content'))
+    issues.push('[LOW] Missing twitter:card meta tag');
+
+  // ── SEMANTIC STRUCTURE ──
+  if ($('main').length === 0) issues.push('[HIGH] Missing <main> landmark element');
+  if ($('header').length === 0) issues.push('[MEDIUM] Missing <header> element');
+  if ($('footer').length === 0) issues.push('[MEDIUM] Missing <footer> element');
+  if ($('nav').length === 0) issues.push('[MEDIUM] Missing <nav> element');
+
+  // ── SKIP LINK ──
+  const firstLink = $('a').first().attr('href');
+  if (!firstLink || !firstLink.includes('#')) 
+    issues.push('[MEDIUM] Missing skip-to-main-content link as first focusable element');
+
+  // ── FORM ACCESSIBILITY ──
+  let unlabelled = 0;
+  $('input:not([type="hidden"]):not([type="submit"]), select, textarea').each((_, el) => {
+    const id = $(el).attr('id');
+    const ariaLabel = $(el).attr('aria-label');
+    const ariaLabelledBy = $(el).attr('aria-labelledby');
+    if (!ariaLabel && !ariaLabelledBy && (!id || $(`label[for="${id}"]`).length === 0))
+      unlabelled++;
+  });
+  if (unlabelled > 0) issues.push(`[HIGH] ${unlabelled} form input(s) without accessible label`);
+
+  // ── WORD COUNT ──
+  const bodyText = $('body').clone().find('nav,header,footer,script,style').remove().end().text();
+  const words = wordCount(bodyText);
+  if (words < 300) issues.push(`[HIGH] Thin content: only ${words} words (minimum 300)`);
+  else if (words < 400 && path.includes('/calculators/'))
+    issues.push(`[MEDIUM] Tool page has ${words} words — recommend 400+ for SEO`);
+
+  // ── DUPLICATE INTERNAL SECTIONS ──
+  const sectionHeadings = $('h2, h3').map((_, el) => $(el).text().trim().toLowerCase()).get();
+  const dupHeadings = sectionHeadings.filter((h, i) => sectionHeadings.indexOf(h) !== i);
+  if (dupHeadings.length > 0)
+    issues.push(`[MEDIUM] Duplicate section headings found: ${dupHeadings.slice(0,3).join(', ')}`);
+
+  // ── DUPLICATE LINK DESTINATIONS ──
+  const hrefs = $('main a[href]').map((_, el) => $(el).attr('href')).get();
+  const hrefCounts = {};
+  hrefs.forEach(h => { hrefCounts[h] = (hrefCounts[h] || 0) + 1; });
+  const overlinked = Object.entries(hrefCounts).filter(([_, c]) => c > 2);
+  if (overlinked.length > 0)
+    issues.push(`[MEDIUM] These URLs linked 3+ times on same page: ${overlinked.map(([u]) => u).slice(0,2).join(', ')}`);
+
+  // ── INLINE SCRIPTS WITH console.log ──
+  let consoleLogs = 0;
+  $('script:not([src])').each((_, el) => {
+    if ($(el).html() && $(el).html().includes('console.log')) consoleLogs++;
+  });
+  if (consoleLogs > 0) issues.push(`[LOW] console.log() found in ${consoleLogs} inline script(s)`);
+
+  return {
+    url,
+    status,
+    title: title ? (title.length > 58 ? title.slice(0,55) + '…' : title) : 'MISSING',
+    h1: h1s[0] ? (h1s[0].length > 50 ? h1s[0].slice(0,47) + '…' : h1s[0]) : 'MISSING',
+    words,
+    schemas: schemaCount,
+    issues,
+    score: severity(issues)
+  };
+}
+
+(async () => {
+  const startTime = Date.now();
+  const lines = [];
+  const log = (msg) => { console.log(msg); lines.push(msg); };
+
+  log('');
+  log('╔═══════════════════════════════════════════════════════╗');
+  log('║     CALCSMART24.COM — FULL SITE AUDIT REPORT         ║');
+  log('╚═══════════════════════════════════════════════════════╝');
+  log(`  Run date: ${new Date().toISOString()}`);
+  log(`  Pages to audit: ${ALL_PAGES.length}`);
+  log('');
+
+  let totalIssues = 0, criticals = 0, highs = 0, mediums = 0, lows = 0;
+  const pageResults = [];
+
+  for (const path of ALL_PAGES) {
+    const r = await auditPage(path);
+    pageResults.push(r);
+
+    log(`\n${'─'.repeat(60)}`);
+    log(`PAGE:    ${r.url}`);
+    log(`STATUS:  ${r.status}  |  SCORE: ${r.score}/100`);
+    log(`TITLE:   ${r.title}`);
+    log(`H1:      ${r.h1}`);
+    log(`WORDS:   ${r.words}  |  SCHEMA: ${r.schemas} JSON-LD block(s)`);
+
+    if (r.issues.length === 0) {
+      log('RESULT:  ✅ ALL CHECKS PASSED');
+    } else {
+      log(`ISSUES (${r.issues.length}):`);
+      r.issues.forEach(issue => {
+        log(`  ${issue}`);
+        totalIssues++;
+        if (issue.includes('[CRITICAL]')) criticals++;
+        else if (issue.includes('[HIGH]')) highs++;
+        else if (issue.includes('[MEDIUM]')) mediums++;
+        else if (issue.includes('[LOW]')) lows++;
+      });
+    }
+  }
+
+  // SUMMARY
+  const avgScore = Math.round(pageResults.reduce((a, r) => a + (r.score || 0), 0) / pageResults.length);
+  const passed = pageResults.filter(r => r.issues.length === 0).length;
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+
+  log('\n');
+  log('╔═══════════════════════════════════════════════════════╗');
+  log('║                    AUDIT SUMMARY                     ║');
+  log('╠═══════════════════════════════════════════════════════╣');
+  log(`║  Pages audited:   ${String(ALL_PAGES.length).padEnd(36)}║`);
+  log(`║  Pages passing:   ${String(passed).padEnd(36)}║`);
+  log(`║  Total issues:    ${String(totalIssues).padEnd(36)}║`);
+  log(`║  CRITICAL:        ${String(criticals).padEnd(36)}║`);
+  log(`║  HIGH:            ${String(highs).padEnd(36)}║`);
+  log(`║  MEDIUM:          ${String(mediums).padEnd(36)}║`);
+  log(`║  LOW:             ${String(lows).padEnd(36)}║`);
+  log(`║  Average score:   ${String(avgScore + '/100').padEnd(36)}║`);
+  log(`║  Audit time:      ${String(elapsed + 's').padEnd(36)}║`);
+  log('╠═══════════════════════════════════════════════════════╣');
+  log('║  PRIORITY FIX ORDER:                                 ║');
+  log('║  1. Fix all CRITICAL issues immediately              ║');
+  log('║  2. Fix all HIGH issues within 24 hours              ║');
+  log('║  3. Fix all MEDIUM issues within 1 week              ║');
+  log('║  4. Fix all LOW issues within 1 month                ║');
+  log('║  5. Re-run audit — target 90+ score on all pages    ║');
+  log('╚═══════════════════════════════════════════════════════╝');
+  log('');
+
+  fs.writeFileSync('audit-report.txt', lines.join('\n'), 'utf8');
+  log('📄 Full report saved to: audit-report.txt');
+})();
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 10 — FINAL DELIVERABLES CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After implementing all fixes above, confirm:
+
+UI FIXES:
+[ ] Navigation bar no longer overflows or wraps on any screen size
+[ ] Mobile nav shows only Logo + Search + Hamburger in the top bar
+[ ] Hamburger opens a proper full-height drawer with all categories
+[ ] Dropdown menus float above page content with proper z-index + shadow
+[ ] Dropdown menus close on outside click and Escape key
+[ ] "You May Also Like" and "Related Tools" merged into ONE section
+[ ] Duplicate footer links (Privacy Policy etc.) removed — only one instance
+[ ] No content mixed or overlapping anywhere at 320px, 375px, 768px, 1440px
+
+DUPLICATE FIXES:
+[ ] Zero duplicate title tags across all pages
+[ ] Zero duplicate meta descriptions across all pages
+[ ] Zero duplicate H1 tags across all pages
+[ ] No page links to same destination more than 2 times
+[ ] "Why Use CalcSmart24" boilerplate is in a shared component (1 source)
+
+SEO FIXES:
+[ ] All titles 50–60 chars with keyword
+[ ] All meta descriptions 150–160 chars, unique, with CTA
+[ ] All pages have exactly one H1
+[ ] All pages have canonical tag matching exact URL
+[ ] All pages have viewport meta tag
+[ ] All pages have lang="en" on html element
+[ ] sitemap.xml valid, complete, submitted to Search Console
+[ ] robots.txt correct, not blocking any indexable pages
+[ ] All OG and Twitter Card tags present on every page
+[ ] All images have descriptive alt text
+[ ] All images have width + height attributes
+
+SCHEMA FIXES:
+[ ] Every tool page has SoftwareApplication + FAQPage + BreadcrumbList
+[ ] Homepage has WebSite + Organization schema
+[ ] Every category hub page has CollectionPage schema
+[ ] All JSON-LD validates at: https://validator.schema.org/
+
+SEMANTIC & A11Y:
+[ ] All pages use header, nav, main, footer landmarks
+[ ] Skip link is first focusable element on every page
+[ ] All calculator inputs have associated labels
+[ ] All icon buttons have aria-label
+[ ] Result areas use aria-live="polite"
+[ ] Focus indicators visible on all interactive elements
+[ ] Colour contrast 4.5:1 on all text
+
+PERFORMANCE:
+[ ] Google PageSpeed Insights mobile score: 90+
+[ ] LCP < 2.5s on homepage and top 5 tool pages
+[ ] CLS < 0.1 on all pages
+[ ] INP < 200ms on calculator interactions
+
+FINAL AUDIT:
+[ ] node full-site-audit.js returns 0 CRITICAL, 0 HIGH issues
+[ ] All pages score 90+ in the audit script
+[ ] audit-report.txt saved and reviewed

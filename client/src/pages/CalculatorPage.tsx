@@ -1081,72 +1081,54 @@ export default function CalculatorPage() {
           {/* Rich SEO Content */}
           <SEOContentSection slug={slug} title={title} toolData={toolData} />
 
-          {/* Cross-Category Internal Links */}
+          {/* Related Tools — merged same-category + cross-category, deduped, max 6 */}
           {(() => {
             const crossLinks = getRelatedCalculators(slug);
-            if (crossLinks.length === 0) return null;
+            const crossSlugs = new Set(crossLinks.map(l => l.slug));
+            const merged = [...relatedTools.slice(0, 6)];
+            crossLinks.forEach(l => {
+              if (merged.length < 6 && !merged.some(t => t.slug === l.slug)) {
+                merged.push(l as typeof merged[0]);
+              }
+            });
+            const dedupedTools = merged.slice(0, 6);
+            if (dedupedTools.length === 0) return null;
             return (
-              <section className="pt-8 border-t" data-testid="cross-category-links">
-                <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-2">
-                  <Link2 className="h-6 w-6 text-primary" />
-                  You May Also Like
-                </h3>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {crossLinks.map((link) => (
-                    <Link key={link.slug} href={link.href}>
-                      <a className="block group" data-testid={`cross-link-${link.slug}`}>
-                        <div className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:border-primary/50 hover:shadow-sm transition-all">
-                          <div className="bg-primary/10 p-2 rounded-full text-primary shrink-0">
-                            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+              <section className="pt-8 border-t" aria-label="Related Tools">
+                <h2 className="text-2xl font-bold mb-6 text-foreground">Related {category.name} Tools</h2>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {dedupedTools.map((tool) => (
+                    <Link key={tool.slug} href={tool.href} className="block group" data-testid={`related-tool-${tool.slug}`}>
+                      <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer bg-slate-50 dark:bg-slate-900/50">
+                        <CardContent className="p-5">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-semibold text-base group-hover:text-primary transition-colors">{tool.name}</h3>
+                            <div className="bg-primary/10 p-1.5 rounded-full text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
+                              <ArrowRight className="h-4 w-4" />
+                            </div>
                           </div>
-                          <span className="font-medium text-sm group-hover:text-primary transition-colors">{link.name}</span>
-                        </div>
-                      </a>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {(tool as any).description || `Free online ${tool.name.toLowerCase()} — instant results.`}
+                          </p>
+                        </CardContent>
+                      </Card>
                     </Link>
                   ))}
                 </div>
               </section>
             );
           })()}
-
-          {/* Related Tools Section */}
-          <section className="pt-8 border-t">
-            <h3 className="text-2xl font-bold mb-6 text-foreground">Related {category.name} Tools</h3>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {relatedTools.slice(0, 6).map((tool) => (
-                <Link key={tool.slug} href={tool.href}>
-                  <a className="block group">
-                    <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer bg-slate-50 dark:bg-slate-900/50">
-                      <CardContent className="p-5">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-semibold text-base group-hover:text-primary transition-colors">{tool.name}</h4>
-                          <div className="bg-primary/10 p-1.5 rounded-full text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
-                            <ArrowRight className="h-4 w-4" />
-                          </div>
-                        </div>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {tool.description || `Use our free online ${tool.name.toLowerCase()} to get instant results.`}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </a>
-                </Link>
-              ))}
-            </div>
-          </section>
         </div>
 
         {/* Sidebar Column */}
         <div className="space-y-6">
           <div className="bg-card rounded-xl border shadow-sm p-6 sticky top-24">
             
-            {/* Search Quick Link */}
+            {/* Return home */}
             <div className="mb-6 pb-6 border-b">
-              <Link href="/">
-                <Button variant="outline" className="w-full justify-start text-muted-foreground">
-                   <Home className="mr-2 h-4 w-4" />
-                   Return to All Calculators
-                </Button>
+              <Link href="/" className="flex items-center gap-2 w-full px-4 py-2 rounded-md border text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                <Home className="h-4 w-4 shrink-0" />
+                Return to All Calculators
               </Link>
             </div>
 
