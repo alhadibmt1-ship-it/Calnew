@@ -24,7 +24,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { id: "financial", name: "Financial", href: "/financial" },
     { id: "health", name: "Fitness & Health", href: "/health" },
     { id: "math", name: "Math", href: "/math" },
-    { id: "converters", name: "Converters", href: "/converters" },
     { id: "unit-converters", name: "Unit Converters", href: "/convert" },
     { id: "seo-tools", name: "SEO & Text Tools", href: "/seo-tools" },
     { id: "daily-life", name: "Daily Life", href: "/other" },
