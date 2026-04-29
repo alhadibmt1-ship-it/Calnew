@@ -215,7 +215,8 @@ export const calculatorCategories = [
       { name: "Fuel Cost Calculator", description: "Estimate fuel costs for any trip based on distance and efficiency." },
       { name: "Electricity Cost Calculator", description: "Estimate electricity costs for appliances and devices." },
       { name: "Shoe Size Converter", description: "Convert shoe sizes between US, UK, EU, and CM systems." },
-      { name: "Subnet Calculator", description: "Calculate IP subnets and network masks." }
+      { name: "Subnet Calculator", description: "Calculate IP subnets and network masks." },
+      { name: "Palworld Breeding Calculator", description: "Find Palworld offspring from two parents or discover all parent combos for a target Pal." }
     ]
   },
   {

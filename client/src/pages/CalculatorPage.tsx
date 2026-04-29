@@ -209,6 +209,7 @@ const HorizontalTankCapacityCalculator = lazy(() => import("@/components/Horizon
 const PumpHeadCalculator = lazy(() => import("@/components/PumpHeadCalculator"));
 const SolarPanelArrayCalculator = lazy(() => import("@/components/SolarPanelArrayCalculator"));
 const InsulationRValueCalculator = lazy(() => import("@/components/InsulationRValueCalculator"));
+const PalworldBreedingCalculator = lazy(() => import("@/components/PalworldBreedingCalculator"));
 
 function SEOContentSection({ slug, title, toolData }: { slug: string; title: string; toolData: any }) {
   const seoContent = getSEOContent(slug) || getGenericSEOContent(title, toolData?.description || "");
@@ -803,6 +804,8 @@ export default function CalculatorPage() {
         return <ElectricityCostCalculator />;
       case "shoe-size-converter":
         return <ShoeSizeConverter />;
+      case "palworld-breeding-calculator":
+        return <PalworldBreedingCalculator />;
 
       // Education
       case "gpa-calculator":

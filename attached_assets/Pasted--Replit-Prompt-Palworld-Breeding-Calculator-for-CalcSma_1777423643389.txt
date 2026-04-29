@@ -1,0 +1,281 @@
+# Replit Prompt: Palworld Breeding Calculator for CalcSmart24.com
+
+---
+
+## CONTEXT
+
+I have a calculator website called CalcSmart24.com. I want to add a fully functional Palworld Breeding Calculator page to it. The page must match the existing site style (clean, modern, calculator-tool aesthetic) and be production-ready.
+
+---
+
+## TASK
+
+Build a complete, self-contained Palworld Breeding Calculator web page (palworld-breeding-calculator.html) that can be integrated into the CalcSmart24.com website.
+
+---
+
+## FEATURES TO IMPLEMENT
+
+### Mode A: Find Offspring (Tab 1)
+- User selects Parent 1 and Parent 2 from searchable dropdowns
+- Calculator instantly shows the predicted offspring Pal
+- Display offspring name, element type badge, and breeding power number
+- If it is a special combo, show a gold star "Special Combo!" badge
+
+### Mode B: Find Parents (Tab 2)
+- User selects a target Pal they want to breed
+- Calculator shows all possible parent pair combinations that produce that Pal
+- Display results in a scrollable table, paginated at 20 results per page
+- Show Previous / Next buttons for pagination
+- Show "No combinations found" if nothing matches
+
+---
+
+## EXACT BREEDING LOGIC TO IMPLEMENT
+
+### Standard Formula
+```
+childPower = Math.floor((parent1.power + parent2.power + 1) / 2)
+```
+Find the Pal whose breedingPower is closest to childPower.
+Tie-breaker: pick the Pal that appears first in the array.
+
+### Pal Data Array
+```js
+const PALS = [
+  ["Lamball", 1500, "Neutral"],
+  ["Cattiva", 1460, "Neutral"],
+  ["Chikipi", 1450, "Neutral"],
+  ["Lifmunk", 1440, "Grass"],
+  ["Foxparks", 1430, "Fire"],
+  ["Fuack", 1420, "Water"],
+  ["Sparkit", 1410, "Electric"],
+  ["Tanzee", 1400, "Grass"],
+  ["Rooby", 1390, "Fire"],
+  ["Pengullet", 1380, "Water/Ice"],
+  ["Penking", 1370, "Water/Ice"],
+  ["Jolthog", 1360, "Electric"],
+  ["Jolthog Cryst", 1350, "Ice"],
+  ["Gumoss", 1340, "Grass"],
+  ["Vixy", 1330, "Neutral"],
+  ["Hoocrates", 1320, "Dark"],
+  ["Teafant", 1310, "Water"],
+  ["Depresso", 1300, "Dark"],
+  ["Cremis", 1290, "Neutral"],
+  ["Daedream", 1280, "Dark"],
+  ["Rushoar", 1270, "Ground"],
+  ["Nox", 1260, "Dark"],
+  ["Fuddler", 1250, "Ground"],
+  ["Killamari", 1240, "Dark"],
+  ["Mau", 1230, "Dark"],
+  ["Mau Cryst", 1220, "Ice"],
+  ["Celaray", 1210, "Water"],
+  ["Direhowl", 1200, "Neutral"],
+  ["Tocotoco", 1190, "Neutral"],
+  ["Flopie", 1180, "Grass"],
+  ["Mozzarina", 1170, "Neutral"],
+  ["Bristla", 1160, "Grass"],
+  ["Gobfin", 1150, "Water"],
+  ["Gobfin Ignis", 1140, "Fire"],
+  ["Hangyu", 1130, "Ground"],
+  ["Hangyu Cryst", 1120, "Ice"],
+  ["Melpaca", 1110, "Neutral"],
+  ["Eikthyrdeer", 1100, "Neutral"],
+  ["Eikthyrdeer Terra", 1090, "Ground"],
+  ["Nitewing", 1080, "Neutral"],
+  ["Ribbuny", 1070, "Neutral"],
+  ["Incineram", 1060, "Fire/Dark"],
+  ["Incineram Noct", 1050, "Dark"],
+  ["Cinnamoth", 1040, "Grass"],
+  ["Arsox", 1030, "Fire"],
+  ["Dumud", 1020, "Ground"],
+  ["Cawgnito", 1010, "Dark"],
+  ["Digtoise", 1015, "Ground"],
+  ["Leezpunk", 1000, "Dark"],
+  ["Leezpunk Ignis", 990, "Fire"],
+  ["Loupmoon", 980, "Dark"],
+  ["Galeclaw", 970, "Neutral"],
+  ["Robinquill", 960, "Grass"],
+  ["Robinquill Terra", 950, "Ground"],
+  ["Gorirat", 940, "Neutral"],
+  ["Beegarde", 930, "Grass"],
+  ["Elizabee", 920, "Grass"],
+  ["Grintale", 910, "Neutral"],
+  ["Swee", 900, "Ice"],
+  ["Sweepa", 890, "Ice"],
+  ["Surfent", 880, "Water"],
+  ["Chillet", 880, "Ice/Dragon"],
+  ["Surfent Terra", 870, "Ground"],
+  ["Univolt", 870, "Electric"],
+  ["Foxcicle", 860, "Ice"],
+  ["Pyrin", 850, "Fire"],
+  ["Pyrin Noct", 840, "Fire/Dark"],
+  ["Reindrix", 830, "Ice"],
+  ["Rayhound", 820, "Electric"],
+  ["Kitsun", 810, "Fire"],
+  ["Dazzi", 800, "Electric"],
+  ["Croajiro", 795, "Water"],
+  ["Lunaris", 790, "Neutral"],
+  ["Felbat", 780, "Dark"],
+  ["Quivern", 770, "Dragon"],
+  ["Blazehowl", 760, "Fire"],
+  ["Blazehowl Noct", 750, "Fire/Dark"],
+  ["Relaxaurus", 740, "Dragon"],
+  ["Relaxaurus Lux", 730, "Dragon/Electric"],
+  ["Broncherry", 720, "Grass"],
+  ["Broncherry Aqua", 710, "Water"],
+  ["Petallia", 700, "Grass"],
+  ["Reptyro", 690, "Fire/Ground"],
+  ["Reptyro Cryst", 680, "Ice/Ground"],
+  ["Kingpaca", 670, "Neutral"],
+  ["Kingpaca Cryst", 660, "Ice"],
+  ["Mammorest", 650, "Grass"],
+  ["Mammorest Cryst", 640, "Ice"],
+  ["Wumpo", 630, "Ice"],
+  ["Wumpo Botan", 620, "Grass"],
+  ["Wixen", 610, "Fire"],
+  ["Verdash", 600, "Grass"],
+  ["Vanwyrm", 590, "Fire/Dark"],
+  ["Vanwyrm Cryst", 580, "Ice/Dark"],
+  ["Bushi", 570, "Fire"],
+  ["Beakon", 560, "Electric"],
+  ["Ragnahawk", 550, "Fire"],
+  ["Katress", 540, "Dark"],
+  ["Katress Ignis", 530, "Fire"],
+  ["Kelpsea", 520, "Water"],
+  ["Kelpsea Ignis", 510, "Fire"],
+  ["Azurobe", 500, "Water/Dragon"],
+  ["Cryolinx", 490, "Ice"],
+  ["Blazamut", 480, "Fire"],
+  ["Blazamut Ryu", 470, "Fire/Dragon"],
+  ["Helzephyr", 460, "Dark"],
+  ["Astegon", 450, "Dragon/Dark"],
+  ["Menasting", 440, "Ground/Dark"],
+  ["Anubis", 430, "Ground"],
+  ["Jormuntide", 420, "Water/Dragon"],
+  ["Jormuntide Ignis", 410, "Fire/Dragon"],
+  ["Suzaku", 400, "Fire"],
+  ["Suzaku Aqua", 390, "Water"],
+  ["Grizzbolt", 380, "Electric"],
+  ["Lyleen", 370, "Grass"],
+  ["Lyleen Noct", 360, "Dark"],
+  ["Faleris", 350, "Fire"],
+  ["Faleris Aqua", 340, "Water"],
+  ["Orserk", 330, "Dragon/Electric"],
+  ["Shadowbeak", 320, "Dark"],
+  ["Paladius", 310, "Neutral"],
+  ["Necromus", 300, "Dark"],
+  ["Frostallion", 100, "Ice"],
+  ["Frostallion Noct", 90, "Dark"],
+  ["Jetragon", 50, "Dragon"],
+];
+```
+
+### Special Combos Array (these override the formula entirely)
+```js
+const SPECIAL_COMBOS = [
+  { p1: "Incineram",   p2: "Maraith",     child: "Incineram Noct" },
+  { p1: "Kingpaca",    p2: "Reindrix",    child: "Kingpaca Cryst" },
+  { p1: "Lyleen",      p2: "Menasting",   child: "Lyleen Noct" },
+  { p1: "Vanwyrm",     p2: "Foxcicle",    child: "Vanwyrm Cryst" },
+  { p1: "Blazehowl",   p2: "Reptyro",     child: "Blazehowl Noct" },
+  { p1: "Relaxaurus",  p2: "Sparkit",     child: "Relaxaurus Lux" },
+  { p1: "Broncherry",  p2: "Fuack",       child: "Broncherry Aqua" },
+  { p1: "Surfent",     p2: "Dumud",       child: "Surfent Terra" },
+  { p1: "Gobfin",      p2: "Rooby",       child: "Gobfin Ignis" },
+  { p1: "Hangyu",      p2: "Swee",        child: "Hangyu Cryst" },
+  { p1: "Mau",         p2: "Pengullet",   child: "Mau Cryst" },
+  { p1: "Eikthyrdeer", p2: "Hangyu",      child: "Eikthyrdeer Terra" },
+  { p1: "Robinquill",  p2: "Fuddler",     child: "Robinquill Terra" },
+  { p1: "Jolthog",     p2: "Pengullet",   child: "Jolthog Cryst" },
+  { p1: "Reptyro",     p2: "Foxcicle",    child: "Reptyro Cryst" },
+  { p1: "Leezpunk",    p2: "Flambelle",   child: "Leezpunk Ignis" },
+  { p1: "Pyrin",       p2: "Katress",     child: "Pyrin Noct" },
+  { p1: "Mammorest",   p2: "Wumpo",       child: "Mammorest Cryst" },
+  { p1: "Blazamut",    p2: "Relaxaurus",  child: "Blazamut Ryu" },
+  { p1: "Suzaku",      p2: "Jormuntide",  child: "Suzaku Aqua" },
+  { p1: "Jormuntide",  p2: "Pyrin",       child: "Jormuntide Ignis" },
+  { p1: "Frostallion", p2: "Helzephyr",   child: "Frostallion Noct" },
+  { p1: "Katress",     p2: "Wixen",       child: "Katress Ignis" },
+  { p1: "Kelpsea",     p2: "Rooby",       child: "Kelpsea Ignis" },
+  { p1: "Faleris",     p2: "Ragnahawk",   child: "Faleris Aqua" },
+];
+```
+
+---
+
+## UI AND DESIGN REQUIREMENTS
+
+- Style: Match CalcSmart24.com aesthetic — white/light gray background (#f9fafb), card shadows, blue accent color (#2563eb), modern sans-serif font (use Google Fonts: Inter)
+- Fully responsive using CSS Flexbox and Grid
+- Searchable dropdowns built in vanilla JavaScript — no jQuery or npm packages needed
+- Each dropdown shows the Pal name plus a small colored element badge inline
+- Element badge colors:
+  - Fire: #ef4444, Water: #3b82f6, Grass: #22c55e, Electric: #eab308
+  - Ice: #06b6d4, Ground: #92400e, Dark: #7c3aed, Dragon: #f97316, Neutral: #6b7280
+  - For mixed types (e.g. Fire/Dark): use the first element color
+- Offspring result card shows: Pal name, element badge, breeding power, and "Special Combo!" gold badge if applicable
+- Parent combo results table: columns are "Parent 1" and "Parent 2", paginated at 20 rows per page with Previous / Next buttons
+- Reset button clears all inputs back to placeholder state
+- Smooth CSS transitions on tab switches and result reveals
+
+---
+
+## PAGE HTML STRUCTURE
+
+```
+header                         (CalcSmart24 site nav placeholder)
+main
+  section.hero                 (H1 title + one-line description)
+  nav.breadcrumb               (Home > Game Calculators > Palworld Breeding Calculator)
+  div.calculator-card
+    div.tab-bar                (Tab 1: Find Offspring | Tab 2: Find Parents)
+    div.tab-content
+      [Mode A panel]           (two Pal pickers side by side + result card below)
+      [Mode B panel]           (one Pal picker + results table with pagination)
+    button.reset-btn           (Reset)
+  section.how-it-works         (Collapsible accordion)
+  p.disclaimer                 (data disclaimer)
+footer                         (CalcSmart24 footer placeholder)
+```
+
+---
+
+## HOW IT WORKS ACCORDION CONTENT
+
+Title: "How does Palworld breeding work?"
+
+Content:
+1. Every Pal has a hidden Breeding Power between 10 and 1500. Lower = rarer/stronger.
+2. The game averages both parents using: floor((parent1Power + parent2Power + 1) / 2).
+3. The Pal with the closest Breeding Power to that result becomes the child.
+4. Some parent pairs have hardcoded special results that override the formula — shown with a Special Combo badge.
+5. In-game you need a Breeding Farm (Technology Level 19) and at least one Cake in the farm chest. Cake requires Flour, Red Berries, Eggs, Milk, and Honey.
+
+---
+
+## SEO META TAGS
+
+```html
+<title>Palworld Breeding Calculator - Find the Best Pal Combos | CalcSmart24</title>
+<meta name="description" content="Use the CalcSmart24 Palworld Breeding Calculator to find the best parent combinations and predict offspring. Covers 100+ Pals including all special combos.">
+<meta name="keywords" content="Palworld breeding calculator, Pal breeding combos, Palworld offspring, best breeding pairs, CalcSmart24">
+<link rel="canonical" href="https://calcsmart24.com/calculator/palworld-breeding-calculator">
+<meta property="og:title" content="Palworld Breeding Calculator | CalcSmart24">
+<meta property="og:description" content="Find any Pal breeding combination instantly. Covers 100+ Pals and all special combos.">
+<meta property="og:url" content="https://calcsmart24.com/calculator/palworld-breeding-calculator">
+<meta property="og:type" content="website">
+```
+
+---
+
+## DISCLAIMER
+
+Add this line at the bottom of the page:
+"Breeding data is based on the current Palworld version. Combinations may change with future game updates. This tool is not affiliated with Pocketpair."
+
+---
+
+## DELIVERABLE
+
+One single file named palworld-breeding-calculator.html with all HTML, CSS, and JavaScript embedded. No build tools, no npm, no external dependencies except the Google Fonts link tag. Must work by simply opening the file in a browser or dropping it into the CalcSmart24 site.

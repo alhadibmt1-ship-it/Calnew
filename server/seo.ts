@@ -214,6 +214,7 @@ const toolsByCategory: Record<string, { name: string; description: string }[]> =
     { name: "Electricity Cost Calculator", description: "Estimate electricity costs for appliances and devices." },
     { name: "Shoe Size Converter", description: "Convert shoe sizes between US, UK, EU, and CM systems." },
     { name: "Subnet Calculator", description: "Calculate IP subnets and network masks." },
+    { name: "Palworld Breeding Calculator", description: "Find Palworld offspring from two parents or discover all parent combos for a target Pal." },
   ],
   "seo-tools": [
     { name: "Word Counter", description: "Count words, characters, and sentences in your text." },
