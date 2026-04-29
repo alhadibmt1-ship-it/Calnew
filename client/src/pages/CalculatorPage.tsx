@@ -220,6 +220,16 @@ const DestinyNumberCalculator = lazy(() => import("@/components/DestinyNumberCal
 const BiorhythmCalculator = lazy(() => import("@/components/BiorhythmCalculator"));
 const LuckyNumberCalculator = lazy(() => import("@/components/LuckyNumberCalculator"));
 const AngelNumberCalculator = lazy(() => import("@/components/AngelNumberCalculator"));
+const RisingSignCalculator = lazy(() => import("@/components/RisingSignCalculator"));
+const BigThreeCalculator = lazy(() => import("@/components/BigThreeCalculator"));
+const BirthChartCalculator = lazy(() => import("@/components/BirthChartCalculator"));
+const SynastryCalculator = lazy(() => import("@/components/SynastryCalculator"));
+const VenusSignCalculator = lazy(() => import("@/components/VenusSignCalculator"));
+const DailyHoroscopeCalculator = lazy(() => import("@/components/DailyHoroscopeCalculator"));
+const NorthNodeCalculator = lazy(() => import("@/components/NorthNodeCalculator"));
+const ChironSignCalculator = lazy(() => import("@/components/ChironSignCalculator"));
+const PartOfFortuneCalculator = lazy(() => import("@/components/PartOfFortuneCalculator"));
+const LilithVertexCalculator = lazy(() => import("@/components/LilithVertexCalculator"));
 
 function SEOContentSection({ slug, title, toolData }: { slug: string; title: string; toolData: any }) {
   const seoContent = getSEOContent(slug) || getGenericSEOContent(title, toolData?.description || "");
@@ -838,6 +848,26 @@ export default function CalculatorPage() {
         return <LuckyNumberCalculator />;
       case "angel-number-calculator":
         return <AngelNumberCalculator />;
+      case "rising-sign-calculator":
+        return <RisingSignCalculator />;
+      case "big-three-calculator":
+        return <BigThreeCalculator />;
+      case "birth-chart-calculator":
+        return <BirthChartCalculator />;
+      case "synastry-calculator":
+        return <SynastryCalculator />;
+      case "venus-sign-calculator":
+        return <VenusSignCalculator />;
+      case "daily-horoscope":
+        return <DailyHoroscopeCalculator />;
+      case "north-node-calculator":
+        return <NorthNodeCalculator />;
+      case "chiron-sign-calculator":
+        return <ChironSignCalculator />;
+      case "part-of-fortune-calculator":
+        return <PartOfFortuneCalculator />;
+      case "lilith-vertex-calculator":
+        return <LilithVertexCalculator />;
 
       // Education
       case "gpa-calculator":

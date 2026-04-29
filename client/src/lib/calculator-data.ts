@@ -341,6 +341,16 @@ export const calculatorCategories = [
       { name: "Biorhythm Calculator", description: "Visualize your physical, emotional, and intellectual cycles with a 28-day biorhythm chart." },
       { name: "Lucky Number Calculator", description: "Discover your personal lucky numbers, colors, gems, and lucky days using numerology." },
       { name: "Angel Number Calculator", description: "Decode the spiritual message behind repeating numbers like 111, 444, or 1212." },
+      { name: "Rising Sign Calculator", description: "Find your Ascendant sign using your birth date, time, and city — and discover how others first see you." },
+      { name: "Big Three Calculator", description: "Calculate your Sun, Moon, and Rising sign in one place for a complete personality snapshot." },
+      { name: "Birth Chart Calculator", description: "Generate your full natal chart showing all 10 planets, Ascendant, and Midheaven with house placements." },
+      { name: "Synastry Calculator", description: "Compare birth charts for two people to reveal romantic chemistry, emotional compatibility, and key aspects." },
+      { name: "Venus Sign Calculator", description: "Discover your Venus sign to reveal your love language, romantic style, and what you find irresistible." },
+      { name: "Daily Horoscope", description: "Get today's personalised horoscope for your zodiac sign covering love, career, and health." },
+      { name: "North Node Calculator", description: "Find your North Node sign to reveal your karmic soul mission and the direction your life is meant to grow." },
+      { name: "Chiron Sign Calculator", description: "Discover your Chiron sign — the wounded healer placement that reveals your deepest wound and greatest gift." },
+      { name: "Part of Fortune Calculator", description: "Calculate your Part of Fortune to discover where natural luck, wealth, and fulfilment flow most easily." },
+      { name: "Lilith & Vertex Calculator", description: "Uncover your Black Moon Lilith (raw desires and shadow) and Vertex (fated encounters and destiny) signs." },
     ]
   }
 ];
