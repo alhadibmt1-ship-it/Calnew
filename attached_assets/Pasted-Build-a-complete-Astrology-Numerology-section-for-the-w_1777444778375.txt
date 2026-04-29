@@ -1,0 +1,295 @@
+Build a complete "Astrology & Numerology" section for the website calcsmart24.com. This section should live under a dedicated category page at /astrology-numerology and contain 13 individual calculator/tool pages listed below. Each tool must be production-ready, fully SEO-optimised, and pass Google's Core Web Vitals.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION NAME:  Astrology & Numerology
+SITE:          calcsmart24.com
+CATEGORY URL:  /astrology-numerology
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═══════════════════════════════════════
+13 TOOLS TO BUILD (in priority order)
+═══════════════════════════════════════
+
+1. Birth Chart Calculator
+   URL:         /astrology-numerology/birth-chart-calculator
+   H1:          Free Birth Chart Calculator
+   Target KW:   birth chart calculator (~90K/mo)
+   Description: Takes name, birth date (dd/mm/yyyy), birth city, and birth
+                time (HH:MM). Calculates and displays Sun sign, Moon sign,
+                Rising/Ascendant sign, and positions of Mercury, Venus, Mars,
+                Jupiter, Saturn, Uranus, Neptune, Pluto across the 12 houses.
+                Show a visual wheel chart. Include interpretation text per
+                placement. Reference library: astro.js or Swiss Ephemeris API.
+
+2. Synastry Chart Calculator
+   URL:         /astrology-numerology/synastry-chart-calculator
+   H1:          Free Synastry Chart Calculator
+   Target KW:   synastry chart calculator (~40K/mo)
+   Description: Takes birth details for two people. Overlays their charts and
+                calculates planetary aspects between them (conjunctions,
+                trines, squares, oppositions, sextiles). Displays a
+                compatibility score and written interpretation for each major
+                aspect. Show a bi-wheel visual.
+
+3. Love Compatibility Calculator
+   URL:         /astrology-numerology/love-compatibility-calculator
+   H1:          Free Love Compatibility Calculator
+   Target KW:   love compatibility calculator (~35K/mo)
+   Description: Takes two people's Sun signs (or full birth details for
+                deeper analysis). Returns an overall compatibility percentage,
+                plus scores for emotional harmony, communication, physical
+                chemistry, and long-term potential. Include a radar/spider
+                chart visual.
+
+4. Sun Sign Calculator
+   URL:         /astrology-numerology/sun-sign-calculator
+   H1:          Sun Sign Calculator — What Is My Sun Sign?
+   Target KW:   sun sign calculator (~18K/mo)
+   Description: Input birth date → return Sun sign with dates, symbol, element
+                (Fire/Earth/Air/Water), ruling planet, key traits, and
+                compatibility overview.
+
+5. Moon Sign Calculator
+   URL:         /astrology-numerology/moon-sign-calculator
+   H1:          Free Moon Sign Calculator
+   Target KW:   moon sign calculator (~15K/mo)
+   Description: Input birth date, time, and location → return Moon sign with
+                emotional profile, strengths, needs, and relationship style.
+
+6. Rising Sign (Ascendant) Calculator
+   URL:         /astrology-numerology/rising-sign-calculator
+   H1:          Free Rising Sign Calculator
+   Target KW:   rising sign calculator (~14K/mo)
+   Description: Input birth date, exact birth time, and city → return
+                Ascendant sign with description of outward personality,
+                first impressions, and physical appearance tendencies.
+
+7. Sun, Moon & Rising Sign Calculator (Big Three)
+   URL:         /astrology-numerology/big-three-calculator
+   H1:          Sun, Moon and Rising Sign Calculator — Your Big Three
+   Target KW:   big three calculator astrology (~12K/mo)
+   Description: Combined tool. Input birth details once → return all three
+                core signs together in one card layout with combined
+                personality interpretation.
+
+8. Venus Sign Calculator
+   URL:         /astrology-numerology/venus-sign-calculator
+   H1:          Free Venus Sign Calculator
+   Target KW:   venus sign calculator (~9K/mo)
+   Description: Input birth date, time, city → return Venus sign with love
+                language, romantic style, what attracts you, and ideal partner
+                traits.
+
+9. Daily Horoscopes
+   URL:         /astrology-numerology/daily-horoscopes
+   H1:          Free Daily Horoscopes for All 12 Signs
+   Target KW:   daily horoscope (~8K/mo)
+   Description: Display today's horoscope for all 12 zodiac signs. Auto-
+                update daily via a horoscope API (e.g. Aztro API or similar).
+                Allow user to select their sign and get an expanded reading.
+                Include love, career, health sub-sections per sign.
+
+10. North Node Calculator
+    URL:         /astrology-numerology/north-node-calculator
+    H1:          Free North Node Calculator
+    Target KW:   north node calculator (~6K/mo)
+    Description: Input birth date, time, city → return North Node sign and
+                 house placement with karmic life path interpretation and
+                 soul purpose description.
+
+11. Chiron Sign Calculator
+    URL:         /astrology-numerology/chiron-sign-calculator
+    H1:          Free Chiron Sign Calculator — Your Wounded Healer
+    Target KW:   chiron sign calculator (~4K/mo)
+    Description: Input birth date, time, city → return Chiron sign and house
+                 with core wound description, healing path, and strengths
+                 that emerge from the wound.
+
+12. Part of Fortune Calculator
+    URL:         /astrology-numerology/part-of-fortune-calculator
+    H1:          Free Part of Fortune Calculator
+    Target KW:   part of fortune calculator (~3K/mo)
+    Description: Input Sun, Moon, and Ascendant degree OR full birth details
+                 → return Part of Fortune sign and house with wealth, luck,
+                 and fulfilment interpretation.
+
+13. Lilith (Black Moon) & Vertex Calculator
+    URL:         /astrology-numerology/lilith-vertex-calculator
+    H1:          Free Lilith Sign & Vertex Calculator
+    Target KW:   lilith sign calculator (~2K/mo)
+    Description: Input birth details → return Black Moon Lilith sign + house
+                 (raw desires, taboos, shadow self) AND Vertex sign + house
+                 (fated encounters, destiny points) in one combined tool.
+
+═══════════════════════════════════════
+SEO REQUIREMENTS (apply to every page)
+═══════════════════════════════════════
+
+Title tag:      "[Tool Name] — Free [Keyword] | CalcSmart24"
+                Max 60 characters.
+
+Meta desc:      Include primary keyword + benefit + CTA.
+                150–160 characters. Unique per page.
+
+H1:             Exactly one H1 per page. Must contain primary keyword.
+
+H2/H3:          Use keyword-rich subheadings for each content section
+                (How It Works, How To Interpret Results, FAQ, Related Tools).
+
+Canonical:      Self-referencing canonical tag on every page.
+
+Schema markup (JSON-LD, add to every tool page):
+  - SoftwareApplication (applicationCategory: UtilitiesApplication,
+    operatingSystem: Web, offers: free, aggregateRating: 4.8/5)
+  - FAQPage with 6–8 Q&As specific to each tool
+  - BreadcrumbList: Home > Astrology & Numerology > [Tool Name]
+
+Content:        Minimum 400 words of unique explanatory content below each
+                tool. Sections: What Is [X], How To Use This Calculator,
+                How To Interpret Your Results, FAQ.
+
+Internal links: Each tool page must link to at least 3 related tools
+                within the Astrology & Numerology section.
+
+Images:         All images must have descriptive alt tags. Use WebP format.
+                Lazy-load below-the-fold images.
+
+Open Graph:     og:title, og:description, og:image, og:url on every page.
+Twitter Card:   twitter:card=summary_large_image on every page.
+
+═══════════════════════════════════════
+GOOGLE CORE WEB VITALS REQUIREMENTS
+═══════════════════════════════════════
+
+LCP (Largest Contentful Paint):   Under 2.5 seconds
+INP (Interaction to Next Paint):  Under 200ms
+CLS (Cumulative Layout Shift):    Under 0.1
+
+Implementation rules:
+  - Preload hero fonts with 
+  - Serve all images in WebP with explicit width + height attributes
+  - Defer non-critical JS (astrology calculation libraries)
+  - No layout shift from ads or dynamically injected content
+  - Mobile-first responsive design (viewport meta tag required)
+  - Minify CSS and JS. Use code splitting per tool page.
+
+═══════════════════════════════════════
+AUDIT SCRIPT (run in Replit after build)
+═══════════════════════════════════════
+
+Create a file called audit.js with the following checks.
+Run: node audit.js
+
+// npm install axios cheerio
+
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+const BASE = 'https://calcsmart24.com';
+const PAGES = [
+  '/astrology-numerology',
+  '/astrology-numerology/birth-chart-calculator',
+  '/astrology-numerology/synastry-chart-calculator',
+  '/astrology-numerology/love-compatibility-calculator',
+  '/astrology-numerology/sun-sign-calculator',
+  '/astrology-numerology/moon-sign-calculator',
+  '/astrology-numerology/rising-sign-calculator',
+  '/astrology-numerology/big-three-calculator',
+  '/astrology-numerology/venus-sign-calculator',
+  '/astrology-numerology/daily-horoscopes',
+  '/astrology-numerology/north-node-calculator',
+  '/astrology-numerology/chiron-sign-calculator',
+  '/astrology-numerology/part-of-fortune-calculator',
+  '/astrology-numerology/lilith-vertex-calculator',
+];
+
+async function audit(path) {
+  const url = BASE + path;
+  const { data } = await axios.get(url, { timeout: 10000 });
+  const $ = cheerio.load(data);
+  const title = $('title').text().trim();
+  const desc = $('meta[name="description"]').attr('content') || '';
+  const h1s = $('h1').map((_, el) => $(el).text().trim()).get();
+  const canonical = $('link[rel="canonical"]').attr('href') || 'MISSING';
+  const viewport = $('meta[name="viewport"]').attr('content') || 'MISSING';
+  const schemaCount = $('script[type="application/ld+json"]').length;
+  const imgNoAlt = $('img:not([alt])').length;
+  const ogTitle = $('meta[property="og:title"]').attr('content') || 'MISSING';
+
+  const issues = [];
+  if (title.length > 60) issues.push('Title too long: ' + title.length + ' chars');
+  if (!title) issues.push('Title tag missing');
+  if (desc.length < 120 || desc.length > 165) issues.push('Meta desc length off: ' + desc.length);
+  if (h1s.length !== 1) issues.push('H1 count should be 1, got: ' + h1s.length);
+  if (canonical === 'MISSING') issues.push('Canonical tag missing');
+  if (viewport === 'MISSING') issues.push('Viewport meta missing');
+  if (schemaCount === 0) issues.push('No JSON-LD schema found');
+  if (imgNoAlt > 0) issues.push(imgNoAlt + ' image(s) missing alt text');
+  if (ogTitle === 'MISSING') issues.push('og:title missing');
+
+  return {
+    page: path,
+    title: title.slice(0, 55) + (title.length > 55 ? '…' : ''),
+    h1: h1s[0] ? h1s[0].slice(0, 50) : 'MISSING',
+    schema: schemaCount,
+    issues: issues.length ? issues.join(' | ') : 'PASS'
+  };
+}
+
+(async () => {
+  console.log('\nCalcSmart24 — Astrology & Numerology Audit\n');
+  for (const p of PAGES) {
+    try {
+      const r = await audit(p);
+      console.log('PAGE:', r.page);
+      console.log('  Title:   ', r.title);
+      console.log('  H1:      ', r.h1);
+      console.log('  Schema:  ', r.schema, 'JSON-LD block(s)');
+      console.log('  Status:  ', r.issues);
+      console.log('');
+    } catch (e) {
+      console.log('PAGE:', p, '— ERROR:', e.message, '\n');
+    }
+  }
+})();
+
+═══════════════════════════════════════
+CATEGORY PAGE REQUIREMENTS
+(/astrology-numerology)
+═══════════════════════════════════════
+
+This hub page must:
+  - Have its own unique title, meta desc, H1, and schema (CollectionPage)
+  - Display cards for all 13 tools with name, short description, and link
+  - Include 300+ words of introductory content about astrology & numerology
+  - Have a "Most Popular" badge on the Birth Chart Calculator card
+  - Be crawlable: link to every tool from this page (no JS-only navigation)
+  - Include sitemap.xml entry for all 14 URLs (hub + 13 tools)
+  - Submit updated sitemap to Google Search Console after deployment
+
+═══════════════════════════════════════
+TECH STACK SUGGESTION
+═══════════════════════════════════════
+
+Framework:    Next.js 14 (App Router) — best for SSR + SEO
+Astro calc:   astronomia npm package or Astrologer.js
+Hosting:      Replit Deployments or Vercel
+Styling:      Tailwind CSS
+Charts:       Chart.js (radar for compatibility, wheel for birth chart)
+Daily data:   Aztro API or RapidAPI Horoscope API
+Sitemap:      next-sitemap package
+Analytics:    Google Analytics 4 + Google Search Console verified
+
+═══════════════════════════════════════
+DELIVERABLES CHECKLIST
+═══════════════════════════════════════
+
+[ ] Category hub page at /astrology-numerology
+[ ] 13 individual tool pages (see list above)
+[ ] All JSON-LD schema blocks (SoftwareApplication + FAQPage + Breadcrumb)
+[ ] sitemap.xml including all 14 URLs
+[ ] robots.txt allowing all Astrology & Numerology pages
+[ ] audit.js script (see above) returning PASS on all checks
+[ ] Mobile responsive on screens 320px and above
+[ ] Core Web Vitals: LCP < 2.5s, CLS < 0.1, INP < 200ms
+[ ] All pages score 90+ on Google PageSpeed Insights (mobile)
