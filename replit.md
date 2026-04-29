@@ -56,7 +56,7 @@ Preferred communication style: Simple, everyday language.
 
 ### SEO Strategy
 - **Server-side meta injection**: Title, description, OG/Twitter tags, og:image (`calcsmart24.com/opengraph.jpg`), canonical URLs for all page types
-- **Visible pre-rendered content**: Rich HTML (h1, paragraphs, formula, tips, nav links) injected before `#root` — visible to Google without JS. MutationObserver hides it once React mounts. Uses `client/src/lib/seo-content.ts` for per-calculator content (50+ templates + generic fallback).
+- **Pre-rendered content (hidden by default)**: Rich HTML (h1, paragraphs, formula, tips, nav links) injected before `#root` with `style="display:none"` — invisible to users always, but indexed by non-JS crawlers via a `<noscript><style>` rule that re-enables it. Googlebot renders the React UI. Uses `client/src/lib/seo-content.ts` for per-calculator content (50+ templates + generic fallback).
 - **Per-page Schema.org JSON-LD** injected server-side via `injectSchema()` helper:
   - Calculator pages: `SoftwareApplication` + `BreadcrumbList`
   - Converter pages: `SoftwareApplication` + `BreadcrumbList`

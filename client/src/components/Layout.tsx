@@ -22,8 +22,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navLinks = [
     { id: "home", name: "Home", href: "/" },
     { id: "financial", name: "Financial", href: "/financial" },
+    { id: "business", name: "Business", href: "/business" },
     { id: "health", name: "Fitness & Health", href: "/health" },
     { id: "math", name: "Math", href: "/math" },
+    { id: "construction", name: "Construction", href: "/construction" },
     { id: "unit-converters", name: "Unit Converters", href: "/convert" },
     { id: "seo-tools", name: "SEO & Text Tools", href: "/seo-tools" },
     { id: "daily-life", name: "Daily Life", href: "/other" },

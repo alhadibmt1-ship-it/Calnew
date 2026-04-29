@@ -16,7 +16,10 @@ import {
   Search,
   ArrowRight,
   Sparkles,
-  Loader2
+  Loader2,
+  Briefcase,
+  HardHat,
+  Star
 } from "lucide-react";
 
 // Lazy load the prominent calculators to reduce initial bundle size
@@ -71,12 +74,21 @@ export default function Home() {
   // We'll keep the existing visual cards as they are for the main UI
   const featuredCategories = [
     {
-      title: "Finance & Business",
+      title: "Financial",
       href: "/financial",
       icon: <DollarSign className="h-5 w-5" />,
       items: [
         { name: "Loan EMI Calculator" }, { name: "Mortgage Calculator" }, { name: "Compound Interest" }, 
         { name: "GST/VAT Calculator" }, { name: "Salary Calculator" }, { name: "Discount Calculator" }
+      ]
+    },
+    {
+      title: "Business",
+      href: "/business",
+      icon: <Briefcase className="h-5 w-5" />,
+      items: [
+        { name: "Profit Margin" }, { name: "Break-Even Calculator" }, { name: "ROI Calculator" },
+        { name: "Invoice Calculator" }, { name: "Revenue Calculator" }, { name: "Markup Calculator" }
       ]
     },
     {
@@ -89,15 +101,6 @@ export default function Home() {
       ]
     },
     {
-      title: "Unit Converters",
-      href: "/converters",
-      icon: <RefreshCcw className="h-5 w-5" />,
-      items: [
-        { name: "Length Converter" }, { name: "Weight Converter" }, { name: "Temperature Converter" }, 
-        { name: "Area Converter" }, { name: "Volume Converter" }, { name: "Speed Converter" }
-      ]
-    },
-    {
       title: "Math & Number",
       href: "/math",
       icon: <Calculator className="h-5 w-5" />,
@@ -107,12 +110,39 @@ export default function Home() {
       ]
     },
     {
-      title: "Daily Life Tools",
+      title: "Construction",
+      href: "/construction",
+      icon: <HardHat className="h-5 w-5" />,
+      items: [
+        { name: "Concrete Calculator" }, { name: "Roofing Calculator" }, { name: "Paint Calculator" },
+        { name: "Flooring Calculator" }, { name: "Lumber Calculator" }, { name: "Fence Calculator" }
+      ]
+    },
+    {
+      title: "Unit Converters",
+      href: "/convert",
+      icon: <RefreshCcw className="h-5 w-5" />,
+      items: [
+        { name: "Length Converter" }, { name: "Weight Converter" }, { name: "Temperature Converter" }, 
+        { name: "Area Converter" }, { name: "Volume Converter" }, { name: "Speed Converter" }
+      ]
+    },
+    {
+      title: "Daily Life",
       href: "/other",
       icon: <Calendar className="h-5 w-5" />,
       items: [
         { name: "Age Calculator" }, { name: "Date Calculator" }, { name: "Time Calculator" }, 
         { name: "Tip Calculator" }, { name: "Age Gap Calculator" }, { name: "Days Between Dates" }
+      ]
+    },
+    {
+      title: "Astrology & Numerology",
+      href: "/astrology",
+      icon: <Star className="h-5 w-5" />,
+      items: [
+        { name: "Birth Chart Calculator" }, { name: "Life Path Number" }, { name: "Rising Sign" },
+        { name: "Chinese Zodiac" }, { name: "Numerology Calculator" }, { name: "Angel Number" }
       ]
     },
     {
@@ -142,13 +172,13 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none rounded-3xl"></div>
           <div className="relative z-10 max-w-3xl mx-auto px-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" /> 50+ Free Online Tools Added
+              <Sparkles className="h-4 w-4" /> 235+ Free Calculators &amp; Tools
             </div>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
               Calculate Anything, <span className="text-primary">Instantly.</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Your all-in-one destination for financial, health, math, and daily utility calculators. Fast, free, and easy to use.
+              Free calculators for finance, health, math, business, construction, astrology and more. Instant results — no sign-up required.
             </p>
             
             <div className="relative max-w-2xl mx-auto">
@@ -174,7 +204,7 @@ export default function Home() {
               {/* Popular Tags */}
               <div className="mt-4 flex flex-wrap justify-center gap-2 text-sm text-muted-foreground">
                 <span>Try:</span>
-                {['BMI', 'Mortgage', 'Age', 'Percentage', 'Loan'].map(term => (
+                {['BMI', 'Mortgage', 'Concrete', 'Percentage', 'ROI', 'Age'].map(term => (
                   <button 
                     key={term}
                     onClick={() => setSearch(term)}
@@ -260,7 +290,7 @@ export default function Home() {
             </section>
 
             {/* All Categories with Links */}
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {featuredCategories.map((cat) => (
                 <Link key={cat.title} href={cat.href} className="block h-full group">
                   <Card className="h-full transition-all hover:shadow-md hover:border-primary/50 cursor-pointer">

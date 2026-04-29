@@ -26,9 +26,10 @@ const slugify = (text: string) =>
   text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 // ─── SEO Pre-render ────────────────────────────────────────────────────────
-// Injected as visible HTML before #root so Google indexes rich content
-// without needing JavaScript. A MutationObserver hides it once React mounts.
-const SEO_HIDE_SCRIPT = `<script>(function(){var r=document.getElementById('root');if(!r)return;var o=new MutationObserver(function(){var e=document.getElementById('seo-content');if(e&&r.childElementCount>0){e.style.display='none';o.disconnect();}});o.observe(r,{childList:true});})();</script>`;
+// SEO content is injected before #root with display:none so users never see it.
+// A <noscript> style block re-enables it for crawlers that don't execute JS,
+// while JavaScript-enabled browsers (including Googlebot) render the React UI.
+const SEO_HIDE_SCRIPT = `<noscript><style>#seo-content{display:block!important;position:relative}</style></noscript>`;
 
 function injectSchema(html: string, schemaObj: object): string {
   const tag = `\n  <script type="application/ld+json">\n  ${JSON.stringify(schemaObj, null, 2)}\n  </script>`;
@@ -63,7 +64,7 @@ function buildRichSeoBlock(tool: CalculatorToolData): string {
   const para = (t: string) => `<p style="margin-bottom:.875rem;line-height:1.7">${t}</p>`;
   const li = (t: string) => `<li style="margin-bottom:.375rem;line-height:1.7">${t}</li>`;
 
-  let html = `<section id="seo-content" style="font-family:system-ui,-apple-system,sans-serif;max-width:56rem;margin:0 auto;padding:1.5rem 1rem;color:#374151">`;
+  let html = `<section id="seo-content" style="display:none;font-family:system-ui,-apple-system,sans-serif;max-width:56rem;margin:0 auto;padding:1.5rem 1rem;color:#374151">`;
   html += `<h1 style="font-size:1.875rem;font-weight:700;margin-bottom:.75rem;color:#111827">${tool.name}</h1>`;
   html += para(c.whatIs);
   if (c.whatIsExtra?.length) html += c.whatIsExtra.map(para).join('');
@@ -509,7 +510,7 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
   });
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>${converter.name}</h1>
       <p>${description}</p>
       <nav>
@@ -571,7 +572,7 @@ export function injectConverterCategorySeoIntoHtml(html: string, categorySlug: s
 
   const convLinks = catConverters.map(c => `<a href="/convert/${c.slug}">${c.name}</a>`).join("\n        ");
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>${catName} Converters</h1>
       <p>${description}</p>
       <nav>
@@ -628,7 +629,7 @@ export function injectConverterHubSeoIntoHtml(html: string): string {
 
   const catLinks = converterCategorySlugs.map(s => `<a href="/convert/${s}">${converterCategoryNames[s]} Converters</a>`).join("\n        ");
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>Free Online Unit Converters</h1>
       <p>${description}</p>
       <nav>
@@ -726,7 +727,7 @@ export function injectBlogPostSeoIntoHtml(html: string, post: BlogPostSeo): stri
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>${post.title}</h1>
       <p>${description}</p>
       <nav>
@@ -790,7 +791,7 @@ export function injectBlogHubSeoIntoHtml(html: string): string {
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>Calculator Blog — Guides & Articles</h1>
       <p>${description}</p>
       <nav>
@@ -1075,7 +1076,7 @@ export function injectCategorySeoIntoHtml(
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>${cat.title} Calculators</h1>
       <p>${description}</p>
       <nav>
@@ -1134,7 +1135,7 @@ export function injectStaticPageSeoIntoHtml(
   });
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>${page.h1}</h1>
       <p>${page.description}</p>
       <nav>
@@ -1212,7 +1213,7 @@ export function injectHomeSeoIntoHtml(html: string): string {
     .join("\n        ");
 
   const seoContent = `
-    <div id="seo-content" >
+    <div id="seo-content" style="display:none">
       <h1>CalcSmart24 - Free Online Calculators</h1>
       <p>${homeDesc}</p>
       <nav>
