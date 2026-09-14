@@ -494,8 +494,7 @@ export function injectConverterSeoIntoHtml(html: string, converter: { slug: stri
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2147", "bestRating": "5", "worstRating": "1" },
-        "provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
+"provider": { "@type": "Organization", "name": "CalcSmart24", "url": "https://calcsmart24.com" }
       },
       {
         "@type": "BreadcrumbList",
