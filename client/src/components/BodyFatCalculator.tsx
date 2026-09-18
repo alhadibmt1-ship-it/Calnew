@@ -15,13 +15,30 @@ export default function BodyFatCalculator() {
   const [waist, setWaist] = useState(85); // cm
   const [hip, setHip] = useState(95); // cm (only for female)
   const [result, setResult] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const calculate = () => {
     // US Navy Method
     // Male: 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450
     // Female: 495 / (1.29579 - 0.35004 * log10(waist + hip - neck) + 0.22100 * log10(height)) - 450
-    
-    // Inputs in cm
+
+    if (height <= 0 || neck <= 0 || waist <= 0) {
+      setResult(null);
+      setError("Please enter valid height, neck, and waist measurements greater than 0.");
+      return;
+    }
+    if (gender === "male" && waist - neck <= 0) {
+      setResult(null);
+      setError("Waist measurement must be greater than neck measurement.");
+      return;
+    }
+    if (gender === "female" && waist + hip - neck <= 0) {
+      setResult(null);
+      setError("Waist plus hip measurement must be greater than neck measurement.");
+      return;
+    }
+
+    setError(null);
     let bf = 0;
     if (gender === "male") {
       bf = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
@@ -89,6 +106,9 @@ export default function BodyFatCalculator() {
         </div>
 
         <Button className="w-full" onClick={calculate}>Calculate Body Fat</Button>
+        {error && (
+          <p className="text-sm text-destructive" role="alert" data-testid="error-message">{error}</p>
+        )}
 
         {result && (
           <div className="mt-6 p-6 bg-muted rounded-lg text-center">
