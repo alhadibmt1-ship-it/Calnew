@@ -10,22 +10,30 @@ export default function ConduitFillCalculator() {
     wireCount: "3",
   });
   const [results, setResults] = useState<Record<string, string | number> | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const calculate = () => {
     const s = values;
     try {
-      const conduitAreas = {0.5:0.122,0.75:0.213,1:0.346,1.25:0.598,1.5:0.814,2:1.316};
+      // Total internal cross-sectional areas (sq in), EMT conduit — NEC Chapter 9, Table 4
+      const conduitAreas: Record<number, number> = {0.5:0.304, 0.75:0.533, 1:0.864, 1.25:1.496, 1.5:2.036, 2:3.356};
       const wireAreas = {14:0.0097,12:0.0133,10:0.0211,8:0.0366,6:0.0507,4:0.0824};
-      const cArea = conduitAreas[parseFloat(s.conduitSize)]||0.346; const wArea = wireAreas[parseInt(s.wireSize)]||0.0133;
+      const cArea = conduitAreas[parseFloat(s.conduitSize)]||0.864; const wArea = wireAreas[parseInt(s.wireSize)]||0.0133;
       const n = parseInt(s.wireCount)||1; const totalWire = wArea * n; const fill = (totalWire/cArea)*100;
       const maxFill = n<=1?53:n<=2?31:40;
       return { "Conduit Area (sq in)": cArea, "Wire Area Each (sq in)": wArea, "Total Wire Area (sq in)": totalWire.toFixed(4), "Fill (%)": fill.toFixed(1), "Max Allowed (%)": maxFill, "Status": fill<=maxFill?"OK":"Over-filled" };
-    } catch { return {}; }
+    } catch { return null; }
   };
 
   const handleCalculate = () => {
     const r = calculate();
-    if (r) setResults(r);
+    if (r) {
+      setResults(r);
+      setError(null);
+    } else {
+      setResults(null);
+      setError("Please check your inputs — one or more values look invalid or out of range.");
+    }
   };
 
   return (
@@ -71,6 +79,9 @@ export default function ConduitFillCalculator() {
             </div>
         </div>
         <Button onClick={handleCalculate} className="w-full" data-testid="button-calculate">Calculate</Button>
+        {error && (
+          <p className="text-sm text-destructive" role="alert" data-testid="error-message">{error}</p>
+        )}
         {results && (
           <div className="bg-muted rounded-lg p-4 space-y-2" data-testid="results">
             {Object.entries(results).map(([key, val]) => (
