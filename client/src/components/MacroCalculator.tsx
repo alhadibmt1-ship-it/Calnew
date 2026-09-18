@@ -14,8 +14,16 @@ export default function MacroCalculator() {
   const [activity, setActivity] = useState("1.2");
   const [goal, setGoal] = useState("maintain");
   const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const calculate = () => {
+    if (!age || age <= 0 || !weight || weight <= 0 || !height || height <= 0) {
+      setResult(null);
+      setError("Please enter a valid age, weight, and height, all greater than 0.");
+      return;
+    }
+    setError(null);
+
     // Mifflin-St Jeor Equation for BMR
     let bmr = 10 * weight + 6.25 * height - 5 * age;
     if (gender === "male") {
@@ -116,6 +124,9 @@ export default function MacroCalculator() {
               </Select>
             </div>
             <Button className="w-full mt-4" onClick={calculate}>Calculate Macros</Button>
+            {error && (
+              <p className="text-sm text-destructive" role="alert" data-testid="error-message">{error}</p>
+            )}
           </div>
         </div>
 
