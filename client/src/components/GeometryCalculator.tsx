@@ -9,6 +9,7 @@ export default function GeometryCalculator() {
   const [shape, setShape] = useState("circle");
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [result, setResult] = useState<{ area?: number; volume?: number; perimeter?: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const shapes = {
     circle: { name: "Circle", inputs: ["Radius"] },
@@ -20,10 +21,19 @@ export default function GeometryCalculator() {
   };
 
   const handleCalculate = () => {
-    const vals = Object.keys(inputs).reduce((acc, key) => {
-      acc[key] = parseFloat(inputs[key] || "0");
-      return acc;
-    }, {} as Record<string, number>);
+    const requiredFields = shapes[shape as keyof typeof shapes].inputs;
+    const vals: Record<string, number> = {};
+
+    for (const field of requiredFields) {
+      const parsed = parseFloat(inputs[field] || "");
+      if (!inputs[field] || isNaN(parsed) || parsed <= 0) {
+        setResult(null);
+        setError(`Please enter a valid ${field.toLowerCase()} greater than 0.`);
+        return;
+      }
+      vals[field] = parsed;
+    }
+    setError(null);
 
     let res: { area?: number; volume?: number; perimeter?: number } = {};
 
@@ -65,7 +75,7 @@ export default function GeometryCalculator() {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label>Select Shape</Label>
-          <Select value={shape} onValueChange={(v) => { setShape(v); setInputs({}); setResult(null); }}>
+          <Select value={shape} onValueChange={(v) => { setShape(v); setInputs({}); setResult(null); setError(null); }}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -92,6 +102,9 @@ export default function GeometryCalculator() {
         </div>
 
         <Button onClick={handleCalculate} className="w-full bg-indigo-600 hover:bg-indigo-700">Calculate</Button>
+        {error && (
+          <p className="text-sm text-destructive" role="alert" data-testid="error-message">{error}</p>
+        )}
 
         {result && (
           <div className="grid grid-cols-2 gap-4 pt-4">
